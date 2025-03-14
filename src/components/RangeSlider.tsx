@@ -2,10 +2,27 @@
 import React, { useEffect, useState } from "react";
 import { Range, getTrackBackground } from "react-range";
 
-const RangeSlider: React.FC = () => {
-  const [values, setValues] = useState([0, 100000]); // Valeurs initiales
+interface RangeSliderProps {
+  priceRange: { min: number; max: number };
+  priceRangeHandler: (value: { min: number; max: number }) => void;
+}
+
+const RangeSlider: React.FC<RangeSliderProps> = ({
+  priceRange,
+  priceRangeHandler,
+}) => {
+  const [values, setValues] = React.useState([priceRange.min, priceRange.max]);
   const min = 0;
   const max = 500000;
+
+  React.useEffect(() => {
+    setValues([priceRange.min, priceRange.max]);
+  }, [priceRange]);
+
+  const handleChange = (newValues: number[]) => {
+    setValues(newValues);
+    priceRangeHandler({ min: newValues[0], max: newValues[1] });
+  };
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,7 +50,7 @@ const RangeSlider: React.FC = () => {
           step={1000}
           min={min}
           max={max}
-          onChange={(values) => setValues(values)}
+          onChange={handleChange}
           renderTrack={({ props, children }: any) => (
             <div
               {...props}

@@ -1,22 +1,52 @@
-import { Vehicle } from "@/models/vehicle";
-import { IVehicleRepository } from "@/repositories/IVehicleRepository";
+import { Vehicle } from "@prisma/client";
+import { VehicleRepository } from "@/repositories/VehicleRepository";
 
-export class VehicleService implements IVehicleRepository {
-  constructor(private repository: IVehicleRepository) {}
+export class VehicleService {
+  private repository: VehicleRepository;
 
-  async findAll(): Promise<Vehicle[]> {
-    return this.repository.findAll()
+  constructor(repository: VehicleRepository) {
+    this.repository = repository;
   }
 
-  async findById(id: string): Promise<Vehicle | null> {
+  async getAllVehicles(): Promise<Vehicle[]> {
+    return this.repository.findAll();
+  }
+
+  async getVehicleById(id: string): Promise<Vehicle | null> {
     return this.repository.findById(id);
   }
 
-  async save(vehicle: Vehicle): Promise<void> {
-    return this.repository.save(vehicle);
+  async createOrUpdateVehicle(vehicleData: Vehicle): Promise<void> {
+    return this.repository.save(vehicleData);
   }
 
-  async delete(id: string): Promise<void> {
+  async deleteVehicle(id: string): Promise<void> {
     return this.repository.delete(id);
+  }
+
+  async getAvailableVehicles(): Promise<Vehicle[]> {
+    return this.repository.findAvailableVehicles();
+  }
+
+  async getVehiclesByBrand(brand: string): Promise<Vehicle[]> {
+    return this.repository.findByBrand(brand);
+  }
+
+
+
+
+  async getFilteredVehicles(filters: {
+    availability?: boolean;
+    brand?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    location?: string;
+    category?: string;
+    minRating?: number;
+    searchQuery?: string;
+    startDate?: Date;
+    endDate?: Date;
+  }): Promise<Vehicle[]> {
+    return this.repository.getFilteredVehicles(filters);
   }
 }

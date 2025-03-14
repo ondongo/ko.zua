@@ -15,7 +15,7 @@ export const useVehicle = () => {
 
     try {
       const data = await VehicleController.getAllVehicles();
-      setVehicles(data);
+      //setVehicles(data);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -24,12 +24,12 @@ export const useVehicle = () => {
   };
 
   // Récupérer un véhicule par ID
-  const fetchVehicleById = async (id: string): Promise<Vehicle | null> => {
+  const fetchVehicleById = async (id: string) => {
     setLoading(true);
     setError(null);
 
     try {
-      return await VehicleController.getVehicleById(id);
+      return null;
     } catch (err: any) {
       setError(err.message);
       return null;
@@ -44,7 +44,7 @@ export const useVehicle = () => {
     setError(null);
 
     try {
-      await VehicleController.createVehicle(vehicleData);
+      //await VehicleController.createVehicle(vehicleData);
       fetchVehicles(); // Rafraîchir la liste
     } catch (err: any) {
       setError(err.message);

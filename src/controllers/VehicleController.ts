@@ -1,26 +1,47 @@
-import { Vehicle } from "@/models/vehicle";
-import { FirebaseVehicleRepository } from "@/repositories/FirebaseVehicleRepository";
 import { VehicleService } from "@/services/VehicleService";
+import { VehicleRepository } from "@/repositories/VehicleRepository";
+import { Vehicle } from "@prisma/client";
+import { container } from "tsyringe";
 
-const vehicleRepository = new FirebaseVehicleRepository();
-const vehicleService = new VehicleService(vehicleRepository);
+const repository = new VehicleRepository();
+const vehicleService = new VehicleService(repository);
 
 export const VehicleController = {
   async getAllVehicles(): Promise<Vehicle[]> {
-    return await vehicleService.findAll();
+    return await vehicleService.getAllVehicles();
   },
 
   async getVehicleById(id: string): Promise<Vehicle | null> {
-    return await vehicleService.findById(id);
+    return await vehicleService.getVehicleById(id);
   },
 
-  async createVehicle(vehicleData: Vehicle): Promise<void> {
-    return await vehicleService.save(vehicleData);
+  async createOrUpdateVehicle(vehicleData: Vehicle): Promise<void> {
+    return await vehicleService.createOrUpdateVehicle(vehicleData);
   },
 
   async deleteVehicle(id: string): Promise<void> {
-    return await vehicleService.delete(id);
+    return await vehicleService.deleteVehicle(id);
   },
 
+  async getAvailableVehicles(): Promise<Vehicle[]> {
+    return await vehicleService.getAvailableVehicles();
+  },
 
+  async getVehiclesByBrand(brand: string): Promise<Vehicle[]> {
+    return await vehicleService.getVehiclesByBrand(brand);
+  },
+
+  async getFilteredVehicles(filters: {
+    availability?: boolean;
+    brand?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    location?: string;
+    category?: string;
+    searchQuery?: string;
+    startDate?: Date;
+    endDate?: Date;
+  }): Promise<Vehicle[]> {
+    return await vehicleService.getFilteredVehicles(filters);
+  },
 };

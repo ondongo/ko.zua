@@ -3,6 +3,11 @@ import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import { Vehicle } from "@/types/vehicle";
 import { useRouter } from "next/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Pagination, Navigation } from "swiper/modules";
 
 interface ProductCardProps {
   datas: Vehicle;
@@ -10,49 +15,102 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ datas }) => {
   const router = useRouter();
+
   function handleDetail() {
-    router.push("/vehicles/1");
+    router.push(`/vehicles/${datas.id}`);
   }
+
   return (
-    <div className="max-w-[385px] mx-auto sm:mx-0 bg-[#FAFAFA] shadow-sm rounded-lg overflow-hidden">
-      <Image
-        src={datas.images[0]}
-        alt={datas.type}
-        width={380}
-        height={284}
-        className="rounded-t-lg"
-      />
+    <div className="max-w-[385px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden max-h-[600px] transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-accent border-2 border-[#FAFAFA]">
+      {/* Swiper avec images */}
+      <div className="relative">
+        <Swiper
+          modules={[Navigation, Pagination]}
+          pagination={{ clickable: true }}
+        >
+          {Array.isArray(datas.images) && datas.images.length > 0 ? (
+            datas.images.map((imgSrc, index) => (
+              <SwiperSlide key={index}>
+                <div className="w-full h-[230px] relative">
+                  <Image
+                    src={
+                      imgSrc.startsWith("http")
+                        ? imgSrc
+                        : "/images/about/car01.png"
+                    }
+                    alt={`Image ${index}`}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
+              </SwiperSlide>
+            ))
+          ) : (
+            <SwiperSlide>
+              <div className="w-full h-[230px] relative">
+                <Image
+                  src="/placeholder.jpg"
+                  alt="Image par défaut"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+            </SwiperSlide>
+          )}
+        </Swiper>
+
+        {/* Disponibilité en haut à droite */}
+        <div
+          className={`absolute top-3 right-3 z-10 rounded-full px-3 py-1.5 font-medium ${
+            datas.availability
+              ? "bg-green-50 text-green-600"
+              : "bg-red-50 text-red-600"
+          }`}
+        >
+          {datas.availability ? "Disponible" : "Indisponible"}
+        </div>
+      </div>
+
       <div className="p-5">
-        <div className="flex justify-between items-start mb-4">
+        <div className="flex gap-x-1 text-yellow-500 justify-end">
+          {[...Array(5)].map((_, i) => (
+            <FaStar key={i} />
+          ))}
+        </div>
+        <div className="flex justify-between items-start mb-2">
           <div>
             <div className="text-sm text-gray-500">{datas.subcategory}</div>
-            <h3 className="text-lg font-bold uppercase text-gray-800">
-              {datas.type}
+            <h3 className="text-md font-semibold uppercase text-gray-800 mt-2">
+              {datas.brand} {datas.model} ({datas.year})
             </h3>
-            <h3 className="text-accent font-semibold uppercase">
+            <h3 className="text-accent text-lg font-bold uppercase mt-2">
               {datas.pricePerDay.toLocaleString()} FCFA / Jour
             </h3>
           </div>
-
-          <div className="flex gap-x-1 text-yellow-500">
-            <FaStar />
-            <FaStar />
-            <FaStar />
-            <FaStar />
-            <FaStar />
-          </div>
         </div>
 
-        <div className="flex gap-x-4 mb-4">
+        {/* Lieu et spécifications */}
+        <div className=" text-gray-700 font-medium mb-3">
+          {datas.location.city}
+        </div>
+
+        <div className="grid grid-cols-4 gap-4 mb-4 text-center">
           {[
-            { text: datas.features.fuel, icon: "icons/carSlider/gas.svg" },
+            { text: `${datas.fuel}`, icon: "/icons/carSlider/gas.svg" },
             {
-              text: `${datas.features.seats} places`,
-              icon: "icons/carSlider/engine.svg",
+              text: `${datas.gearBox}`,
+              icon: "/icons/carSlider/gearshift.svg",
             },
-            { text: datas.features.transmission, icon: "icons/carSlider/gearshift.svg" },
+            {
+              text: `${datas.doors} Portes`,
+              icon: "/icons/carSlider/seat.svg",
+            },
+            {
+              text: `${datas.distance} km`,
+              icon: "/icons/carSlider/wheel.svg",
+            },
           ].map((item, index) => (
-            <div key={index} className="flex flex-col items-center text-center">
+            <div key={index} className="flex flex-col items-center">
               <div className="bg-primary w-12 h-12 rounded-full flex justify-center items-center mb-2 shadow-md">
                 <Image src={item.icon} width={24} height={24} alt={item.text} />
               </div>
@@ -61,7 +119,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ datas }) => {
           ))}
         </div>
 
-        <button className="btn btn-accent btn-lg w-full py-3 rounded-lg" onClick={handleDetail}>
+        <button
+          className="btn btn-accent btn-lg w-full py-3 rounded-lg"
+          onClick={handleDetail}
+        >
           Voir plus
         </button>
       </div>

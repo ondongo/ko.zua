@@ -114,7 +114,7 @@ function Hero() {
           initial={{ y: "-100%" }}
           animate={{ y: 0 }}
           transition={{ ease: "easeInOut" }}
-          className="fixed top-[80px] z-10 w-full max-w-[1920px]"
+          className="fixed top-[110px] z-10 w-full max-w-[1920px]"
         >
           {" "}
           <Search />

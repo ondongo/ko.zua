@@ -7,7 +7,14 @@ import { useMediaQuery } from "react-responsive";
 import { BiMenuAltRight, BiX } from "react-icons/bi";
 import { SearchContext } from "../context/SearchContext";
 import { Popover, Transition } from "@headlessui/react";
-import { FaCar, FaDollarSign, FaMapMarkerAlt, FaTag, FaTruck } from "react-icons/fa";
+import {
+  FaCar,
+  FaDollarSign,
+  FaMapMarkerAlt,
+  FaTag,
+  FaTruck,
+} from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 function Header() {
   const { setSearchActive } = useContext(SearchContext);
@@ -16,7 +23,7 @@ function Header() {
   const [nav, setNav] = useState(false);
   const mobileMode = useMediaQuery({ query: "(max-width: 768px)" });
   const desktopMode = useMediaQuery({ query: "max-width: 1300px" });
-
+  const router = useRouter();
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 40) {
@@ -48,6 +55,9 @@ function Header() {
     "Ouenze",
   ];
 
+  const redirectToCategory = (category: string) => {
+    router.push(`/vehicles?category=${category}`);
+  };
   return (
     <header
       className={`${
@@ -63,10 +73,10 @@ function Header() {
             className="cursot-pointer"
           >
             <Image
-              src="/Black_And_Red_Modern_Car_Logo__3_-removebg-preview.png"
+              src="/header/Maskgroup-removebg-preview.png"
               alt="logo"
-              width={64}
-              height={44}
+              width={94}
+              height={74}
             />
           </Link>
 
@@ -118,7 +128,7 @@ function Header() {
                   leaveTo="opacity-0 translate-y-1"
                 >
                   <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0">
-                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
+                    <div className="overflow-hidden z-50 rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
                       <div className="flex p-7 gap-8">
                         {/* Vente et achat */}
                         <div className="flex-1">
@@ -198,9 +208,12 @@ function Header() {
                                   "Solution idéale pour transporter vos marchandises.",
                               },
                             ].map(({ type, icon, description }) => (
-                              <a
+                              <button
                                 key={type}
-                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault(); // Empêche le comportement par défaut du lien
+                                  redirectToCategory(type); // Redirige vers la catégorie
+                                }}
                                 className="flex flex-col gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                               >
                                 <div className="flex items-center gap-2">
@@ -211,7 +224,7 @@ function Header() {
                                 <span className="text-xs text-gray-500">
                                   {description}
                                 </span>
-                              </a>
+                              </button>
                             ))}
                           </div>
                         </div>
@@ -242,7 +255,7 @@ function Header() {
                   leaveTo="opacity-0 translate-y-1"
                 >
                   <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-3xl -translate-x-1/2 transform px-4 sm:px-0">
-                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
+                    <div className="overflow-hidden  z-50 rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
                       <div className="flex p-7 gap-8">
                         {/* Vente et achat */}
                         <div className="flex-1">
@@ -317,7 +330,7 @@ function Header() {
                   leaveTo="opacity-0 translate-y-1"
                 >
                   <Popover.Panel className="absolute  z-10 mt-3 w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0">
-                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
+                    <div className="overflow-hidden z-50 rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
                       <div className="flex p-7 gap-8">
                         {/* Meilleur prix */}
                         <div className="flex-1">

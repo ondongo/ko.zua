@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Link } from "react-scroll";
 import SearchMobile from "./SearchMobile";
@@ -14,11 +14,13 @@ import {
   FaTag,
   FaTruck,
 } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 function NavBarStatic() {
   const [nav, setNav] = useState(false);
   const mobileMode = useMediaQuery({ query: "(max-width: 768px)" });
   const desktopMode = useMediaQuery({ query: "max-width: 1300px" });
+  const router  = useRouter();
   const quartiers = [
     "Centre-ville",
     "Plateaux",
@@ -27,6 +29,9 @@ function NavBarStatic() {
     "Ouenze",
   ];
 
+  const redirectToCategory = (category: string) => {
+    router.push(`/vehicles?category=${category}`);
+  };
   return (
     <header
       className={
@@ -178,20 +183,23 @@ function NavBarStatic() {
                                   "Solution idéale pour transporter vos marchandises.",
                               },
                             ].map(({ type, icon, description }) => (
-                              <a
+                              <button
                                 key={type}
-                                href="#"
-                                className="flex flex-col gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
+                                onClick={(e) => {
+                                  e.preventDefault(); // Empêche le comportement par défaut du lien
+                                  redirectToCategory(type); // Redirige vers la catégorie
+                                }}
+                                className="flex flex-col items-start gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                               >
-                                <div className="flex items-center gap-2">
+                                <div className="flex  gap-2">
                                   <span className="text-sm font-medium text-gray-900">
                                     {type}
                                   </span>
                                 </div>
-                                <span className="text-xs text-gray-500">
+                                <span className="text-xs text-gray-500 text-start">
                                   {description}
                                 </span>
-                              </a>
+                              </button>
                             ))}
                           </div>
                         </div>

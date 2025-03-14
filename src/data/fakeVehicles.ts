@@ -1,4 +1,4 @@
-import { Vehicle } from "@/types/vehicle";
+/* import { Vehicle } from "@/types/vehicle";
 
 export const fakeVehicles: Vehicle[] = [
   {
@@ -134,3 +134,4 @@ export const fakeVehicles: Vehicle[] = [
     images: ["/images/carSlider/car01.svg"],
   },
 ];
+ */
