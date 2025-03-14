@@ -21,28 +21,83 @@ datasource db {
 }
 
 model Vehicle {
-  id           String  @id @default(uuid())
+  id           String        @id @default(uuid())
   name         String
   description  String?
-  global       Boolean @default(false)
-  category     String
-  subcategory  String
+  global       Boolean       @default(false)
+  category     String // Catégorie pour préciser suv et autre 
+  condition    String? // Occasion ou Neuf
   type         String
   brand        String
   model        String
   year         Int
   pricePerDay  Float
-  availability Boolean @default(true)
+  availability Boolean       @default(true)
   features     Json
   location     Json
   images       Json
   seats        Int
-  starCount    Int     @default(0)
+  starCount    Int           @default(0)
   gearBox      String
   fuel         String
   doors        Int
   distance     String
-  ratings Rating[]
+  ratings      Rating[]
+  reservations Reservation[]
+  sales        Vente[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  saleStatus   SaleStatus    @default(RENT)
+}
+
+model Immobilier {
+  id           String        @id @default(uuid())
+  name         String
+  description  String?
+  category     String // Catégorie pour spécifier si c'est une maison, un terrain, etc.
+  type         String // Type (ex : terrain, maison, appartement)
+  brand        String?
+  model        String?
+  price        Float
+  availability Boolean       @default(true)
+  features     Json
+  location     Json
+  images       Json
+  rooms        Int?
+  starCount    Int           @default(0)
+  parcelSize   Float? // Taille de la parcelle en m² (facultatif)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  saleStatus   SaleStatus    @default(RENT)
+  reservations Reservation[]
+  sales        Vente[]
+}
+
+model Reservation {
+  id            String            @id @default(uuid())
+  vehicleId     String?
+  vehicle       Vehicle?          @relation(fields: [vehicleId], references: [id])
+  immobilierId  String?
+  immobilier    Immobilier?       @relation(fields: [immobilierId], references: [id])
+  startDate     DateTime
+  endDate       DateTime
+  status        ReservationStatus @default(PENDING)
+  customerName  String
+  customerPhone String?
+  customerEmail String?
+}
+
+model Vente {
+  id            String      @id @default(uuid())
+  vehicleId     String?
+  vehicle       Vehicle?    @relation(fields: [vehicleId], references: [id])
+  immobilierId  String?
+  immobilier    Immobilier? @relation(fields: [immobilierId], references: [id])
+  saleDate      DateTime    @default(now())
+  price         Float
+  customerName  String
+  customerPhone String?
+  customerEmail String?
 }
 
 model Rating {
@@ -50,4 +105,32 @@ model Rating {
   vehicleId String
   vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
   stars     Int
+}
+
+model User {
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
+  role     Role   @default(USER)
+}
+
+enum SaleStatus {
+  SALE
+  RENT
+}
+
+enum SaleType {
+  RENT
+  SALE
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum Role {
+  USER
+  ADMIN
 }

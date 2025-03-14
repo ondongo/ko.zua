@@ -221,7 +221,7 @@ function Header() {
                                     {type}
                                   </span>
                                 </div>
-                                <span className="text-xs text-gray-500">
+                                <span className="text-xs text-gray-500 text-start">
                                   {description}
                                 </span>
                               </button>
