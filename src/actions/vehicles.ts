@@ -13,15 +13,16 @@ export async function getAllVehicles(): Promise<Vehicle[]> {
     description: vehicle.description ?? "",
     global: vehicle.global,
     category: vehicle.category,
-    subcategory: vehicle.subcategory,
+    condition: vehicle.condition ?? "Neuf", // Condition par défaut "Neuf"
     type: vehicle.type,
     brand: vehicle.brand,
     model: vehicle.model,
     year: vehicle.year,
     pricePerDay: vehicle.pricePerDay,
     availability: vehicle.availability,
+    saleStatus: vehicle.saleStatus, // Statut de vente
     features: {
-      mileage: (vehicle.features as any).mileage,
+      mileage: (vehicle.features as any).mileage, // Accès via 'as any'
       fuel: (vehicle.features as any).fuel,
       transmission: (vehicle.features as any).gearBox,
       seats: (vehicle.features as any).seats,
@@ -30,12 +31,11 @@ export async function getAllVehicles(): Promise<Vehicle[]> {
       airBags: (vehicle.features as any).airBags ?? false,
       airConditioner: (vehicle.features as any).airConditioner,
     },
-    location: vehicle.location as {
-      city: string;
-      neighborhood: string;
+    location: {
+      city: (vehicle.location as any).city ?? "",
+      neighborhood: (vehicle.location as any).neighborhood ?? "",
     },
-    images: vehicle.images as string[],
-    totalStars: vehicle.totalStars,
+    images: vehicle.images ?? [],
     starCount: vehicle.starCount,
     doors: vehicle.doors,
     distance: vehicle.distance,
@@ -43,7 +43,6 @@ export async function getAllVehicles(): Promise<Vehicle[]> {
     fuel: vehicle.fuel,
   }));
 }
-
 
 export async function getFilteredVehicles(filters: {
   availability?: boolean;
@@ -60,25 +59,22 @@ export async function getFilteredVehicles(filters: {
   try {
     const vehicles = await VehicleController.getFilteredVehicles(filters);
 
-    //faire un console.log bien clean
-    //console.log(vehicles);
-    //console.log("----------------------------------------");
-    
     return vehicles.map((vehicle) => ({
       id: vehicle.id,
       name: vehicle.name,
       description: vehicle.description ?? undefined,
       global: vehicle.global,
       category: vehicle.category,
-      subcategory: vehicle.subcategory,
+      condition: vehicle.condition ?? "Neuf", // Condition par défaut "Neuf"
       type: vehicle.type,
       brand: vehicle.brand,
       model: vehicle.model,
       year: vehicle.year,
       pricePerDay: vehicle.pricePerDay,
       availability: vehicle.availability,
+      saleStatus: vehicle.saleStatus, // Statut de vente
       features: {
-        mileage: (vehicle.features as any).mileage,
+        mileage: (vehicle.features as any).mileage, // Accès via 'as any'
         fuel: (vehicle.features as any).fuel,
         transmission: (vehicle.features as any).gearBox,
         seats: (vehicle.features as any).seats,
@@ -87,12 +83,11 @@ export async function getFilteredVehicles(filters: {
         airBags: (vehicle.features as any).airBags ?? false,
         airConditioner: (vehicle.features as any).airConditioner,
       },
-      location: vehicle.location as {
-        city: string;
-        neighborhood: string;
+      location: {
+        city: (vehicle.location as any).city ?? "",
+        neighborhood: (vehicle.location as any).neighborhood ?? "",
       },
-      images: vehicle.images as string[],
-      totalStars: vehicle.totalStars,
+      images: vehicle.images ?? [],
       starCount: vehicle.starCount,
       doors: vehicle.doors,
       distance: vehicle.distance,

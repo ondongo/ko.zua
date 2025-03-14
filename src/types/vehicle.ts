@@ -4,7 +4,6 @@ export interface Vehicle {
   description?: string;
   global: boolean;
   category: string;
-  subcategory: string;
   type: string;
   brand: string;
   model: string;
@@ -12,9 +11,9 @@ export interface Vehicle {
   pricePerDay: number;
   availability: boolean;
   features: {
-    mileage: string;
-    fuel: string;
-    transmission: string;
+    mileage: string; // Le type reste 'string' pour 'mileage'
+    fuel: string; // Le type reste 'string' pour 'fuel'
+    transmission: string; // Le type reste 'string' pour 'transmission'
     seats: number;
     abs: boolean;
     cruiseControl: boolean;
@@ -30,6 +29,8 @@ export interface Vehicle {
   starCount: number;
   doors: number;
   distance: string;
-  gearBox: String;
-  fuel: String;
+  gearBox: string; // Corrigé en string au lieu de 'String'
+  fuel: string; // Corrigé en string au lieu de 'String'
+  condition?: string; // Ajout de condition comme optionnel (Neuf ou Occasion)
+  saleStatus: "RENT" | "SALE"; // Ajout du statut de vente avec valeurs possibles
 }

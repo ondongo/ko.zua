@@ -70,6 +70,7 @@ model Immobilier {
   updatedAt    DateTime      @updatedAt
   saleStatus   SaleStatus    @default(RENT)
   reservations Reservation[]
+  ratings       Rating[] 
   sales        Vente[]
 }
 
@@ -101,11 +102,14 @@ model Vente {
 }
 
 model Rating {
-  id        String  @id @default(uuid())
-  vehicleId String
-  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
-  stars     Int
+  id            String   @id @default(uuid())
+  vehicleId     String?
+  immobilierId  String?
+  vehicle       Vehicle? @relation(fields: [vehicleId], references: [id])
+  immobilier    Immobilier? @relation(fields: [immobilierId], references: [id])
+  stars         Int
 }
+
 
 model User {
   id       String @id @default(uuid())
@@ -119,10 +123,6 @@ enum SaleStatus {
   RENT
 }
 
-enum SaleType {
-  RENT
-  SALE
-}
 
 enum ReservationStatus {
   PENDING

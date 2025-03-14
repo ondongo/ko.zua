@@ -15,5 +15,6 @@ export interface IVehicleRepository extends IRepository<Vehicle> {
     searchQuery?: string;
     startDate?: Date;
     endDate?: Date;
+    saleStatus?: "RENT" | "SALE"; 
   }): Promise<Vehicle[]>;
 }

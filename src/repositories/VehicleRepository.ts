@@ -34,6 +34,7 @@ export class VehicleRepository
     searchQuery?: string;
     startDate?: Date;
     endDate?: Date;
+    saleStatus?: "RENT" | "SALE";
   }): Promise<Vehicle[]> {
     return prisma.vehicle.findMany({
       where: {
@@ -82,6 +83,7 @@ export class VehicleRepository
             },
           ],
         }),
+        ...(filters.saleStatus && { saleStatus: filters.saleStatus }),
       },
     });
   }
