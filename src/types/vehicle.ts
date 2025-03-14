@@ -24,8 +24,7 @@ export interface Vehicle {
     city: string;
     neighborhood: string;
   };
-  images: string[];
-  totalStars: number;
+  images: any;
   starCount: number;
   doors: number;
   distance: string;
