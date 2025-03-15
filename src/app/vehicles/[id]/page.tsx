@@ -182,7 +182,7 @@ function VehicleDetailsPage({ params }: { params: Promise<ParamsType> }) {
   const handlePayment = async () => {
     setLoading(true);
 
-    const response = await fetch("/api/payment", {
+    const response = await fetch("/api/yabetoo/payment", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -197,11 +197,11 @@ function VehicleDetailsPage({ params }: { params: Promise<ParamsType> }) {
     });
 
     const data = await response.json();
-
+    console.log("response", data);
     if (data.success) {
-      window.location.href = data.data.paymentUrl; // Redirige l'utilisateur vers Yabetoo Pay
+      window.location.href = data.data.paymentUrl;
     } else {
-      console.error("Erreur de paiement :", data.message);
+      console.log("Erreur de paiement :", data.message);
     }
 
     setLoading(false);
@@ -326,7 +326,7 @@ function VehicleDetailsPage({ params }: { params: Promise<ParamsType> }) {
                 className="flex flex-col xl:flex-row gap-x-3 justify-center xl:justify-start  mb-10"
               >
                 <button className="btn btn-sm btn-yellowkouzua xl:max-w-[50%]  mt-4  bg-[#111828] hover:bg-[#111828]/10">
-                  Réserver pour une location
+                  Réservation simple
                 </button>
 
                 <button
