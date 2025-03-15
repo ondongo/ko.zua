@@ -41,6 +41,7 @@ export const VehicleController = {
     searchQuery?: string;
     startDate?: Date;
     endDate?: Date;
+    saleStatus?: "RENT" | "SALE";
   }): Promise<Vehicle[]> {
     return await vehicleService.getFilteredVehicles(filters);
   },

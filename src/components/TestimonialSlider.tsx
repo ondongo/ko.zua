@@ -51,7 +51,7 @@ function TestimonialSlider() {
           return (
             <SwiperSlide key={index}>
               <div className="flex flex-col justify-center items-center text-center">
-                <FaQuoteLeft className="text-5xl text-accent mb-6" />
+                <FaQuoteLeft className="text-5xl text-yellowkouzua mb-6" />
                 <div className="text-2xl max-w-[874px] mb-12 font-medium">
                   {message}
                 </div>

@@ -9,6 +9,7 @@ interface ProductsFilterProps {
   priceRangeHandler: (range: { min: number; max: number }) => void;
   selectLocationHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   selectAvailabilityHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  selectSaleOrRentHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ProductsFilter: React.FC<ProductsFilterProps> = ({
@@ -18,6 +19,7 @@ const ProductsFilter: React.FC<ProductsFilterProps> = ({
   selectAvailabilityHandler,
   filters,
   selectCategoryHandler,
+  selectSaleOrRentHandler,
 }) => {
   return (
     <div
@@ -44,6 +46,21 @@ const ProductsFilter: React.FC<ProductsFilterProps> = ({
         </select>
       </div>
 
+      <div className="mt-4 pb-6 border-b border-gray-300">
+        <h1 className="text-black text-base font-semibold mb-4">
+          Filtrer par type d'offre
+        </h1>
+        <select
+          value={filters.saleStatus}
+          onChange={(e: any) => selectSaleOrRentHandler(e)}
+          className="w-full p-2 border border-gray-300 rounded"
+        >
+          <option value="">Tous</option>
+          <option value="RENT">En Location</option>
+          <option value="SALE">En Vente</option>
+        </select>
+      </div>
+
       {/* Availability */}
       <div className="pt-4 pb-4 border-b border-gray-300">
         <h1 className="text-black text-base font-semibold mb-4">
@@ -53,7 +70,7 @@ const ProductsFilter: React.FC<ProductsFilterProps> = ({
           <select
             className="w-full px-4 py-2 border border-gray-300 rounded-md mb-4"
             value={filters.availability}
-            onChange={(e:any) => selectAvailabilityHandler(e)}
+            onChange={(e: any) => selectAvailabilityHandler(e)}
           >
             <option value="">Choisir disponibilité</option>
             <option value="true">Disponible</option>

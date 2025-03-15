@@ -21,7 +21,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ datas }) => {
   }
 
   return (
-    <div className="max-w-[385px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden max-h-[600px] transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-accent border-2 border-[#FAFAFA]">
+    <div className="max-w-[385px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden max-h-[600px] transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]">
       {/* Swiper avec images */}
       <div className="relative">
         <Swiper
@@ -79,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ datas }) => {
         </div>
         <div className="flex justify-between items-start mb-2">
           <div>
-            <div className="text-sm text-gray-500">{datas.subcategory}</div>
+            <div className="text-sm text-gray-500">{datas.category}</div>
             <h3 className="text-md font-semibold uppercase text-gray-800 mt-2">
               {datas.brand} {datas.model} ({datas.year})
             </h3>
@@ -120,7 +120,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ datas }) => {
         </div>
 
         <button
-          className="btn btn-accent btn-lg w-full py-3 rounded-lg"
+          className="btn btn-lg w-full py-3 rounded-lg bg-yellowkouzua"
           onClick={handleDetail}
         >
           Voir plus

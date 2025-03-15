@@ -10,6 +10,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeIn } from "../../variant";
 import { useRouter } from "next/navigation";
+import CustomSwiper from "./CustomSwiper";
 
 function Hero() {
   const { searchActive } = useContext(SearchContext);
@@ -19,53 +20,9 @@ function Hero() {
   }
   return (
     <section className="h-screen xl:h-[90vh] relative " id="home">
-      <Swiper
-        pagination={{
-          clickable: true,
-          el: ".swiper-custom-pagination",
-          bulletClass: "swiper-pagination-bullet",
-          bulletActiveClass: "swiper-pagination-bullet-active",
-          renderBullet: function (index, className) {
-            return `<span class="${className} flex items-center justify-center text-5xl hover:scale-110 hover:text-accent transition-all">
-              ${index === 0 ? "↑" : "↓"}
-            </span>`;
-          },
-        }}
-        modules={[Pagination]}
-        className="h-full"
-      >
-        <SwiperSlide>
-          <div className="h-full bg-[url('/c.svg')] bg-no-repeat bg-contain bg-right">
-            <motion.div
-              variants={fadeIn("up", 0.6)}
-              initial="hidden"
-              whileInView={"show"}
-              viewport={{ once: false, amount: 0.6 }}
-              className="relative w-full h-full max-w-[50vh] md:max-w-[70vw] xl:max-w-[600px] xl:max-h-[430px] xl:absolute xl:right-[100px] min-[1680px]:right-[120px] xl:top-48"
-            >
-              <Image
-                src={"/header/voiture.svg"}
-                fill
-                alt=""
-                style={{ objectFit: "contain" }}
-                priority
-              />
-            </motion.div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <motion.div
-            variants={fadeIn("up", 0.6)}
-            initial="hidden"
-            whileInView={"show"}
-            viewport={{ once: false, amount: 0.6 }}
-            className="h-full bg-[url('/header/estate.svg')] bg-no-repeat bg-contain bg-right"
-          ></motion.div>
-        </SwiperSlide>
-        <div className="swiper-custom-pagination absolute right-5 top-1/2 transform -translate-y-1/2 flex flex-col gap-20 z-50"></div>
-      </Swiper>
+      <CustomSwiper />
 
-      <div className="container mx-auto h-full pt-10 absolute top-0 left-0 right-0">
+      <div className="container mx-auto h-full pt-10 absolute top-0 left-0 right-0 z-30">
         <div className="flex flex-col xl:flex-row justify-center items-center xl:justify-start h-full">
           <div className="text-center xl:max-w-xl xl:text-left mt-16 xl:mt-0">
             <motion.h1
@@ -76,7 +33,10 @@ function Hero() {
               className="text-3xl xl:text-[54px]  text-primary xl:leading-[62px] font-extrabold mb-[18px]"
             >
               Trouvez , réservez , prenez !
-              <span className="text-accent"> Ko.Zua s'occupe du reste</span>
+              <span className="text-yellowkouzua ">
+                {" "}
+                Ko.Zua s'occupe du reste
+              </span>
             </motion.h1>
             <motion.p
               variants={fadeIn("down", 0.4)}
@@ -95,12 +55,12 @@ function Hero() {
               viewport={{ once: false, amount: 0.8 }}
               className="flex flex-col xl:flex-row gap-x-3 justify-center xl:justify-start "
             >
-              <button className="btn btn-sm btn-accent xl:max-w-[50%] xl:mr-4 mt-4  bg-[#111828] hover:bg-[#111828]/10">
+              <button className="btn btn-sm  xl:max-w-[50%] xl:mr-4 mt-4  bg-[#111828] hover:bg-[#111828]/10">
                 Je réserve un appart
               </button>
 
               <button
-                className="btn btn-sm btn-accent xl:max-w-[50%] xl:mr-4 mt-4"
+                className="btn btn-sm bg-yellowkouzua  hover:bg-yellowkouzua-dark xl:max-w-[50%] xl:mr-4 mt-4"
                 onClick={handleSearch}
               >
                 Je réserve une voiture
@@ -114,7 +74,7 @@ function Hero() {
           initial={{ y: "-100%" }}
           animate={{ y: 0 }}
           transition={{ ease: "easeInOut" }}
-          className="fixed top-[110px] z-10 w-full max-w-[1920px]"
+          className="fixed top-[96px] z-10 w-full max-w-[1920px]"
         >
           {" "}
           <Search />

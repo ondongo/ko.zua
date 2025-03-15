@@ -62,7 +62,7 @@ function Header() {
     <header
       className={`${
         header ? "bg-white shadow-md py-2" : "bg-transparent shadow-none py-4"
-      } fixed w-full max-w-[1920px] mx-auto z-20 transition-all duration-300`}
+      } fixed w-full max-w-[1920px] mx-auto z-50 transition-all duration-300`}
     >
       <div className="xl:container mx-auto flex flex-col xl:flex-row xl:items-center xl:justify-between">
         <div className="flex justify-between items-center px-4">
@@ -72,12 +72,14 @@ function Header() {
             spy={true}
             className="cursot-pointer"
           >
-            <Image
-              src="/header/Maskgroup-removebg-preview.png"
-              alt="logo"
-              width={94}
-              height={74}
-            />
+            <div className=" relative  w-[110px] h-[80px] overflow-hidden">
+              <Image
+                src="/Kozua v3.png"
+                alt="logo"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
           </Link>
 
           <div
@@ -113,7 +115,7 @@ function Header() {
               <>
                 <Popover.Button
                   className={`
-          ${open ? "text-accent" : "text-black"}
+          ${open ? "text-yellowkouzua" : "text-black"}
         cursor-pointer border-none`}
                 >
                   <span>Automobile</span>
@@ -240,7 +242,7 @@ function Header() {
               <>
                 <Popover.Button
                   className={`
-          ${open ? "text-accent" : "text-black"}
+          ${open ? "text-yellowkouzua" : "text-black"}
         cursor-pointer border-none`}
                 >
                   <span>Immobilier</span>
@@ -315,7 +317,7 @@ function Header() {
               <>
                 <Popover.Button
                   className={`
-          ${open ? "text-accent" : "text-black"}
+          ${open ? "text-yellowkouzua" : "text-black"}
         cursor-pointer`}
                 >
                   <span>Offre spéciale</span>

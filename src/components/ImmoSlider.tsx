@@ -203,7 +203,7 @@ function ImmoSlider() {
                     <h3 className="text-lg font-bold uppercase text-gray-800">
                       {car.name}
                     </h3>
-                    <h3 className="text-accent font-semibold uppercase">
+                    <h3 className="text-yellowkouzua font-semibold uppercase">
                       {car.price} FCFA / Jour
                     </h3>
                   </div>
@@ -240,7 +240,7 @@ function ImmoSlider() {
                   })}
                 </div>
 
-                <button className="btn btn-accent btn-lg w-full py-3 rounded-lg">
+                <button className="btn btn-yellowkouzua btn-lg w-full py-3 rounded-lg">
                   Voir plus
                 </button>
               </div>

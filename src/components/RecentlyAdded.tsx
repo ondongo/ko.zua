@@ -29,7 +29,7 @@ function RecentlyAdded() {
                   "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
                   "ring-white/60 ring-offset-1 ring-offset-transparent focus:outline-none focus:ring-1",
                   selected
-                    ? "bg-white text-accent shadow"
+                    ? "bg-white text-yellowkouzua shadow"
                     : "text-[#111828] hover:bg-white/[0.12] hover:text-white"
                 )
               }
@@ -43,7 +43,7 @@ function RecentlyAdded() {
                   "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
                   "ring-white/60 ring-offset-1 ring-offset-transparent focus:outline-none focus:ring-1",
                   selected
-                    ? "bg-white text-accent shadow"
+                    ? "bg-white text-yellowkouzua shadow"
                     : "text-[#111828] hover:bg-white/[0.12] hover:text-white"
                 )
               }

@@ -27,10 +27,16 @@ export default {
           hover: "#003a84",
         },
         body: "#dedede",
+
+        yellowkouzua: "#D79B25",
+        "yellowkouzua-dark": "#C4871F",
+      },
+      animation: {
+        "animate-25s": "animate 25s linear infinite",
       },
       fontFamily: {
-        sans: ['"Montserrat"', 'sans-serif'], // Remplacez "sans" si vous souhaitez en faire la police par défaut.
-        montserrat: ['"Montserrat"', 'sans-serif'], // Clé personnalisée pour Montserrat.
+        sans: ['"Montserrat"', "sans-serif"], // Remplacez "sans" si vous souhaitez en faire la police par défaut.
+        montserrat: ['"Montserrat"', "sans-serif"], // Clé personnalisée pour Montserrat.
       },
 
       backgroundImage: {

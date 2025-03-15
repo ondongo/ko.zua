@@ -20,7 +20,7 @@ function NavBarStatic() {
   const [nav, setNav] = useState(false);
   const mobileMode = useMediaQuery({ query: "(max-width: 768px)" });
   const desktopMode = useMediaQuery({ query: "max-width: 1300px" });
-  const router  = useRouter();
+  const router = useRouter();
   const quartiers = [
     "Centre-ville",
     "Plateaux",
@@ -46,12 +46,14 @@ function NavBarStatic() {
             spy={true}
             className="cursot-pointer"
           >
-            <Image
-              src="/Black_And_Red_Modern_Car_Logo__3_-removebg-preview.png"
-              alt="logo"
-              width={64}
-              height={44}
-            />
+            <div className=" relative  w-[110px] h-[80px] overflow-hidden mt-1">
+              <Image
+                src="/Kozua v3.png"
+                alt="logo"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
           </Link>
 
           <div
@@ -88,7 +90,7 @@ function NavBarStatic() {
               <>
                 <Popover.Button
                   className={`
-          ${open ? "text-accent" : "text-black"}
+          ${open ? "text-yellowkouzua" : "text-black"}
         cursor-pointer border-none`}
                 >
                   <span>Automobile</span>
@@ -216,7 +218,7 @@ function NavBarStatic() {
               <>
                 <Popover.Button
                   className={`
-          ${open ? "text-accent" : "text-black"}
+          ${open ? "text-yellowkouzua" : "text-black"}
         cursor-pointer border-none`}
                 >
                   <span>Immobilier</span>
@@ -291,7 +293,7 @@ function NavBarStatic() {
               <>
                 <Popover.Button
                   className={`
-          ${open ? "text-accent" : "text-black"}
+          ${open ? "text-yellowkouzua" : "text-black"}
         cursor-pointer`}
                 >
                   <span>Offre spéciale</span>

@@ -9,6 +9,7 @@ import { Vehicle } from "@/types/vehicle";
 import SortDropdown from "@/components/SortDropdown";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getAllVehicles, getFilteredVehicles } from "@/actions/vehicles";
+import Breadcrumb from "../Breadcrumb";
 
 function ContainerVehicle() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -24,6 +25,14 @@ function ContainerVehicle() {
   const router = useRouter();
   const [searchParams] = useSearchParams();
   const prevSearchParamsRef = useRef<URLSearchParams>(new URLSearchParams());
+
+  const selectSaleOrRentHandler = (e: any) => {
+    const { value } = e.target;
+
+    console.log("selectSaleOrRentHandler", value);
+    setFilters((prev: any) => ({ ...prev, saleStatus: value }));
+    console.log("filter", filters);
+  };
 
   const selectCategoryHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -71,6 +80,7 @@ function ContainerVehicle() {
       brand: params.get("brand") || "",
       location: params.get("location") || "",
       category: params.get("category") || "",
+      saleStatus: params.get("saleStatus") || "",
     };
 
     // Ajoutez minPrice et maxPrice uniquement si les paramètres sont présents dans l'URL
@@ -95,6 +105,7 @@ function ContainerVehicle() {
       !filters.brand &&
       !filters.location &&
       !filters.category &&
+      !filters.saleStatus &&
       availability === null
     ) {
       return {};
@@ -112,6 +123,7 @@ function ContainerVehicle() {
     if (filters.maxPrice)
       newParams.set("maxPrice", filters.maxPrice.toString());
     if (filters.location) newParams.set("location", filters.location);
+    if (filters.saleStatus) newParams.set("saleStatus", filters.saleStatus);
     if (filters.availability !== null && filters.availability !== undefined) {
       newParams.set("availability", filters.availability.toString());
     }
@@ -165,56 +177,56 @@ function ContainerVehicle() {
   }, [searchParams]);
 
   return (
+    <main className="max-w-[1920px] bg-white mx-auto overflow-hidden">
+      <NavBarStatic />
+      <Breadcrumb path="Véhicules" page="Véhicules" />
+      <div className="p-10 mt-2">
+        <div className="w-full flex flex-col xl:flex-row xl:space-x-[30px]">
+          <div className="lg:w-[300px]">
+            <ProductsFilter
+              filters={filters}
+              selectCategoryHandler={selectCategoryHandler}
+              priceRange={priceRange}
+              priceRangeHandler={priceRangeHandler}
+              selectLocationHandler={selectLocationHandler}
+              selectAvailabilityHandler={selectAvailabilityHandler}
+              selectSaleOrRentHandler={selectSaleOrRentHandler}
+            />
 
-      <main className="max-w-[1920px] bg-white mx-auto overflow-hidden">
-        <NavBarStatic />
-        <div className="p-10 mt-20">
-          <div className="w-full flex flex-col xl:flex-row xl:space-x-[30px]">
-            <div className="lg:w-[300px]">
-              <ProductsFilter
-                filters={filters}
-                selectCategoryHandler={selectCategoryHandler}
-                priceRange={priceRange}
-                priceRangeHandler={priceRangeHandler}
-                selectLocationHandler={selectLocationHandler}
-                selectAvailabilityHandler={selectAvailabilityHandler}
-              />
+            <button
+              className="btn btn-sm btn-accent  mt-4  bg-[#111828] hover:bg-[#111828]"
+              onClick={handleFilterSubmit}
+            >
+              Filtrer
+            </button>
+          </div>
 
-              <button
-                className="btn btn-sm btn-accent  mt-4  bg-[#111828] hover:bg-[#111828]"
-                onClick={handleFilterSubmit}
-              >
-                Filtrer
-              </button>
+          <div className="flex-1">
+            <div className="w-full bg-[#FAFAFA] shadow-sm md:h-[70px] flex md:flex-row flex-col md:space-y-0 space-y-5 md:justify-between md:items-center p-[30px] mb-[40px] rounded-lg">
+              <div className="flex space-x-3 items-center">
+                <span className="font-400 text-[13px]">Trier par :</span>
+                <SortDropdown />
+              </div>
+              <div>
+                <p className="font-400 text-[13px]">
+                  {vehicles.length}
+                  &nbsp; results <span className="text-qgray"> trouvés</span>
+                </p>
+              </div>
             </div>
-
-            <div className="flex-1">
-              <div className="w-full bg-[#FAFAFA] shadow-sm md:h-[70px] flex md:flex-row flex-col md:space-y-0 space-y-5 md:justify-between md:items-center p-[30px] mb-[40px] rounded-lg">
-                <div className="flex space-x-3 items-center">
-                  <span className="font-400 text-[13px]">Trier par :</span>
-                  <SortDropdown />
-                </div>
-                <div>
-                  <p className="font-400 text-[13px]">
-                    {vehicles.length}
-                    &nbsp; results <span className="text-qgray"> trouvés</span>
-                  </p>
-                </div>
-              </div>
-              <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:gap-[30px] gap-5 mb-[40px]">
-                <DataIteration datas={vehicles} startLength={0} endLength={6}>
-                  {({ datas }: { datas: Vehicle }) => (
-                    <div data-aos="fade-up" key={datas.id} className="mb-8">
-                      <ProductCard datas={datas} />
-                    </div>
-                  )}
-                </DataIteration>
-              </div>
+            <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:gap-[30px] gap-5 mb-[40px]">
+              <DataIteration datas={vehicles} startLength={0} endLength={6}>
+                {({ datas }: { datas: Vehicle }) => (
+                  <div data-aos="fade-up" key={datas.id} className="mb-8">
+                    <ProductCard datas={datas} />
+                  </div>
+                )}
+              </DataIteration>
             </div>
           </div>
         </div>
-      </main>
-    
+      </div>
+    </main>
   );
 }
 

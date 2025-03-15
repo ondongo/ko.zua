@@ -22,7 +22,7 @@ export async function getAllVehicles(): Promise<Vehicle[]> {
     availability: vehicle.availability,
     saleStatus: vehicle.saleStatus, // Statut de vente
     features: {
-      mileage: (vehicle.features as any).mileage, // Accès via 'as any'
+      mileage: (vehicle.features as any).mileage, 
       fuel: (vehicle.features as any).fuel,
       transmission: (vehicle.features as any).gearBox,
       seats: (vehicle.features as any).seats,
@@ -55,6 +55,7 @@ export async function getFilteredVehicles(filters: {
   searchQuery?: string;
   startDate?: Date;
   endDate?: Date;
+  saleStatus?: "RENT" | "SALE";
 }): Promise<Vehicle[]> {
   try {
     const vehicles = await VehicleController.getFilteredVehicles(filters);

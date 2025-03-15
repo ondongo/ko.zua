@@ -13,8 +13,8 @@ function TypeServiceSelection() {
       <div className="relative flex-1">
         <Menu.Button className="dropdown-btn w-full h-full flex flex-col justify-center items-center xl:items-start xl:pl-8">
           <div className="flex flex-col xl:flex-row items-center xl:gap-x-2 gap-y-2 xl:gap-y-0">
-            <FaThList className="text-accent" />
-            <div className="text-[15px] uppercase font-bold">
+            <FaThList className="text-yellowkouzua" />
+            <div className="text-[15px] uppercase font-bold text-[#111828]">
               Sélectionner un service
             </div>
           </div>
@@ -23,7 +23,7 @@ function TypeServiceSelection() {
             <div className="uppercase font-medium text-[13px] text-secondary text-center xl:ml-6 xl:text-left">
               type
             </div>
-            <FaArrowRightLong className="text-accent text-[12px]" />
+            <FaArrowRightLong className="text-yellowkouzua text-[12px]" />
 
             <div className="uppercase font-medium text-[13px] text-secondary text-center">
               {type}

@@ -1,7 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 
 /* date range custom css */
 .swiper-custom-pagination {
@@ -13,10 +15,9 @@
   flex-direction: column !important;
   justify-content: center;
   align-items: flex-end !important;
-  gap: 4rem !important; 
+  gap: 4rem !important;
   z-index: 50 !important;
 }
-
 
 .rdrDayToday:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span::after,
 .rdrDayToday:not(.rdrDayPassive) .rdrStartEdge ~ .rdrDayNumber span::after,
@@ -26,7 +27,7 @@
 }
 
 .rdrDayToday .rdrDayNumber span::after {
-  background: #004aad  !important;
+  background: #111828 !important;
 }
 
 .rdrMonthAndYearPickers {
@@ -90,17 +91,16 @@
     @apply bg-accent hover:bg-accent-hover;
   }
   .active {
-    @apply text-accent;
+    @apply text-yellowkouzua;
   }
 }
-
 
 .SliderThumb {
   box-sizing: border-box;
   width: 24px;
   height: 24px;
   padding: 8px;
-  background-color: #0A3D62;
+  background-color: #0a3d62;
   border: none;
   position: relative;
   z-index: 1;
@@ -137,7 +137,6 @@
   z-index: -1;
 }
 
-
 /************************************************************/
 /*           Loader OpenStreet map Search                  */
 /***********************************************************/
@@ -170,4 +169,250 @@
   100% {
     transform: rotate(1turn);
   }
+}
+
+/************************************************************/
+/*           BreadCumb Animation                  */
+/***********************************************************/
+@keyframes animate {
+  0% {
+    transform: translateY(100px) rotate(0deg); /* Démarre en bas (hors de la section) */
+    opacity: 0; /* Invisible au départ */
+  }
+  20% {
+    opacity: 0.6; /* Apparition progressive */
+  }
+  80% {
+    opacity: 0.6; /* Reste visible pendant la montée */
+  }
+  100% {
+    transform: translateY(-400px) rotate(360deg); /* Monte jusqu'en haut */
+    opacity: 0; /* Disparaît progressivement */
+  }
+}
+
+/* Styles de la section breadcrumb */
+.breadcrumb-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fafafa;
+  margin-top: 5rem;
+  padding: 4rem;
+  overflow: hidden; /* Cache tout ce qui dépasse de la section */
+}
+
+.breadcrumb-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(0.2px);
+  z-index: 5;
+}
+
+/* Circles animation */
+.breadcrumb-section .circles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  list-style: none;
+}
+
+.breadcrumb-section .circles li {
+  position: absolute;
+  display: block;
+  background-color: #eeba2b; /* Couleur par défaut */
+  animation: animate 10s linear infinite; /* Animation plus rapide */
+  opacity: 0; /* Invisible au départ */
+  bottom: -100px; /* Démarre hors de la section (en bas) */
+  border-radius: 10%; /* Circulaires avec bords arrondis */
+  transition: all 0.3s ease; /* Transition fluide */
+}
+
+/* Ajustement des positions et tailles des cercles */
+.breadcrumb-section .circles li:nth-child(1) {
+  width: 80px;
+  height: 80px;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.breadcrumb-section .circles li:nth-child(2) {
+  width: 60px;
+  height: 60px;
+  left: 20%;
+  animation-delay: 3s; /* Délai plus long */
+  background-color: #111828; /* Couleur différente */
+}
+
+.breadcrumb-section .circles li:nth-child(3) {
+  width: 100px;
+  height: 100px;
+  left: 35%;
+  animation-delay: 6s; /* Délai plus long */
+}
+
+.breadcrumb-section .circles li:nth-child(4) {
+  width: 50px;
+  height: 50px;
+  left: 50%;
+  animation-delay: 9s; /* Délai plus long */
+  background-color: #111828; /* Couleur différente */
+}
+
+.breadcrumb-section .circles li:nth-child(5) {
+  width: 90px;
+  height: 90px;
+  left: 65%;
+  animation-delay: 12s; /* Délai plus long */
+}
+
+.breadcrumb-section .circles li:nth-child(6) {
+  width: 40px;
+  height: 40px;
+  left: 80%;
+  animation-delay: 15s; /* Délai plus long */
+  background-color: #111828; /* Couleur différente */
+}
+
+/* Contenu du breadcrumb */
+.breadcrumb-section .breadcrumb-content {
+  z-index: 10; /* Mettre le contenu au-dessus des cercles */
+  text-align: center;
+}
+
+
+/************************************************************/
+/*           Swipper Css                */
+/***********************************************************/
+
+.autoplay-progress {
+  position: absolute;
+  right: 24px;
+  bottom: 35%;
+  z-index: 15;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  color: #eeba2b;
+}
+
+.autoplay-progress svg {
+  --progress: 1;
+  position: absolute;
+  left: 0;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  stroke-width: 2.5px;
+  stroke: #eeba2b;
+  fill: none;
+  stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
+  stroke-dasharray: 125.6;
+  transform: rotate(-90deg);
+}
+
+
+
+.slider-button {
+	transition: 0.5s;
+	outline: none;
+	position: absolute;
+	width: 100px;
+	z-index: 10;
+	top: 50%;
+	transform: translateY(-50%);
+	cursor: pointer;
+}
+
+.slider-button svg {
+	display: block;
+	transition: 0.5s;
+}
+
+.slider-button .slider-svg-circle-wrap {
+	transition: 0.5s;
+	transform-origin: -20px 40px;
+	opacity: 1;
+}
+
+.slider-button circle {
+	transition: 0.5s;
+	stroke-width: 2px;
+	stroke: #eeba2b;
+	fill: none;
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+	opacity: 1;
+	transform-origin: 0px 0px 0px;
+}
+
+.slider-button .slider-svg-arrow {
+	transition: 0.5s;
+	fill: #eeba2b;
+	transform: rotateY(180deg) translate(-55px, 36.1px) scale(1.75);
+}
+
+.slider-button-prev {
+	left: 24px;
+}
+
+.slider-button-next {
+	right: 24px;
+}
+
+.swiper-button-disabled {
+	display: none;
+}
+
+.slider-button .slider-svg-wrap {
+	transform: translateY(353px);
+}
+
+.slider-button-next .slider-svg-wrap {
+	transform: translateY(353px) rotateY(180deg);
+	transform-origin: 80px 0px 0px;
+}
+
+.slider-button .slider-svg-line {
+	transition: 0.5s;
+	stroke:  #eeba2b;
+	stroke-width: 2;
+	transform: translate(50px, 42px);
+}
+
+.slider-button-prev:not(.slider-button-disabled):hover svg {
+	transform: translate(-16px);
+}
+
+.slider-button-next:not(.slider-button-disabled):hover svg {
+	transform: translate(16px);
+}
+
+.slider-button:not(.slider-button-disabled):hover .slider-svg-circle-wrap {
+	transform: scale(1.1);
+}
+
+.slider-button:not(.slider-button-disabled):hover circle {
+	stroke-dasharray: 4px;
+	stroke-dashoffset: 4px;
+	opacity: 1;
+}
+
+.slider-button:not(.slider-button-disabled):hover .slider-svg-arrow {
+	transform: rotateY(180deg) translate(-40px, 36.1px) scale(1.75);
+}
+
+.slider-button:not(.slider-button-disabled):hover .slider-svg-line {
+	transform: translate(35px, 42px) scaleX(0.5);
 }

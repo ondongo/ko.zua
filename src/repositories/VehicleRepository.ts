@@ -83,7 +83,7 @@ export class VehicleRepository
             },
           ],
         }),
-        ...(filters.saleStatus && { saleStatus: filters.saleStatus }),
+        ...(filters.saleStatus && { saleStatus: filters.saleStatus }), 
       },
     });
   }

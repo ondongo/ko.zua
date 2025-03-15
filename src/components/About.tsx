@@ -49,7 +49,7 @@ function About() {
 
                 <div className="flex flex-col w-[100px]">
                   {/* Icons 1 */}
-                  <MdOutlineDirectionsCar className="text-5xl text-accent" />
+                  <MdOutlineDirectionsCar className="text-5xl text-yellowkouzua" />
                   <div className="text-3xl font-black">
                     {inView ? (
                       <CountUp start={0} end={50} duration={3} delay={1} />
@@ -64,7 +64,7 @@ function About() {
 
                 <div className="flex flex-col w-[100px]">
                   {/* Icons 1 */}
-                  <MdOutlineMapsHomeWork className="text-5xl text-accent" />
+                  <MdOutlineMapsHomeWork className="text-5xl text-yellowkouzua" />
                   <div className="text-3xl font-black">
                     {inView ? (
                       <CountUp start={0} end={135} duration={3} delay={1} />
@@ -78,7 +78,7 @@ function About() {
 
                 <div className="flex flex-col w-[100px]">
                   {/* Icons 1 */}
-                  <MdOutlineBuildCircle className="text-5xl text-accent" />
+                  <MdOutlineBuildCircle className="text-5xl text-yellowkouzua" />
                   <div className="text-3xl font-black">
                     {inView ? (
                       <CountUp start={0} end={35} duration={3} delay={1} />
@@ -91,7 +91,7 @@ function About() {
                   </div>
                 </div>
               </div>
-              <button className="hidden xl:block bg-accent hover:bg-accent rounded-[10px] w-full h-16 uppercase font-medium text-white tracking-[2px] text-[13px] max-w-[184px]">
+              <button className="hidden xl:block bg-yellowkouzua hover:bg-yellowkouzua-dark rounded-[10px] w-full h-16 uppercase font-medium text-white tracking-[2px] text-[13px] max-w-[184px]">
                 Voir les voitures
               </button>
             </div>

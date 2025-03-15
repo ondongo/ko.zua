@@ -214,7 +214,7 @@ function VehicleDetailsPage({ params }: any) {
                     }}
                     className={`relative flex justify-center items-center h-[80px] w-[100px] rounded-lg cursor-pointer overflow-hidden ${
                       activeIndex === index
-                        ? "border-2 border-accent"
+                        ? "border-2 border-yellowkouzua"
                         : "border border-[#FAFAFA]"
                     }`}
                   >
@@ -243,7 +243,7 @@ function VehicleDetailsPage({ params }: any) {
                   </div>
                 </div>
 
-                <p className="text-3xl text-accent font-bold mt-4">
+                <p className="text-3xl text-yellowkouzua font-bold mt-4">
                   {vehicle.pricePerDay} FCFA / jour
                 </p>
               </div>
@@ -258,13 +258,13 @@ function VehicleDetailsPage({ params }: any) {
                   className="cursor-pointer flex items-center justify-between bg-gray-100 p-3 rounded-lg"
                 >
                   <div className="flex items-center gap-2 text-sm">
-                    <FaCalendarAlt className="text-accent" />
+                    <FaCalendarAlt className="text-yellowkouzua" />
                     <span>
                       {date[0].startDate.toLocaleDateString()} -{" "}
                       {date[0].endDate?.toLocaleDateString()}
                     </span>
                   </div>
-                  <FaArrowRightLong className="text-accent" />
+                  <FaArrowRightLong className="text-yellowkouzua" />
                 </div>
                 {showDatePicker && (
                   <div className="mt-4">
@@ -287,11 +287,11 @@ function VehicleDetailsPage({ params }: any) {
                 viewport={{ once: false, amount: 0.8 }} */
                 className="flex flex-col xl:flex-row gap-x-3 justify-center xl:justify-start  mb-10"
               >
-                <button className="btn btn-sm btn-accent xl:max-w-[50%]  mt-4  bg-[#111828] hover:bg-[#111828]/10">
+                <button className="btn btn-sm btn-yellowkouzua xl:max-w-[50%]  mt-4  bg-[#111828] hover:bg-[#111828]/10">
                   Réserver pour une location
                 </button>
 
-                <button className="btn btn-sm btn-accent xl:max-w-[50%]  mt-4">
+                <button className="btn btn-sm btn-yellowkouzua xl:max-w-[50%]  mt-4">
                   Achat éclair
                 </button>
               </motion.div>
@@ -332,7 +332,7 @@ function VehicleDetailsPage({ params }: any) {
                   {vehicle.equipment.map((item, index) => (
                     <div
                       key={index}
-                      className="flex items-center space-x-2 text-accent"
+                      className="flex items-center space-x-2 text-yellowkouzua"
                     >
                       <FaCheckCircle />
                       <span className="text-gray-700">{item}</span>
@@ -407,7 +407,7 @@ function VehicleDetailsPage({ params }: any) {
         <div>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-3xl font-semibold">Autres véhicules</h2>
-            <button className="text-accent font-semibold hover:underline">
+            <button className="text-yellowkouzua font-semibold hover:underline">
               Voir Tous →
             </button>
           </div>
@@ -430,7 +430,7 @@ function VehicleDetailsPage({ params }: any) {
                       <h3 className="text-lg font-bold uppercase text-gray-800">
                         {car.name}
                       </h3>
-                      <h3 className="text-accent font-semibold uppercase">
+                      <h3 className="text-yellowkouzua font-semibold uppercase">
                         {car.pricePerDay} FCFA / Jour
                       </h3>
                     </div>
@@ -467,7 +467,7 @@ function VehicleDetailsPage({ params }: any) {
                     })}
                   </div>
 
-                  <button className="btn btn-accent btn-lg w-full py-3 rounded-lg">
+                  <button className="btn btn-yellowkouzua btn-lg w-full py-3 rounded-lg">
                     Voir plus
                   </button>
                 </div>
