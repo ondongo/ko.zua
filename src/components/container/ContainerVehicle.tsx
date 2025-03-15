@@ -10,6 +10,7 @@ import SortDropdown from "@/components/SortDropdown";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getAllVehicles, getFilteredVehicles } from "@/actions/vehicles";
 import Breadcrumb from "../Breadcrumb";
+import SkeletonProductCard from "../skeletons/SkeletonProductCard";
 
 function ContainerVehicle() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -17,14 +18,12 @@ function ContainerVehicle() {
   const [filters, setFilters] = useState<any>({});
   const [availability, setAvailability] = useState<boolean | null>(null);
   const [priceRange, setPriceRange] = useState({ min: 100, max: 500 });
-  const [location, setLocation] = useState("");
-  const [category, setCategory] = useState("");
-  const [filterToggle, setFilterToggle] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const [searchParams] = useSearchParams();
   const prevSearchParamsRef = useRef<URLSearchParams>(new URLSearchParams());
+  const [sortOption, setSortOption] = useState<string>("default");
 
   const selectSaleOrRentHandler = (e: any) => {
     const { value } = e.target;
@@ -135,22 +134,49 @@ function ContainerVehicle() {
     }
   };
 
+  const sortVehicles = (vehicles: Vehicle[], option: string) => {
+    console.log(
+      "Véhicules avant tri :",
+      vehicles.map((v) => ({
+        id: v.id,
+        createdAt: v.createdAt,
+        parsedDate: new Date(v.createdAt),
+        isValid: !isNaN(new Date(v.createdAt).getTime()),
+      }))
+    );
+    if (option === "price_asc") {
+      return [...vehicles].sort((a, b) => a.pricePerDay - b.pricePerDay);
+    } else if (option === "price_desc") {
+      return [...vehicles].sort((a, b) => b.pricePerDay - a.pricePerDay);
+    } else if (option === "newest") {
+      return [...vehicles]
+        .filter((v) => v.createdAt && !isNaN(new Date(v.createdAt).getTime()))
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+    }
+    return vehicles;
+  };
+
+  useEffect(() => {
+    setVehicles((prev) => sortVehicles(prev, sortOption));
+  }, [sortOption]);
+
   const fetchVehicles = async () => {
     setLoading(true);
     try {
       const filters = getFiltersFromURL();
-      console.log("Filters:", filters); // Vérifiez ce qui est retourné par getFiltersFromURL()
+
+      let data: Vehicle[];
 
       if (Object.keys(filters).length === 0) {
-        // Aucun filtre appliqué, récupération de tous les véhicules
-        console.log("Fetching all vehicles...");
-        const data: Vehicle[] = await getAllVehicles();
-        setVehicles(data);
+        data = await getAllVehicles();
       } else {
-        // Filtrage appliqué
-        const data: Vehicle[] = await getFilteredVehicles(filters);
-        setVehicles(data);
+        data = await getFilteredVehicles(filters);
       }
+
+      setVehicles(data);
     } catch (error) {
       console.error("Erreur lors de la récupération des véhicules :", error);
       setError("Une erreur est survenue lors du chargement des véhicules.");
@@ -205,7 +231,10 @@ function ContainerVehicle() {
             <div className="w-full bg-[#FAFAFA] shadow-sm md:h-[70px] flex md:flex-row flex-col md:space-y-0 space-y-5 md:justify-between md:items-center p-[30px] mb-[40px] rounded-lg">
               <div className="flex space-x-3 items-center">
                 <span className="font-400 text-[13px]">Trier par :</span>
-                <SortDropdown />
+                <SortDropdown
+                  sortOption={sortOption}
+                  setSortOption={setSortOption}
+                />
               </div>
               <div>
                 <p className="font-400 text-[13px]">
@@ -215,13 +244,21 @@ function ContainerVehicle() {
               </div>
             </div>
             <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:gap-[30px] gap-5 mb-[40px]">
-              <DataIteration datas={vehicles} startLength={0} endLength={6}>
-                {({ datas }: { datas: Vehicle }) => (
-                  <div data-aos="fade-up" key={datas.id} className="mb-8">
-                    <ProductCard datas={datas} />
-                  </div>
-                )}
-              </DataIteration>
+              {loading ? (
+                <>
+                  {[...Array(3)].map((_, index) => (
+                    <SkeletonProductCard key={index} />
+                  ))}
+                </>
+              ) : (
+                <DataIteration datas={vehicles} startLength={0} endLength={6}>
+                  {({ datas }: { datas: Vehicle }) => (
+                    <div data-aos="fade-up" key={datas.id} className="mb-8">
+                      <ProductCard datas={datas} />
+                    </div>
+                  )}
+                </DataIteration>
+              )}
             </div>
           </div>
         </div>

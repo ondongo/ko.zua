@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-function LocationSelection() {
+function QuerySelection() {
   const [value, setValue] = useState<string>("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,4 +39,4 @@ function LocationSelection() {
   );
 }
 
-export default LocationSelection;
+export default QuerySelection;

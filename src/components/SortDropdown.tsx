@@ -1,16 +1,27 @@
 import React, { useState, Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
-const SortDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("Défaut");
 
-  const options = [
-    "Défaut",
-    "Prix croissant",
-    "Prix décroissant",
-    "Nouveaux modèles",
-    "Populaires",
-  ];
+interface SortDropdownProps {
+  sortOption: string;
+  setSortOption: (value: string) => void;
+}
+
+const sortMapping: Record<string, string> = {
+  Défaut: "default",
+  "Prix croissant": "price_asc",
+  "Prix décroissant": "price_desc",
+  "Plus récents": "newest",
+};
+
+const options = Object.keys(sortMapping);
+const SortDropdown: React.FC<SortDropdownProps> = ({
+  sortOption,
+  setSortOption,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const currentLabel =
+    Object.keys(sortMapping).find((key) => sortMapping[key] === sortOption) ||
+    "Défaut";
 
   return (
     <div className="relative">
@@ -23,7 +34,7 @@ const SortDropdown = () => {
                 onClick={() => setIsOpen(!isOpen)}
               >
                 <span className="font-400 text-[13px] text-qgray">
-                  {selectedOption}
+                  {currentLabel}
                 </span>
                 <span>
                   <svg
@@ -51,16 +62,16 @@ const SortDropdown = () => {
               leaveTo="opacity-0 translate-y-1"
             >
               <Popover.Panel className="absolute z-30 left-0 mt-2 w-48 bg-white shadow-lg rounded-md border border-gray-200">
-                {options.map((option, index) => (
+                {options.map((label, index): any => (
                   <div
                     key={index}
                     className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
                     onClick={() => {
-                      setSelectedOption(option);
+                      setSortOption(sortMapping[label]);
                       setIsOpen(false);
                     }}
                   >
-                    {option}
+                    {label}
                   </div>
                 ))}
               </Popover.Panel>

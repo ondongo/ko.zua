@@ -1,6 +1,7 @@
 export interface Vehicle {
   id: string;
   name: string;
+  createdAt: any;
   description?: string;
   global: boolean;
   category: string;

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, use } from "react";
 import Image from "next/image";
 import { FaCalendarAlt, FaCheckCircle, FaStar } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,7 +15,13 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { FaArrowRightLong } from "react-icons/fa6";
 import NavBarStatic from "@/components/NavBarStatic";
-function VehicleDetailsPage({ params }: any) {
+import Breadcrumb from "@/components/Breadcrumb";
+
+type ParamsType = { id: string };
+function VehicleDetailsPage({ params }: { params: Promise<ParamsType> }) {
+  const { id } = use(params);
+  const idVehicle = id;
+  const shortId = idVehicle.slice(0, 8) + "...";
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
   const [activeTab, setActiveTab] = useState<"description" | "reviews">(
@@ -174,6 +180,8 @@ function VehicleDetailsPage({ params }: any) {
   return (
     <main className="max-w-[1920px] bg-white mx-auto overflow-hidden">
       <NavBarStatic />
+      <Breadcrumb path={`Véhicules / ${shortId}`} page="Détails Véhicule" />
+
       <div className="container mx-auto py-10 px-4 mt-20">
         {/* Détails principaux */}
 
@@ -415,7 +423,10 @@ function VehicleDetailsPage({ params }: any) {
           {/* Other Cars  */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {otherCars.map((car, index) => (
-              <div key={index} className="max-w-[385px] mx-auto sm:mx-0 bg-gray-100 shadow-sm rounded-lg overflow-hidden">
+              <div
+                key={index}
+                className="max-w-[385px] mx-auto sm:mx-0 bg-gray-100 shadow-sm rounded-lg overflow-hidden"
+              >
                 <Image
                   src={car.image}
                   alt={car.name}

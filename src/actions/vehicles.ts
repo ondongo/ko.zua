@@ -22,7 +22,7 @@ export async function getAllVehicles(): Promise<Vehicle[]> {
     availability: vehicle.availability,
     saleStatus: vehicle.saleStatus, // Statut de vente
     features: {
-      mileage: (vehicle.features as any).mileage, 
+      mileage: (vehicle.features as any).mileage,
       fuel: (vehicle.features as any).fuel,
       transmission: (vehicle.features as any).gearBox,
       seats: (vehicle.features as any).seats,
@@ -41,6 +41,7 @@ export async function getAllVehicles(): Promise<Vehicle[]> {
     distance: vehicle.distance,
     gearBox: vehicle.gearBox,
     fuel: vehicle.fuel,
+    createdAt: vehicle.createdAt ? new Date(vehicle.createdAt) : new Date(),
   }));
 }
 
@@ -94,9 +95,13 @@ export async function getFilteredVehicles(filters: {
       distance: vehicle.distance,
       gearBox: vehicle.gearBox,
       fuel: vehicle.fuel,
+      createdAt: vehicle.createdAt ? new Date(vehicle.createdAt) : new Date(),
     }));
   } catch (error) {
-    console.error("Erreur lors de la récupération des véhicules filtrés :", error);
+    console.error(
+      "Erreur lors de la récupération des véhicules filtrés :",
+      error
+    );
     return [];
   }
 }
