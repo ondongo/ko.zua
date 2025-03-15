@@ -177,6 +177,36 @@ function VehicleDetailsPage({ params }: { params: Promise<ParamsType> }) {
     },
   ];
 
+  const [loading, setLoading] = useState(false);
+
+  const handlePayment = async () => {
+    setLoading(true);
+
+    const response = await fetch("/api/payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        successUrl: "https://ton-site.com/success",
+        cancelUrl: "https://ton-site.com/cancel",
+        total: "10000", // Prix total en FCFA
+        user: { uid: "12345" },
+        lineItems: [
+          { name: "Réservation éclair", quantity: 1, unitPrice: "10000" },
+        ],
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      window.location.href = data.data.paymentUrl; // Redirige l'utilisateur vers Yabetoo Pay
+    } else {
+      console.error("Erreur de paiement :", data.message);
+    }
+
+    setLoading(false);
+  };
+
   return (
     <main className="max-w-[1920px] bg-white mx-auto overflow-hidden">
       <NavBarStatic />
@@ -299,8 +329,12 @@ function VehicleDetailsPage({ params }: { params: Promise<ParamsType> }) {
                   Réserver pour une location
                 </button>
 
-                <button className="btn btn-sm btn-yellowkouzua xl:max-w-[50%]  mt-4">
-                  Achat éclair
+                <button
+                  onClick={handlePayment}
+                  disabled={loading}
+                  className="btn btn-sm bg-yellowkouzua hover:bg-yellowkouzua-dark xl:max-w-[50%]  mt-4"
+                >
+                  {loading ? "Chargement..." : "Réservation  éclair"}
                 </button>
               </motion.div>
 
