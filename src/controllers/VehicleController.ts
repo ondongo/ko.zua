@@ -1,7 +1,6 @@
 import { VehicleService } from "@/services/VehicleService";
 import { VehicleRepository } from "@/repositories/VehicleRepository";
 import { Vehicle } from "@prisma/client";
-import { container } from "tsyringe";
 
 const repository = new VehicleRepository();
 const vehicleService = new VehicleService(repository);
