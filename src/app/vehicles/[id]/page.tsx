@@ -13,17 +13,18 @@ async function VehicleData({ id }: { id: string }) {
   return <VehicleDetails vehicle={vehicle} />;
 }
 
-export default function VehiclePage({ params }: any) {
-  if (!params.id) return notFound();
+export default async function VehiclePage({ params }: any) {
+  const { id } = await params
+  if (!id) return notFound();
 
-  const shortId = params.id.slice(0, 8) + "...";
+  const shortId = id.slice(0, 8) + "...";
 
   return (
     <main className="max-w-[1920px] bg-white mx-auto overflow-hidden">
       <NavBarStatic />
       <Breadcrumb path={`Véhicules / ${shortId}`} page="Détails Véhicule" />
       <Suspense fallback={<VehicleDetailsSkeleton />}>
-        <VehicleData id={params.id} />
+        <VehicleData id={id} />
       </Suspense>
     </main>
   );
