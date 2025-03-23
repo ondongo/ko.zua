@@ -49,7 +49,7 @@ const Switch: React.FC<SwitchProps> = ({
   return (
     <label
       className={`flex cursor-pointer select-none items-center gap-3 text-sm font-medium ${
-        disabled ? "text-gray-400" : "text-gray-700 dark:text-gray-400"
+        disabled ? "text-gray-400" : "text-gray-700  "
       }`}
       onClick={handleToggle} // Toggle when the label itself is clicked
     >
@@ -57,7 +57,7 @@ const Switch: React.FC<SwitchProps> = ({
         <div
           className={`block transition duration-150 ease-linear h-6 w-11 rounded-full ${
             disabled
-              ? "bg-gray-100 pointer-events-none dark:bg-gray-800"
+              ? "bg-gray-100 pointer-events-none "
               : switchColors.background
           }`}
         ></div>

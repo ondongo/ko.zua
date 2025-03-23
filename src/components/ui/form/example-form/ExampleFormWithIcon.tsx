@@ -31,7 +31,7 @@ export default function ExampleFormWithIcon() {
               id="username"
               className="pl-11"
             />
-            <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2 dark:text-gray-400">
+            <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2  ">
               <UserIcon />
             </span>
           </div>{" "}
@@ -42,7 +42,7 @@ export default function ExampleFormWithIcon() {
               id="email"
               className="pl-11"
             />
-            <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2 dark:text-gray-400">
+            <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2  ">
               <EnvelopeIcon />
             </span>
           </div>{" "}
@@ -53,7 +53,7 @@ export default function ExampleFormWithIcon() {
               id="password"
               className="pl-11"
             />
-            <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2 dark:text-gray-400">
+            <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2  ">
               <LockIcon />
             </span>
           </div>{" "}
@@ -64,7 +64,7 @@ export default function ExampleFormWithIcon() {
               id="confirm-password"
               className="pl-11"
             />
-            <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2 dark:text-gray-400">
+            <span className="absolute text-gray-500 -translate-y-1/2 pointer-events-none left-4 top-1/2  ">
               <LockIcon />
             </span>
           </div>

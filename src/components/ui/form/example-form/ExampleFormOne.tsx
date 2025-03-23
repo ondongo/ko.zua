@@ -56,7 +56,7 @@ export default function ExampleFormOne() {
               placeholder="Select an option"
               onChange={handleSelectChange}
               defaultValue=""
-              className="bg-gray-50 dark:bg-gray-800"
+              className="bg-gray-50 "
             />
           </div>
           <div className="col-span-2">
@@ -66,7 +66,7 @@ export default function ExampleFormOne() {
               rows={6}
               value={message}
               onChange={handleTextareaChange}
-              className=" bg-gray-50 dark:bg-gray-800"
+              className=" bg-gray-50 "
             />
           </div>
           <div className="col-span-2">
