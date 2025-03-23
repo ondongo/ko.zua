@@ -1,7 +1,5 @@
 "use client";
 import React, { useContext } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import Search from "./Search";
@@ -32,7 +30,7 @@ function Hero() {
               viewport={{ once: false, amount: 0.6 }}
               className="text-3xl xl:text-[54px]  text-primary xl:leading-[62px] font-extrabold mb-[18px]"
             >
-              Trouvez , réservez , prenez !
+              Trouvez , Réservez ou Achetez !
               <span className="text-yellowkouzua ">
                 {" "}
                 Ko.Zua s'occupe du reste
@@ -45,8 +43,9 @@ function Hero() {
               viewport={{ once: false, amount: 0.6 }}
               className="description-text"
             >
-              Zua Nzela na yo, votre voyage commence ici. Découvrez notre flotte
-              de véhicules de qualité pour tous vos déplacements.
+              Zua Eloko na yo, trouvez l’automobile ou le bien immobilier qui
+              vous correspond. Des solutions adaptées à tous vos besoins de
+              mobilité et d’habitat.
             </motion.p>
             <motion.div
               variants={fadeIn("down", 0.6)}

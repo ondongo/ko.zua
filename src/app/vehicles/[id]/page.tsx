@@ -24,7 +24,7 @@ export default async function VehiclePage({ params }: any) {
       <NavBarStatic />
       <Breadcrumb path={`Véhicules / ${shortId}`} page="Détails Véhicule" />
       <Suspense fallback={<VehicleDetailsSkeleton />}>
-        <VehicleData id={id} />
+        <VehicleData id={ id} />
       </Suspense>
     </main>
   );

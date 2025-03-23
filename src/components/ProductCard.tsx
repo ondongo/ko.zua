@@ -72,10 +72,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ datas }) => {
       </div>
 
       <div className="p-5">
-        <div className="flex gap-x-1 text-yellow-500 justify-end">
-          {[...Array(5)].map((_, i) => (
+        <div className="flex gap-x-1  justify-end">
+          {/*   {[...Array(5)].map((_, i) => (
             <FaStar key={i} />
-          ))}
+          ))} */}
+
+          <div
+            className={`rounded-full px-3 py-1.5 font-medium max-h-10 flex justify-center items-center ${
+              datas.saleStatus === "RENT"
+                ? "bg-yellowkouzua-dark text-white"
+                : "bg-[#111828] text-white"
+            }`}
+          >
+            {" "}
+            {datas.saleStatus === "RENT" ? "À louer" : "À vendre"}
+          </div>
         </div>
         <div className="flex justify-between items-start mb-2">
           <div>
@@ -84,7 +95,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ datas }) => {
               {datas.brand} {datas.model} ({datas.year})
             </h3>
             <h3 className="text-accent text-lg font-bold uppercase mt-2">
-              {datas.pricePerDay.toLocaleString()} FCFA / Jour
+              {datas.pricePerDay.toLocaleString()} FCFA{" "}
+              {datas.saleStatus === "RENT" ? "/ jour" : ""}
             </h3>
           </div>
         </div>

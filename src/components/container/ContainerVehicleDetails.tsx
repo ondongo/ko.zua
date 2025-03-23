@@ -288,7 +288,8 @@ export default function VehicleDetails({ vehicle }: { vehicle: Vehicle }) {
                 </div>
 
                 <p className="text-3xl text-yellowkouzua font-bold mt-4">
-                  {vehicle.pricePerDay} FCFA / jour
+                  {vehicle.pricePerDay} FCFA{" "}
+                  {vehicle.saleStatus === "RENT" ? "/ jour" : ""}
                 </p>
               </div>
 

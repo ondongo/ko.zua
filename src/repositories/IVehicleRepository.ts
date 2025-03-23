@@ -15,6 +15,8 @@ export interface IVehicleRepository extends IRepository<Vehicle> {
     searchQuery?: string;
     startDate?: Date;
     endDate?: Date;
-    saleStatus?: "RENT" | "SALE"; 
+    saleStatus?: "RENT" | "SALE";
   }): Promise<Vehicle[]>;
+
+  findSimilarVehicles(category: string, excludeId: string): Promise<Vehicle[]>;
 }

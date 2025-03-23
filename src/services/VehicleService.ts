@@ -32,9 +32,6 @@ export class VehicleService {
     return this.repository.findByBrand(brand);
   }
 
-
-
-
   async getFilteredVehicles(filters: {
     availability?: boolean;
     brand?: string;
@@ -49,5 +46,12 @@ export class VehicleService {
     saleStatus?: "RENT" | "SALE";
   }): Promise<Vehicle[]> {
     return this.repository.getFilteredVehicles(filters);
+  }
+
+  async findSimilarVehicles(
+    category: string,
+    excludeId: string
+  ): Promise<Vehicle[]> {
+    return this.repository.findSimilarVehicles(category, excludeId);
   }
 }

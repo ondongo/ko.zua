@@ -23,6 +23,19 @@ export class VehicleRepository
     });
   }
 
+  async findSimilarVehicles(
+    category: string,
+    excludeId: string
+  ): Promise<Vehicle[]> {
+    return await prisma.vehicle.findMany({
+      where: {
+        category,
+        id: { not: excludeId },
+      },
+      take: 4,
+    });
+  }
+
   async getFilteredVehicles(filters: {
     availability?: boolean;
     brand?: string;
@@ -83,7 +96,7 @@ export class VehicleRepository
             },
           ],
         }),
-        ...(filters.saleStatus && { saleStatus: filters.saleStatus }), 
+        ...(filters.saleStatus && { saleStatus: filters.saleStatus }),
       },
     });
   }
