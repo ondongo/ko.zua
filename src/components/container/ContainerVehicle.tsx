@@ -1,16 +1,14 @@
 "use client";
 import DataIteration from "@/components/DataIteration";
-import ProductsFilter from "@/components/ProductsFilter";
 import React, { useEffect, useRef, useState, Suspense } from "react";
-import ProductCard from "@/components/ProductCard";
-import NavBarStatic from "@/components/NavBarStatic";
 import { Vehicle } from "@/types/vehicle";
 
 import SortDropdown from "@/components/SortDropdown";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getAllVehicles, getFilteredVehicles } from "@/actions/vehicles";
-import Breadcrumb from "../Breadcrumb";
 import SkeletonProductCard from "../skeletons/SkeletonProductCard";
+import ProductCardVehicle from "@/components/products/ProductCardVehicle";
+import ProductsVehiclesFilter from "@/components/products/ProductsVehiclesFilter";
 
 function ContainerVehicle() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -203,13 +201,11 @@ function ContainerVehicle() {
   }, [searchParams]);
 
   return (
-    <main className="max-w-[1920px] bg-white mx-auto overflow-hidden">
-      <NavBarStatic />
-      <Breadcrumb path="Véhicules" page="Véhicules" />
+    <>
       <div className="p-10 mt-2">
         <div className="w-full flex flex-col xl:flex-row xl:space-x-[30px]">
           <div className="lg:w-[300px]">
-            <ProductsFilter
+            <ProductsVehiclesFilter
               filters={filters}
               selectCategoryHandler={selectCategoryHandler}
               priceRange={priceRange}
@@ -254,7 +250,7 @@ function ContainerVehicle() {
                 <DataIteration datas={vehicles} startLength={0} endLength={6}>
                   {({ datas }: { datas: Vehicle }) => (
                     <div data-aos="fade-up" key={datas.id} className="mb-8">
-                      <ProductCard datas={datas} />
+                      <ProductCardVehicle datas={datas} />
                     </div>
                   )}
                 </DataIteration>
@@ -263,7 +259,7 @@ function ContainerVehicle() {
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 }
 

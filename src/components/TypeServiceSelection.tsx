@@ -21,7 +21,7 @@ function TypeServiceSelection() {
 
           <div className="flex items-center justify-center gap-x-3">
             <div className="uppercase font-medium text-[13px] text-secondary text-center xl:ml-6 xl:text-left">
-              type
+              Service
             </div>
             <FaArrowRightLong className="text-yellowkouzua text-[12px]" />
 

@@ -5,7 +5,7 @@ import VehicleDetails from "@/components/container/ContainerVehicleDetails";
 
 import NavBarStatic from "@/components/NavBarStatic";
 import { notFound } from "next/navigation";
-import VehicleDetailsSkeleton from "@/components/skeletons/VehicleDetailsSkeleton";
+import DetailsSkeleton from "@/components/skeletons/DetailsSkeleton";
 
 async function VehicleData({ id }: { id: string }) {
   const vehicle = await getVehicleById(id);
@@ -23,7 +23,7 @@ export default async function VehiclePage({ params }: any) {
     <main className="max-w-[1920px] bg-white mx-auto overflow-hidden">
       <NavBarStatic />
       <Breadcrumb path={`Véhicules / ${shortId}`} page="Détails Véhicule" />
-      <Suspense fallback={<VehicleDetailsSkeleton />}>
+      <Suspense fallback={<DetailsSkeleton />}>
         <VehicleData id={ id} />
       </Suspense>
     </main>

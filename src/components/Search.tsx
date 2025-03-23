@@ -5,6 +5,7 @@ import DateSelection from "./DateSelection";
 import HourSelection from "./HourSelection";
 import { useRouter } from "next/navigation";
 import TypeServiceSelection from "./TypeServiceSelection";
+import SaleOrRentSelection from "./SaleOrRentSelection";
 
 function Search() {
   const { searchActive } = useContext(SearchContext);
@@ -22,7 +23,7 @@ function Search() {
     >
       <div className={`flex h-full ${searchActive && "container mx-auto"} `}>
         <LocationSelection />
-        <DateSelection />
+        <SaleOrRentSelection />
         {/* <HourSelection /> */}
         <TypeServiceSelection />
 

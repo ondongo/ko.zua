@@ -416,3 +416,64 @@
 .slider-button:not(.slider-button-disabled):hover .slider-svg-line {
 	transform: translate(35px, 42px) scaleX(0.5);
 }
+
+
+
+
+/************************************************************/
+/*           Loader Vehicle And Immo Css                */
+/***********************************************************/
+
+.loaderProduct {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  margin: 90px auto;  
+  animation: spin 2s ease-in-out infinite;
+}
+
+.bubble-1{
+  position: absolute;
+  top: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  background-color: #111828;
+}
+.bubble-2 {
+  position: absolute;
+  top: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  background-color: #eeba2b;
+}
+
+.bubble-2 {
+  top: auto;
+  bottom: 0;
+}
+
+.bubble-1, .bubble-2 {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.bubble-2 {
+  animation-delay: -1.0s;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate( 360deg );
+  }
+}
+
+@keyframes bounce  {
+  0%, 100% {
+    transform: scale( 0.0 );
+  }
+  
+  50% {
+    transform: scale( 1.0 );
+  }
+}

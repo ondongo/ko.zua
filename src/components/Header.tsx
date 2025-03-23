@@ -72,7 +72,7 @@ function Header() {
             spy={true}
             className="cursot-pointer"
           >
-            <div className=" relative  w-[110px] h-[80px] overflow-hidden">
+            <div className="relative  w-[110px] h-[80px] overflow-hidden ">
               <Image
                 src="/Kozua v3.png"
                 alt="logo"
