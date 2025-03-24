@@ -1,9 +1,9 @@
 "use client";
 
 import { useSidebar } from "@/context/SidebarContext";
-import AppHeader from "@/layout/AppHeader";
-import AppSidebar from "@/layout/AppSidebar";
-import Backdrop from "@/layout/Backdrop";
+import HeaderAdmin from "@/components/admin/layout/HeaderAdmin";
+import AppSidebar from "@/components/admin/layout/AppSidebar";
+
 import React from "react";
 export default function ContainerAdmin({ children }: any) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
@@ -16,19 +16,22 @@ export default function ContainerAdmin({ children }: any) {
     : "lg:ml-[90px]";
 
   return (
-    <>
-      {/* Sidebar and Backdrop */}
+    <div className="flex h-screen">
+      {/* Sidebar (Fixe à gauche) */}
       <AppSidebar />
-      <Backdrop />
-      {/* Main Content Area */}
+
+     
       <div
-        className={`flex-1 transition-all  duration-300 ease-in-out ${mainContentMargin}`}
+        className={`flex-1 transition-all flex-col duration-300 ease-in-out ${mainContentMargin}`}
       >
-        {/* Header */}
-        <AppHeader />
-        {/* Page Content */}
-        <div className="p-4 mx-auto max-w-[1536px] md:p-6">{children}</div>
+     
+        <HeaderAdmin />
+
+        {/* Contenu de la page */}
+        <main className="flex-1 overflow-auto p-4  bg-gray-100">
+          {children}
+        </main>
       </div>
-    </>
+    </div>
   );
 }

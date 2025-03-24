@@ -30,13 +30,7 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
-  },
-
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
+    path: "/",
   },
 
   {
@@ -69,7 +63,7 @@ const othersItems: NavItem[] = [
   },
 ];
 
-const AppSidebar: React.FC = () => {
+function AppSidebar() {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
 
@@ -268,12 +262,12 @@ const AppSidebar: React.FC = () => {
   }, []);
   return (
     <div
-      className={`fixed flex flex-col top-0 px-5 left-0 bg-red-500 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed top-0 left-0 flex flex-col px-5  text-gray-900 h-screen transition-all duration-300 ease-in-out z-20 border-r border-gray-200 
         ${
           isExpanded || isMobileOpen
-            ? "w-[290px]"
+            ? "w-[240px]"
             : isHovered
-            ? "w-[290px]"
+            ? "w-[240px]"
             : "w-[90px]"
         }
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
