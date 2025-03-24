@@ -9,6 +9,12 @@ import Select from "@/components/ui/form/Select";
 import Switch from "@/components/ui/form/switch/Switch";
 
 import { useState } from "react";
+const steps = [
+  "Informations générales",
+  "Détails du véhicule",
+  "Caractéristiques & Images",
+  "Validation des informations"
+];
 
 export default function AddVehicle() {
   const [formData, setFormData] = useState({
@@ -32,8 +38,10 @@ export default function AddVehicle() {
     location: "",
     images: [],
   });
-
-  const [selectedValues, setSelectedValues] = useState([]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const nextStep = () =>
+    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
 
   const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target;
@@ -67,18 +75,51 @@ export default function AddVehicle() {
     { value: "Hybride", label: "Hybride" },
   ];
 
-  const multiOptions = [
-    { value: "1", text: "Option 1", selected: false },
-    { value: "2", text: "Option 2", selected: false },
-    { value: "3", text: "Option 3", selected: false },
-    { value: "4", text: "Option 4", selected: false },
-    { value: "5", text: "Option 5", selected: false },
-  ];
 
   return (
-    <div>
+    <div className="lg:mx-10">
       <PageBreadcrumb pageTitle="Ajouter un Véhicule" />
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+
+      <div className="flex items-center justify-center w-full py-6">
+        {steps.map((step, index) => (
+          <div key={index} className="relative flex flex-1 items-center">
+            {/* Ligne de progression */}
+            {index !== 0 && (
+              <div
+                className={`absolute top-[28px] -left-[70%] w-full h-1 z-10  transition-all ${
+                  currentStep >= index ? "bg-yellowkouzua" : "bg-gray-300"
+                }`}
+              />
+            )}
+
+            {/* Étape */}
+            <div className="flex flex-col items-center z-30 
+            px-2">
+              <div
+                className={`w-14 h-14 flex items-center justify-center border rounded-full  bg-white text-sm font-medium 
+                ${
+                  currentStep >= index
+                    ? "border-yellowkouzua text-yellowkouzua"
+                    : "border-gray-300 text-gray-400"
+                }`}
+              >
+                {index + 1}
+              </div>
+              <span
+                className={`mt-2 text-sm ${
+                  currentStep >= index
+                    ? "text-yellowkouzua font-medium"
+                    : "text-gray-400"
+                }`}
+              >
+                {step}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {currentStep === 0 && (
         <Section title="Informations générales">
           <Label>Nom du véhicule</Label>
           <Input
@@ -112,7 +153,9 @@ export default function AddVehicle() {
             onChange={handleChange}
           />
         </Section>
+      )}
 
+      {currentStep === 1 && (
         <Section title="Détails du véhicule">
           <Label>Marque</Label>
           <Input
@@ -152,7 +195,9 @@ export default function AddVehicle() {
             onChange={handleChange}
           />
         </Section>
+      )}
 
+      {currentStep === 2 && (
         <Section title="Caractéristiques & Images">
           <Label>Carburant</Label>
           <Select
@@ -186,10 +231,21 @@ export default function AddVehicle() {
           />
           <DropzoneComponent />
         </Section>
-      </div>
-      <div className="flex justify-end mt-6">
-        <button className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition">
-          Ajouter le véhicule
+      )}
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={prevStep}
+          disabled={currentStep === 0}
+          className="px-4 py-2 border rounded-md"
+        >
+          Précédent
+        </button>
+        <button
+          onClick={nextStep}
+          disabled={currentStep === steps.length - 1}
+          className="px-4 py-2 bg-blue-600 text-white rounded-md"
+        >
+          Suivant
         </button>
       </div>
     </div>
