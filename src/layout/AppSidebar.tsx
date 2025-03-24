@@ -268,7 +268,7 @@ const AppSidebar: React.FC = () => {
   }, []);
   return (
     <div
-      className={`fixed flex flex-col top-0 px-5 left-0 bg-white  text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed flex flex-col top-0 px-5 left-0 bg-red-500 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"

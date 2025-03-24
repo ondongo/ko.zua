@@ -1,8 +1,6 @@
-
-
 import { SidebarProvider } from "@/context/SidebarContext";
-import "./admin-style.css";
-
+import "./admin.css";
+import ContainerAdmin from "@/components/container/ContainerAdmin";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -10,8 +8,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <SidebarProvider>{children}</SidebarProvider>
+      <body className="min-h-screen overflow-visible">
+        <SidebarProvider>
+          <ContainerAdmin> {children} </ContainerAdmin>
+        </SidebarProvider>
       </body>
     </html>
   );

@@ -5,12 +5,7 @@ import AppHeader from "@/layout/AppHeader";
 import AppSidebar from "@/layout/AppSidebar";
 import Backdrop from "@/layout/Backdrop";
 import React from "react";
-
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ContainerAdmin({ children }: any) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
   // Dynamic class for main content margin based on sidebar state
@@ -21,7 +16,7 @@ export default function AdminLayout({
     : "lg:ml-[90px]";
 
   return (
-    <div className="min-h-screen xl:flex">
+    <>
       {/* Sidebar and Backdrop */}
       <AppSidebar />
       <Backdrop />
@@ -34,6 +29,6 @@ export default function AdminLayout({
         {/* Page Content */}
         <div className="p-4 mx-auto max-w-[1536px] md:p-6">{children}</div>
       </div>
-    </div>
+    </>
   );
 }
