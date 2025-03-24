@@ -3,112 +3,109 @@
 @tailwind components;
 @tailwind utilities;
 
+.menu-item {
+  @apply relative flex items-center w-full gap-3 px-3 py-2 font-medium rounded-lg text-sm;
+}
 
-@layer base {
-  .menu-item {
-    @apply relative flex items-center w-full gap-3 px-3 py-2 font-medium rounded-lg text-sm;
-  }
+.menu-item-active {
+  @apply bg-brand-50 text-brand-500;
+}
 
-  .menu-item-active {
-    @apply bg-brand-50 text-brand-500;
-  }
+.menu-item-inactive {
+  @apply text-gray-700 hover:text-gray-500 group-hover:text-gray-500;
+}
 
-  .menu-item-inactive {
-    @apply text-gray-700 hover:text-gray-500 group-hover:text-gray-500 ;
-  }
+.menu-item-icon {
+  @apply text-gray-700 hover:text-gray-500  group-hover:text-gray-500;
+}
 
-  .menu-item-icon {
-    @apply text-gray-700 hover:text-gray-500  group-hover:text-gray-500;
-  }
+.menu-item-icon-active {
+  @apply text-brand-500;
+}
 
-  .menu-item-icon-active {
-    @apply text-brand-500 ;
-  }
+.menu-item-icon-inactive {
+  @apply text-gray-700 group-hover:text-gray-500;
+}
 
-  .menu-item-icon-inactive {
-    @apply text-gray-700 group-hover:text-gray-500 ;
-  }
+.menu-item-arrow {
+  @apply relative;
+}
 
-  .menu-item-arrow {
-    @apply relative;
-  }
+.menu-item-arrow-active {
+  @apply rotate-180 text-brand-500;
+}
 
-  .menu-item-arrow-active {
-    @apply rotate-180 text-brand-500 ;
-  }
+.menu-item-arrow-inactive {
+  @apply text-gray-500 group-hover:text-gray-700;
+}
 
-  .menu-item-arrow-inactive {
-    @apply text-gray-500 group-hover:text-gray-700;
-  }
+.menu-dropdown-item {
+  @apply relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium;
+}
 
-  .menu-dropdown-item {
-    @apply relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium;
-  }
+.menu-dropdown-item-active {
+  @apply bg-brand-50 text-brand-500;
+}
 
-  .menu-dropdown-item-active {
-    @apply bg-brand-50 text-brand-500  ;
-  }
+.menu-dropdown-item-inactive {
+  @apply text-gray-700 hover:bg-gray-100;
+}
 
-  .menu-dropdown-item-inactive {
-    @apply text-gray-700 hover:bg-gray-100;
-  }
+.menu-dropdown-badge {
+  @apply block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-brand-500;
+}
 
-  .menu-dropdown-badge {
-    @apply block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase text-brand-500;
-  }
+.menu-dropdown-badge-active {
+  @apply bg-brand-100;
+}
 
-  .menu-dropdown-badge-active {
-    @apply bg-brand-100 ;
-  }
+.menu-dropdown-badge-inactive {
+  @apply bg-brand-50 group-hover:bg-brand-100;
+}
 
-  .menu-dropdown-badge-inactive {
-    @apply bg-brand-50 group-hover:bg-brand-100 ;
+.no-scrollbar {
+  /* Chrome, Safari et Opera */
+  &::-webkit-scrollbar {
+    display: none;
   }
+  -ms-overflow-style: none; /* IE et Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
-  .no-scrollbar {
-    /* Chrome, Safari et Opera */
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    -ms-overflow-style: none; /* IE et Edge */
-    scrollbar-width: none; /* Firefox */
-  }
+.custom-scrollbar::-webkit-scrollbar {
+  @apply size-1.5;
+}
 
-  .custom-scrollbar::-webkit-scrollbar {
-    @apply size-1.5;
-  }
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply rounded-full;
+}
 
-  .custom-scrollbar::-webkit-scrollbar-track {
-    @apply rounded-full;
-  }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 rounded-full;
+}
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-200 rounded-full ;
-  }
-
-  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #344054;
-  }
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #344054;
 }
 
 /* third-party libraries CSS */
 .apexcharts-legend-text {
-  @apply text-gray-700 ;
+  @apply text-gray-700;
 }
 
 .apexcharts-text {
-  @apply fill-gray-700 ;
+  @apply fill-gray-700;
 }
 
 .apexcharts-tooltip.apexcharts-theme-light {
-  @apply gap-1 rounded-lg border-gray-200 p-3  shadow-sm ;
+  @apply gap-1 rounded-lg border-gray-200 p-3  shadow-sm;
 }
 
 .apexcharts-tooltip-marker {
   @apply mr-1.5 h-1.5 w-1.5;
 }
 .apexcharts-legend-text {
-  @apply pl-5 text-gray-700 ;
+  @apply pl-5 text-gray-700;
 }
 .apexcharts-tooltip-series-group {
   @apply p-0;
@@ -120,14 +117,14 @@
   @apply mb-0 border-b-0 bg-transparent p-0  text-[10px]  leading-4  text-gray-800;
 }
 .apexcharts-tooltip-text {
-  @apply text-xs  text-gray-700  ;
+  @apply text-xs  text-gray-700;
 }
 .apexcharts-tooltip-text-y-value {
   @apply font-medium;
 }
 
 .apexcharts-gridline {
-  @apply stroke-gray-100 ;
+  @apply stroke-gray-100;
 }
 
 .fc .fc-view-harness {
@@ -150,7 +147,7 @@
   @apply gap-2;
 }
 .fc-button-group .fc-button {
-  @apply flex h-10 w-10 items-center justify-center rounded-lg  border border-gray-200 bg-transparent hover:border-gray-200 hover:bg-gray-50 focus:shadow-none active:border-gray-200  active:bg-transparent  active:shadow-none  ;
+  @apply flex h-10 w-10 items-center justify-center rounded-lg  border border-gray-200 bg-transparent hover:border-gray-200 hover:bg-gray-50 focus:shadow-none active:border-gray-200  active:bg-transparent  active:shadow-none;
 }
 
 .fc-button-group .fc-button.fc-prev-button:before {
@@ -174,25 +171,25 @@
   @apply rounded-lg  border-0  bg-brand-500  px-4  py-2.5  text-sm  font-medium  hover:bg-brand-600  focus:shadow-none;
 }
 .fc-toolbar-title {
-  @apply text-lg  font-medium  text-gray-800 ;
+  @apply text-lg  font-medium  text-gray-800;
 }
 .fc-header-toolbar.fc-toolbar .fc-toolbar-chunk:last-child {
-  @apply rounded-lg bg-gray-100 p-0.5 ;
+  @apply rounded-lg bg-gray-100 p-0.5;
 }
 .fc-header-toolbar.fc-toolbar .fc-toolbar-chunk:last-child .fc-button {
-  @apply h-auto  w-auto  rounded-md border-0  bg-transparent px-5  py-2  text-sm font-medium text-gray-500 focus:shadow-none ;
+  @apply h-auto  w-auto  rounded-md border-0  bg-transparent px-5  py-2  text-sm font-medium text-gray-500 focus:shadow-none;
 }
 .fc-header-toolbar.fc-toolbar
   .fc-toolbar-chunk:last-child
   .fc-button.fc-button-active {
-  @apply text-gray-900 bg-white  ;
+  @apply text-gray-900 bg-white;
 }
 .fc-theme-standard th {
   @apply border-x-0  border-t border-gray-200  bg-gray-50 text-left;
 }
 .fc-theme-standard td,
 .fc-theme-standard .fc-scrollgrid {
-  @apply border-gray-200  ;
+  @apply border-gray-200;
 }
 .fc .fc-col-header-cell-cushion {
   @apply px-5  py-4  text-sm font-medium uppercase text-gray-400;
@@ -207,7 +204,7 @@
   @apply rounded-sm bg-gray-100;
 }
 .fc .fc-daygrid-day-number {
-  @apply p-3  text-sm font-medium text-gray-700 ;
+  @apply p-3  text-sm font-medium text-gray-700;
 }
 .fc .fc-daygrid-day-top {
   @apply flex-row;
@@ -290,7 +287,7 @@
 
 .stocks-slider-outer .swiper-button-next.swiper-button-disabled,
 .stocks-slider-outer .swiper-button-prev.swiper-button-disabled {
-  @apply bg-white opacity-50 ;
+  @apply bg-white opacity-50;
 }
 
 .stocks-slider-outer .swiper-button-next svg,
@@ -348,13 +345,13 @@
 }
 
 .jvectormap-container {
-  @apply bg-gray-50    ;
+  @apply bg-gray-50;
 }
 .jvectormap-region.jvectormap-element {
-  @apply fill-gray-300  hover:fill-brand-500 ;
+  @apply fill-gray-300  hover:fill-brand-500;
 }
 .jvectormap-marker.jvectormap-element {
-  @apply stroke-gray-200  ;
+  @apply stroke-gray-200;
 }
 .jvectormap-tip {
   @apply bg-brand-500  border-none  px-2  py-1;
@@ -375,7 +372,7 @@
   @apply text-gray-400 line-through;
 }
 .taskCheckbox:checked ~ .box {
-  @apply border-brand-500 bg-brand-500 ;
+  @apply border-brand-500 bg-brand-500;
 }
 
 .task {
