@@ -47,7 +47,7 @@ export default function ModalBasedAlerts() {
         <div className="text-center">
           <div className="relative flex items-center justify-center z-1 mb-7">
             <svg
-              className="fill-success-50 dark:fill-success-500/15"
+              className="fill-success-50"
               width="90"
               height="90"
               viewBox="0 0 90 90"
@@ -63,7 +63,7 @@ export default function ModalBasedAlerts() {
 
             <span className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
               <svg
-                className="fill-success-600 dark:fill-success-500"
+                className="fill-success-600"
                 width="38"
                 height="38"
                 viewBox="0 0 38 38"
@@ -106,7 +106,7 @@ export default function ModalBasedAlerts() {
         <div className="text-center">
           <div className="relative flex items-center justify-center z-1 mb-7">
             <svg
-              className="fill-blue-light-50 dark:fill-blue-light-500/15"
+              className="fill-blue-light-50"
               width="90"
               height="90"
               viewBox="0 0 90 90"
@@ -122,7 +122,7 @@ export default function ModalBasedAlerts() {
 
             <span className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
               <svg
-                className="fill-blue-light-500 dark:fill-blue-light-500"
+                className="fill-blue-light-500 "
                 width="38"
                 height="38"
                 viewBox="0 0 38 38"
@@ -166,7 +166,7 @@ export default function ModalBasedAlerts() {
         <div className="text-center">
           <div className="relative flex items-center justify-center z-1 mb-7">
             <svg
-              className="fill-warning-50 dark:fill-warning-500/15"
+              className="fill-warning-50 "
               width="90"
               height="90"
               viewBox="0 0 90 90"
@@ -182,7 +182,7 @@ export default function ModalBasedAlerts() {
 
             <span className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
               <svg
-                className="fill-warning-600 dark:fill-orange-400"
+                className="fill-warning-600"
                 width="38"
                 height="38"
                 viewBox="0 0 38 38"

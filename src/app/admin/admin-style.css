@@ -17,7 +17,7 @@
     cursor: pointer;
   }
   body {
-    @apply relative font-normal font-montserrat z-1 bg-gray-50;
+    @apply relative font-normal font-montserrat bg-gray-50;
   }
 }
 
@@ -31,11 +31,11 @@
   }
 
   .menu-item-inactive {
-    @apply text-gray-700 hover:text-gray-100 group-hover:text-gray-700 ;
+    @apply text-gray-700 hover:text-gray-500 group-hover:text-gray-500 ;
   }
 
   .menu-item-icon {
-    @apply text-gray-500 group-hover:text-gray-700;
+    @apply text-gray-700 hover:text-gray-500  group-hover:text-gray-500;
   }
 
   .menu-item-icon-active {
@@ -43,7 +43,7 @@
   }
 
   .menu-item-icon-inactive {
-    @apply text-gray-500 group-hover:text-gray-700   dark:group-hover:text-gray-300;
+    @apply text-gray-700 group-hover:text-gray-500 ;
   }
 
   .menu-item-arrow {
@@ -51,7 +51,7 @@
   }
 
   .menu-item-arrow-active {
-    @apply rotate-180 text-brand-500 dark:text-brand-400;
+    @apply rotate-180 text-brand-500 ;
   }
 
   .menu-item-arrow-inactive {
@@ -100,7 +100,7 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-200 rounded-full dark:bg-gray-700;
+    @apply bg-gray-200 rounded-full ;
   }
 
   .dark .custom-scrollbar::-webkit-scrollbar-thumb {
@@ -361,7 +361,7 @@
 
 .carouselThree .swiper-pagination-bullet-active,
 .carouselFour .swiper-pagination-bullet-active {
-  @apply w-6.5 rounded-xl;
+  @apply w-6 rounded-xl;
 }
 
 .jvectormap-container {

@@ -1,13 +1,7 @@
-import { Outfit } from "next/font/google";
-import "./admin-style.css";
+
 
 import { SidebarProvider } from "@/context/SidebarContext";
-import { ThemeProvider } from "@/context/ThemeContext";
-
-const outfit = Outfit({
-  variable: "--font-outfit-sans",
-  subsets: ["latin"],
-});
+import "./admin-style.css";
 
 export default function RootLayout({
   children,
@@ -16,7 +10,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable}`}>
+      <body>
         <SidebarProvider>{children}</SidebarProvider>
       </body>
     </html>

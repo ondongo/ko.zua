@@ -32,15 +32,15 @@ const Switch: React.FC<SwitchProps> = ({
       ? {
           background: isChecked
             ? "bg-brand-500 "
-            : "bg-gray-200 dark:bg-white/10", // Blue version
+            : "bg-gray-200", // Blue version
           knob: isChecked
             ? "translate-x-full bg-white"
             : "translate-x-0 bg-white",
         }
       : {
           background: isChecked
-            ? "bg-gray-800 dark:bg-white/10"
-            : "bg-gray-200 dark:bg-white/10", // Gray version
+            ? "bg-gray-800 "
+            : "bg-gray-200", // Gray version
           knob: isChecked
             ? "translate-x-full bg-white"
             : "translate-x-0 bg-white",

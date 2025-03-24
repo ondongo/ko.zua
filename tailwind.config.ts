@@ -13,49 +13,22 @@ export default {
         DEFAULT: "15px",
       },
     },
-    screens: {
-      sm: "640px",
-      md: "768px",
-      lg: "1024px",
-      xl: "1280px",
-    },
+
     extend: {
-      zIndex: {
-        1: "1",
-      },
-      spacing: {
-        '6.5': '1.625rem', // 6.5 * 4px = 26px
-        '7.5': '1.875rem', // 7.5 * 4px = 30px
-        '8.5': '2.125rem', // 8.5 * 4px = 34px
-      },
-      boxShadow: {
-        "theme-sm":
-          "0px 1px 3px 0px rgba(16, 24, 40, 0.1), 0px 1px 2px 0px rgba(16, 24, 40, 0.06)",
-        "theme-xs": "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
-        "theme-md":
-          "0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06)",
-        "theme-lg":
-          "0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)",
-        "theme-xl":
-          "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
-        datepicker: "-5px 0 0 #262d3c, 5px 0 0 #262d3c",
-        "focus-ring": "0px 0px 0px 4px rgba(70, 95, 255, 0.12)",
-        "slider-navigation":
-          "0px 1px 2px 0px rgba(16, 24, 40, 0.1), 0px 1px 3px 0px rgba(16, 24, 40, 0.1)",
-        tooltip:
-          "0px 4px 6px -2px rgba(16, 24, 40, 0.05), -8px 0px 20px 8px rgba(16, 24, 40, 0.05)",
-        "drop-shadow-4xl":
-          "0 35px 35px rgba(0, 0, 0, 0.25), 0 45px 65px rgba(0, 0, 0, 0.15)",
-      },
       screens: {
         "2xsm": "375px",
         xsm: "425px",
-        sm: "640px",
-        md: "768px",
-        lg: "1024px",
-        xl: "1280px",
-        "2xl": "1536px",
         "3xl": "2000px",
+      },
+      fontSize: {
+        "title-2xl": ["72px", { lineHeight: "90px" }],
+        "title-xl": ["60px", { lineHeight: "72px" }],
+        "title-lg": ["48px", { lineHeight: "60px" }],
+        "title-md": ["36px", { lineHeight: "44px" }],
+        "title-sm": ["30px", { lineHeight: "38px" }],
+        "theme-xl": ["20px", { lineHeight: "30px" }],
+        "theme-sm": ["14px", { lineHeight: "20px" }],
+        "theme-xs": ["12px", { lineHeight: "18px" }],
       },
       colors: {
         brand: {
@@ -72,6 +45,20 @@ export default {
           900: "#262e89",
           950: "#161950",
         },
+        "blue-light": {
+          25: "#f5fbff",
+          50: "#f0f9ff",
+          100: "#e0f2fe",
+          200: "#b9e6fe",
+          300: "#7cd4fd",
+          400: "#36bffa",
+          500: "#0ba5ec",
+          600: "#0086c9",
+          700: "#026aa2",
+          800: "#065986",
+          900: "#0b4a6f",
+          950: "#062c41",
+        },
         gray: {
           25: "#fcfcfd",
           50: "#f9fafb",
@@ -85,6 +72,21 @@ export default {
           800: "#1d2939",
           900: "#101828",
           950: "#0c111d",
+          dark: "#1a2231",
+        },
+        orange: {
+          25: "#fffaf5",
+          50: "#fff6ed",
+          100: "#ffead5",
+          200: "#fddcab",
+          300: "#feb273",
+          400: "#fd853a",
+          500: "#fb6514",
+          600: "#ec4a0a",
+          700: "#c4320a",
+          800: "#9c2a10",
+          900: "#7e2410",
+          950: "#511c10",
         },
         success: {
           25: "#f6fef9",
@@ -138,6 +140,25 @@ export default {
 
         yellowkouzua: "#D79B25",
         "yellowkouzua-dark": "#C4871F",
+      },
+      boxShadow: {
+        "theme-md":
+          "0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06)",
+        "theme-lg":
+          "0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03)",
+        "theme-sm":
+          "0px 1px 3px 0px rgba(16, 24, 40, 0.1), 0px 1px 2px 0px rgba(16, 24, 40, 0.06)",
+        "theme-xs": "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
+        "theme-xl":
+          "0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03)",
+        datepicker: "-5px 0 0 #262d3c, 5px 0 0 #262d3c",
+        "focus-ring": "0px 0px 0px 4px rgba(70, 95, 255, 0.12)",
+        "slider-navigation":
+          "0px 1px 2px 0px rgba(16, 24, 40, 0.1), 0px 1px 3px 0px rgba(16, 24, 40, 0.1)",
+        tooltip:
+          "0px 4px 6px -2px rgba(16, 24, 40, 0.05), -8px 0px 20px 8px rgba(16, 24, 40, 0.05)",
+        "drop-shadow-4xl":
+          "0 35px 35px rgba(0, 0, 0, 0.25), 0 45px 65px rgba(0, 0, 0, 0.15)",
       },
       animation: {
         "animate-25s": "animate 25s linear infinite",

@@ -32,7 +32,7 @@ export default function MonthlyTarget() {
           size: "80%",
         },
         track: {
-          background: "#E4E7EC",
+          background: "currentColor",
           strokeWidth: "100%",
           margin: 5, // margin is in pixels
         },

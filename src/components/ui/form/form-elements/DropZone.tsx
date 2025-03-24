@@ -20,14 +20,14 @@ const DropzoneComponent: React.FC = () => {
   });
   return (
     <ComponentCard title="Dropzone">
-      <div className="transition border border-gray-300 border-dashed cursor-pointer dark:hover:border-brand-500 dark:border-gray-700 rounded-xl hover:border-brand-500">
+      <div className="transition border border-gray-300 border-dashed cursor-pointer dark:hover:border-brand-500 rounded-xl hover:border-brand-500">
         <form
           {...getRootProps()}
           className={`dropzone rounded-xl   border-dashed border-gray-300 p-7 lg:p-10
         ${
           isDragActive
             ? "border-brand-500 bg-gray-100 "
-            : "border-gray-300 bg-gray-50 dark:border-gray-700   "
+            : "border-gray-300 bg-gray-50 "
         }
       `}
           id="demo-upload"
@@ -56,7 +56,7 @@ const DropzoneComponent: React.FC = () => {
             </div>
 
             {/* Text Content */}
-            <h4 className="mb-3 font-semibold text-gray-800 text-theme-xl   ">
+            <h4 className="mb-3 font-semibold text-gray-800 text-xl   ">
               {isDragActive ? "Drop Files Here" : "Drag & Drop Files Here"}
             </h4>
 

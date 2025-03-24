@@ -1,13 +1,23 @@
 "use client";
-import React, { useEffect, useRef, useState,useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
-
 import { useSidebar } from "@/context/SidebarContext";
-import { GridIcon, CalenderIcon, UserCircleIcon, ListIcon, TableIcon, PageIcon, PieChartIcon, BoxCubeIcon, PlugInIcon, ChevronDownIcon, HorizontaLDots } from "@/icons";
-
+import {
+  GridIcon,
+  CalenderIcon,
+  UserCircleIcon,
+  ListIcon,
+  TableIcon,
+  PageIcon,
+  PieChartIcon,
+  BoxCubeIcon,
+  PlugInIcon,
+  ChevronDownIcon,
+  HorizontaLDots,
+} from "@/icons";
 
 type NavItem = {
   name: string;
@@ -22,11 +32,7 @@ const navItems: NavItem[] = [
     name: "Dashboard",
     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
   },
-  {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
-  },
+
   {
     icon: <UserCircleIcon />,
     name: "User Profile",
@@ -34,46 +40,25 @@ const navItems: NavItem[] = [
   },
 
   {
-    name: "Forms",
+    name: "Resevations",
     icon: <ListIcon />,
     subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
   },
+
   {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
+    name: "Véhicules",
+    icon: <ListIcon />,
+    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
   },
+
   {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
+    name: "Immobiliers",
+    icon: <ListIcon />,
+    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
   },
 ];
 
 const othersItems: NavItem[] = [
-  {
-    icon: <PieChartIcon />,
-    name: "Charts",
-    subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
-    ],
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "UI Elements",
-    subItems: [
-      { name: "Alerts", path: "/alerts", pro: false },
-      { name: "Avatar", path: "/avatars", pro: false },
-      { name: "Badge", path: "/badge", pro: false },
-      { name: "Buttons", path: "/buttons", pro: false },
-      { name: "Images", path: "/images", pro: false },
-      { name: "Videos", path: "/videos", pro: false },
-    ],
-  },
   {
     icon: <PlugInIcon />,
     name: "Authentication",
@@ -104,8 +89,8 @@ const AppSidebar: React.FC = () => {
                   : "menu-item-inactive"
               } cursor-pointer ${
                 !isExpanded && !isHovered
-                  ? "lg:justify-center"
-                  : "lg:justify-start"
+                  ? "xl:justify-center"
+                  : "xl:justify-start"
               }`}
             >
               <span
@@ -224,7 +209,7 @@ const AppSidebar: React.FC = () => {
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // const isActive = (path: string) => path === pathname;
-   const isActive = useCallback((path: string) => path === pathname, [pathname]);
+  const isActive = useCallback((path: string) => path === pathname, [pathname]);
 
   useEffect(() => {
     // Check if the current path matches any submenu item
@@ -250,7 +235,7 @@ const AppSidebar: React.FC = () => {
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [pathname,isActive]);
+  }, [pathname, isActive]);
 
   useEffect(() => {
     // Set the height of the submenu items when the submenu is opened
@@ -278,9 +263,12 @@ const AppSidebar: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    console.log("Largeur écran détectée :", window.innerWidth);
+  }, []);
   return (
-    <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white  text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+    <div
+      className={`fixed flex flex-col top-0 px-5 left-0 bg-white  text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"
@@ -289,40 +277,36 @@ const AppSidebar: React.FC = () => {
             : "w-[90px]"
         }
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
-        lg:translate-x-0`}
+        xl:translate-x-0  mt-16 xl:mt-0`}
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
         className={`py-8 flex  ${
-          !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+          !isExpanded && !isHovered ? "xl:justify-center" : "justify-start"
         }`}
       >
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
-              <Image
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-              <Image
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
+              <div className="relative w-[110px] h-[80px] overflow-hidden ">
+                <Image
+                  src="/Kozua v3.png"
+                  alt="logo"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
             </>
           ) : (
-            <Image
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
+            <div className="relative w-[80px] h-[60px] overflow-hidden ">
+              <Image
+                src="/Kozua v3.png"
+                alt="logo"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
           )}
         </Link>
       </div>
@@ -333,7 +317,7 @@ const AppSidebar: React.FC = () => {
               <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
-                    ? "lg:justify-center"
+                    ? "xl:justify-center"
                     : "justify-start"
                 }`}
               >
@@ -350,7 +334,7 @@ const AppSidebar: React.FC = () => {
               <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
-                    ? "lg:justify-center"
+                    ? "xl:justify-center"
                     : "justify-start"
                 }`}
               >
@@ -364,9 +348,8 @@ const AppSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
-      
       </div>
-    </aside>
+    </div>
   );
 };
 
