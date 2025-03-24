@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import { getVehicleById } from "@/actions/vehicles";
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@/components/landing/Breadcrumb";
 import VehicleDetails from "@/components/container/ContainerVehicleDetails";
 
-import NavBarStatic from "@/components/NavBarStatic";
+import NavBarStatic from "@/components/landing/NavBarStatic";
 import { notFound } from "next/navigation";
 import DetailsSkeleton from "@/components/skeletons/DetailsSkeleton";
 

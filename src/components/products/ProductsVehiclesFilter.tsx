@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import RangeSlider from "../RangeSlider";
+import RangeSlider from "../landing/RangeSlider";
 import { FaCalendarAlt, FaStar } from "react-icons/fa";
 
 interface ProductsFilterProps {

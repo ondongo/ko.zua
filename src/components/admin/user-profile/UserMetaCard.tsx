@@ -35,7 +35,7 @@ export default function UserMetaCard() {
                 <p className="text-sm text-gray-500  ">
                   Team Manager
                 </p>
-                <div className="hidden h-3.5 w-px bg-gray-300 dark:bg-gray-700 xl:block"></div>
+                <div className="hidden h-3.5 w-px bg-gray-300  xl:block"></div>
                 <p className="text-sm text-gray-500  ">
                   Arizona, United States
                 </p>
@@ -46,7 +46,7 @@ export default function UserMetaCard() {
                 target="_blank"
                 rel="noreferrer"
                 href="https://www.facebook.com/PimjoHQ"
-                className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700    dark:hover:bg-white/[0.03] "
+                className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800"
               >
                 <svg
                   className="fill-current"
@@ -67,7 +67,7 @@ export default function UserMetaCard() {
                 href="https://x.com/PimjoHQ"
                 target="_blank"
                 rel="noreferrer"
-                className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700    dark:hover:bg-white/[0.03] "
+                className="flex h-11 w-11 items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 "
               >
                 <svg
                   className="fill-current"

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import React from "react";
-import DemographicCard from "@/components/metrics/DemographicCard";
-import MonthlySalesChart from "@/components/metrics/MonthlySalesChart";
-import MonthlyTarget from "@/components/metrics/MonthlyTarget";
-import { SimpleMetrics } from "@/components/metrics/SimpleMetrics";
-import StatisticsChart from "@/components/metrics/StatisticsChart";
-import RecentReservations from "@/components/metrics/RecentReservations";
+import DemographicCard from "@/components/admin/metrics/DemographicCard";
+import MonthlySalesChart from "@/components/admin/metrics/MonthlySalesChart";
+import MonthlyTarget from "@/components/admin/metrics/MonthlyTarget";
+import { SimpleMetrics } from "@/components/admin/metrics/SimpleMetrics";
+import StatisticsChart from "@/components/admin/metrics/StatisticsChart";
+import RecentReservations from "@/components/admin/metrics/RecentReservations";
 
 export const metadata: Metadata = {
   title:

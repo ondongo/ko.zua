@@ -9,7 +9,7 @@ import {
 } from "react-icons/md";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../variant";
+import { fadeIn } from "../../../variant";
 
 function About() {
   const { ref, inView } = useInView({

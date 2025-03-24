@@ -6,7 +6,7 @@ import Search from "./Search";
 import { SearchContext } from "@/context/SearchContext";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../variant";
+import { fadeIn } from "../../../variant";
 import { useRouter } from "next/navigation";
 import CustomSwiper from "./CustomSwiper";
 

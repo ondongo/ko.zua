@@ -1,6 +1,6 @@
-import Breadcrumb from "@/components/Breadcrumb";
+import Breadcrumb from "@/components/landing/Breadcrumb";
 import ContainerRealEstate from "@/components/container/ContainerRealEstate";
-import NavBarStatic from "@/components/NavBarStatic";
+import NavBarStatic from "@/components/landing/NavBarStatic";
 import { Suspense } from "react";
 
 function page() {

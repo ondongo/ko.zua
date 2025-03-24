@@ -5,7 +5,7 @@ import Image from "next/image";
 import "swiper/css";
 import { FaStar } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../variant";
+import { fadeIn } from "../../../variant";
 
 interface ImmoInfo {
   icon: string;

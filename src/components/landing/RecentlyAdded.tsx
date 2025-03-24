@@ -2,7 +2,7 @@
 import React from "react";
 import CarSlider from "./CarSlider";
 import { motion } from "framer-motion";
-import { fadeIn } from "../../variant";
+import { fadeIn } from "../../../variant";
 import { Tab } from "@headlessui/react";
 import classNames from "classnames";
 import ImmoSlider from "./ImmoSlider";

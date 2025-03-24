@@ -5,7 +5,7 @@ import { Link } from "react-scroll";
 import SearchMobile from "./SearchMobile";
 import { useMediaQuery } from "react-responsive";
 import { BiMenuAltRight, BiX } from "react-icons/bi";
-import { SearchContext } from "../context/SearchContext";
+import { SearchContext } from "../../context/SearchContext";
 import { Popover, Transition } from "@headlessui/react";
 import {
   FaCar,

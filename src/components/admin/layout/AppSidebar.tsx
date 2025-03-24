@@ -5,20 +5,10 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import { useSidebar } from "@/context/SidebarContext";
-import {
-  GridIcon,
-  CalenderIcon,
-  UserCircleIcon,
-  ListIcon,
-  TableIcon,
-  PageIcon,
-  PieChartIcon,
-  BoxCubeIcon,
-  PlugInIcon,
-  ChevronDownIcon,
-  HorizontaLDots,
-} from "@/icons";
+import { LayoutDashboard, CalendarCheck, Car, Building2, Plus, List, ChevronDownIcon } from "lucide-react";
+import { HorizontaLDots, PlugInIcon } from "@/icons";
 
+const iconSize = 20;
 type NavItem = {
   name: string;
   icon: React.ReactNode;
@@ -28,38 +18,36 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    icon: <GridIcon />,
+    icon: <LayoutDashboard size={iconSize} />,
     name: "Dashboard",
-    path: "/",
+    path: "/admin",
   },
 
   {
     name: "Resevations",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+    icon:<CalendarCheck size={iconSize} />,
+    subItems: [
+       { name: "Lister", path: "/admin/vehicles/list", pro: false }],
   },
 
   {
     name: "Véhicules",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+    icon: <Car size={iconSize} />,
+    subItems: [{ name: "Ajouter", path: "/admin/vehicles/add", pro: false }, { name: "Lister", path: "/admin/vehicles/list", pro: false }],
   },
 
   {
     name: "Immobiliers",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+    icon:<Building2 size={iconSize} />,
+    subItems: [{ name: "Ajouter", path: "/admin/real_estates/add", pro: false }, { name: "Lister", path: "/admin/real_estates/list", pro: false }],
   },
 ];
 
 const othersItems: NavItem[] = [
   {
     icon: <PlugInIcon />,
-    name: "Authentication",
-    subItems: [
-      { name: "Sign In", path: "/signin", pro: false },
-      { name: "Sign Up", path: "/signup", pro: false },
-    ],
+    name: "Déconnexion",
+    path: "/",
   },
 ];
 

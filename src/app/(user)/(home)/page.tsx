@@ -1,12 +1,12 @@
-import About from "@/components/About";
-import BackToTopBtn from "@/components/BackToTopBtn";
+import About from "@/components/landing/About";
+import BackToTopBtn from "@/components/landing/BackToTopBtn";
 
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import Testimonial from "@/components/Testimonial";
-import Why from "@/components/Why";
+import Header from "@/components/landing/Header";
+import Hero from "@/components/landing/Hero";
+import Testimonial from "@/components/landing/Testimonial";
+import Why from "@/components/landing/Why";
 import Image from "next/image";
-import RecentlyAdded from "@/components/RecentlyAdded";
+import RecentlyAdded from "@/components/landing/RecentlyAdded";
 
 export default function Home() {
   return (

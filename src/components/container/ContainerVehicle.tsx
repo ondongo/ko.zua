@@ -1,9 +1,9 @@
 "use client";
-import DataIteration from "@/components/DataIteration";
+import DataIteration from "@/components/landing/DataIteration";
 import React, { useEffect, useRef, useState, Suspense } from "react";
 import { Vehicle } from "@/types/vehicle";
 
-import SortDropdown from "@/components/SortDropdown";
+import SortDropdown from "@/components/landing/SortDropdown";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getAllVehicles, getFilteredVehicles } from "@/actions/vehicles";
 import SkeletonProductCard from "../skeletons/SkeletonProductCard";

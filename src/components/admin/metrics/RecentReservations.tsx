@@ -1,4 +1,4 @@
-import Badge from "../ui/badge/Badge";
+import Badge from "../../ui/badge/Badge";
 import Image from "next/image";
 import {
   Table,
@@ -6,7 +6,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
-} from "../ui/table";
+} from "../../ui/table";
 
 // Define the TypeScript interface for the table rows
 interface Product {

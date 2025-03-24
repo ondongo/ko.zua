@@ -1,9 +1,9 @@
 "use client";
-import DataIteration from "@/components/DataIteration";
+import DataIteration from "@/components/landing/DataIteration";
 
 import React, { useEffect, useRef, useState, Suspense } from "react";
 
-import SortDropdown from "@/components/SortDropdown";
+import SortDropdown from "@/components/landing/SortDropdown";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import SkeletonProductCard from "../skeletons/SkeletonProductCard";
