@@ -33,14 +33,11 @@ export default function AddVehicle() {
       name: "",
       description: "",
       category: "",
-      global: false,
       condition: "",
-      type: "",
       brand: "",
       model: "",
       year: 0,
       price: 0,
-      discountedPrice: 0,
       fuel: "",
       gearBox: "",
       seats: 0,
@@ -48,10 +45,10 @@ export default function AddVehicle() {
       distance: "",
       availability: true,
       saleStatus: "RENT",
-      features: [],
       location: "",
       images: [],
     },
+    mode: "all",
   });
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -65,7 +62,9 @@ export default function AddVehicle() {
   const [modalType, setModalType] = useState<AlertType>("success");
 
   const onSubmit = async (data: VehicleFormData) => {
-    console.log(">>>>>>>>>>>>>>>>>>>>", data);
+    console.log("Form data submitted:", data); 
+    console.log("Form data:", data);
+    console.log("Form errors:", errors);
     setLoading(true);
     setMessage("");
 
@@ -73,11 +72,12 @@ export default function AddVehicle() {
       const formattedData = {
         ...data,
         condition: data.condition ?? "",
-        global: data.global ?? false,
+        global: false,
+        type: "",
         description: data.description ?? "",
         distance: data.distance ?? "",
-        discountedPrice: data.discountedPrice ? data.discountedPrice : null,
-        features: JSON.stringify(data.features),
+        discountedPrice: null,
+        features: JSON.stringify({}),
         location: JSON.stringify({ city: data.location, country: "Congo" }),
         images: JSON.stringify(data.images),
         id: "",
@@ -140,7 +140,7 @@ export default function AddVehicle() {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form  onSubmit={handleSubmit(onSubmit)} >
         {currentStep === 0 && (
           <Section title="Informations générales">
             <Label>Nom du véhicule</Label>
@@ -584,7 +584,7 @@ export default function AddVehicle() {
               </p>
               <p>
                 <strong>Caractéristiques :</strong>{" "}
-                {watch("features")?.join(", ") || "Aucune"}
+              
               </p>
 
               <p>
@@ -596,10 +596,11 @@ export default function AddVehicle() {
                   Images:
                 </strong>
               </p>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="flex flex-wrap gap-2">
                 {watch("images").map((img: File, index) => (
                   <Image
-                    width={24}
+                    width={40}
+                    height={40}
                     key={index}
                     src={URL.createObjectURL(img)}
                     alt={`Image ${index + 1}`}

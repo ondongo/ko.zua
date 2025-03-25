@@ -10,7 +10,7 @@ export default function RootLayout({
  
   return (
     <html lang="en">
-      <body className="min-h-screen overflow-visible">
+      <body>
         <SidebarProvider>
           <ContainerAdmin> {children} </ContainerAdmin>
         </SidebarProvider>

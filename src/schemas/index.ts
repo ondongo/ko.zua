@@ -13,9 +13,7 @@ export type AuthType = z.infer<typeof AuthSchema>;
 export const vehicleSchema = z.object({
   name: z.string().min(1, "Le nom est requis"),
   description: z.string().optional(),
-  global: z.boolean().optional(),
   condition: z.string().optional(),
-  type: z.string().min(1, "Le type est requis"),
   brand: z.string().min(1, "La marque est requise"),
   model: z.string().min(1, "Le modèle est requis"),
   category: z.string().min(1, "La catégorie est requise"),
@@ -29,7 +27,6 @@ export const vehicleSchema = z.object({
   distance: z.string().optional(),
   availability: z.boolean(),
   saleStatus: z.enum(["RENT", "SALE"]),
-  features: z.array(z.string()).optional(),
   location: z.string().optional(),
   images: z.array(z.instanceof(File)).refine(files => files.length > 0, {
     message: "Au moins une image est requise",
