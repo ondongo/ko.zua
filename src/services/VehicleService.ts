@@ -16,7 +16,7 @@ export class VehicleService {
     return this.repository.findById(id);
   }
 
-  async createOrUpdateVehicle(vehicleData: Vehicle): Promise<void> {
+  async createVehicle(vehicleData: Vehicle): Promise<void> {
     return this.repository.save(vehicleData);
   }
 

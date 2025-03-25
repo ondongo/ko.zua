@@ -1,51 +1,72 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ComponentCard from "../../../common/ComponentCard";
 import { useDropzone } from "react-dropzone";
+import Image from "next/image";
 
-const DropzoneComponent: React.FC = () => {
-  const onDrop = (acceptedFiles: File[]) => {
-    console.log("Files dropped:", acceptedFiles);
-    // Handle file uploads here
+interface DropzoneComponentProps {
+  onChange: (files: File[]) => void;
+  error?: string;
+}
+
+
+const DropzoneComponent: React.FC<DropzoneComponentProps> = ({ onChange, error }) => {
+  const [files, setFiles] = useState<any[]>([]);
+
+  const handleDrop = (acceptedFiles: File[]) => {
+    // Vérification de la limite de fichiers
+    if (files.length + acceptedFiles.length > 4) {
+      alert("Vous ne pouvez télécharger que 4 fichiers maximum.");
+      return;
+    }
+
+    const newFiles = acceptedFiles.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+
+    setFiles((prevFiles) => {
+      const updatedFiles = [...prevFiles, ...newFiles];
+      onChange(updatedFiles.map((f) => f.file));
+      return updatedFiles;
+    });
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
+    onDrop: handleDrop,
     accept: {
       "image/png": [],
       "image/jpeg": [],
       "image/webp": [],
       "image/svg+xml": [],
     },
+    maxFiles: 4,
   });
+
+  // Nettoyage des URLs temporaires pour éviter les fuites mémoire
+  useEffect(() => {
+    return () => {
+      files.forEach((fileObj) => URL.revokeObjectURL(fileObj.preview));
+    };
+  }, [files]);
+
   return (
     <ComponentCard title="Dropzone">
       <div className="transition border border-gray-300 border-dashed cursor-pointer rounded-xl hover:border-brand-500">
         <form
           {...getRootProps()}
-          className={`dropzone rounded-xl   border-dashed border-gray-300 p-7 lg:p-10
-        ${
-          isDragActive
-            ? "border-brand-500 bg-gray-100 "
-            : "border-gray-300 bg-gray-50 "
-        }
-      `}
+          className={`dropzone rounded-xl border-dashed border-gray-300 p-7 lg:p-10
+          ${isDragActive ? "border-brand-500 bg-gray-100" : "border-gray-300 bg-gray-50"}
+        `}
           id="demo-upload"
         >
-          {/* Hidden Input */}
           <input {...getInputProps()} />
 
-          <div className="dz-message flex flex-col items-center m-0!">
-            {/* Icon Container */}
+          <div className="dz-message flex flex-col items-center">
+            {/* Icône */}
             <div className="mb-[22px] flex justify-center">
-              <div className="flex h-[68px] w-[68px]  items-center justify-center rounded-full bg-gray-200 text-gray-700   ">
-                <svg
-                  className="fill-current"
-                  width="29"
-                  height="28"
-                  viewBox="0 0 29 28"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+              <div className="flex h-[68px] w-[68px] items-center justify-center rounded-full bg-gray-200 text-gray-700">
+                <svg className="fill-current" width="29" height="28" viewBox="0 0 29 28" xmlns="http://www.w3.org/2000/svg">
                   <path
                     fillRule="evenodd"
                     clipRule="evenodd"
@@ -55,20 +76,39 @@ const DropzoneComponent: React.FC = () => {
               </div>
             </div>
 
-            {/* Text Content */}
-            <h4 className="mb-3 font-semibold text-gray-800 text-xl   ">
+            {/* Texte */}
+            <h4 className="mb-3 font-semibold text-gray-800 text-xl">
               {isDragActive ? "Drop Files Here" : "Drag & Drop Files Here"}
             </h4>
-
-            <span className=" text-center mb-5 block w-full max-w-[290px] text-sm text-gray-700  ">
+            <span className="text-center mb-5 block w-full max-w-[290px] text-sm text-gray-700">
               Drag and drop your PNG, JPG, WebP, SVG images here or browse
             </span>
-
             <span className="font-medium underline text-theme-sm text-brand-500">
               Browse File
             </span>
           </div>
         </form>
+      </div>
+
+      {/* Affichage des fichiers téléchargés */}
+      <div>
+        <h5 className="mt-5">Fichiers sélectionnés:</h5>
+        <div className="flex flex-col gap-4">
+          {files.map((fileObj, index) => (
+            <div key={index} className="flex flex-row gap-4">
+              <div className="w-10 h-10 overflow-hidden rounded-full">
+                <Image
+                  width={40}
+                  height={40}
+                  src={fileObj.preview} 
+                  alt={fileObj.file.name}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <p>{fileObj.file.name}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </ComponentCard>
   );

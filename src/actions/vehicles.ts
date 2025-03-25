@@ -5,6 +5,10 @@ import { Vehicle } from "@/types/vehicle";
 import { Vehicle as PrismaVehicle } from "@prisma/client";
 
 
+export async function createVehicle(vehicleData: PrismaVehicle): Promise<void> {
+  await VehicleController.createVehicle(vehicleData);
+}
+
 export async function getVehicleById(id: string): Promise<Vehicle | null> {
   const vehicle: PrismaVehicle | null = await VehicleController.getVehicleById(id);
   

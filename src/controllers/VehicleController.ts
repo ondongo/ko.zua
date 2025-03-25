@@ -14,8 +14,8 @@ export const VehicleController = {
     return await vehicleService.getVehicleById(id);
   },
 
-  async createOrUpdateVehicle(vehicleData: Vehicle): Promise<void> {
-    return await vehicleService.createOrUpdateVehicle(vehicleData);
+  async createVehicle(vehicleData: Vehicle): Promise<void> {
+    return await vehicleService.createVehicle(vehicleData);
   },
 
   async deleteVehicle(id: string): Promise<void> {

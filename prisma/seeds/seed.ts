@@ -15,6 +15,7 @@ async function main() {
       model: "C4",
       year: 2024,
       price: 15000, // Prix en FCFA
+      discountedPrice: null, // Optionnel
       availability: true,
       features: {
         airConditioner: true,
@@ -32,7 +33,9 @@ async function main() {
       gearBox: "Automatic",
       fuel: "Petrol",
       doors: 4,
-      distance: "500 km"
+      distance: "500 km",
+      saleStatus: "RENT", // Statut de vente (Location ou Vente)
+      views: 0 // Nombre de vues
     },
     {
       name: "Citroën C4 Picasso",
@@ -44,6 +47,7 @@ async function main() {
       model: "C4 Picasso",
       year: 2019,
       price: 20000,
+      discountedPrice: 18000, // Prix après réduction
       availability: true,
       features: {
         airConditioner: true,
@@ -56,12 +60,13 @@ async function main() {
         "https://upload.wikimedia.org/wikipedia/commons/9/92/2009_Citroen_C4_Picasso_5_Exclusive_HDi_S-A_2.0_Front.jpg"
       ],
       seats: 7,
-     
       starCount: 3,
       gearBox: "Automatic",
       fuel: "Diesel",
       doors: 5,
-      distance: "600 km"
+      distance: "600 km",
+      saleStatus: "RENT",
+      views: 0
     },
     {
       name: "Citroën C4X",
@@ -73,6 +78,7 @@ async function main() {
       model: "C4X",
       year: 2022,
       price: 25000,
+      discountedPrice: null,
       availability: true,
       features: {
         airConditioner: true,
@@ -89,7 +95,9 @@ async function main() {
       gearBox: "Automatic",
       fuel: "Petrol",
       doors: 4,
-      distance: "700 km"
+      distance: "700 km",
+      saleStatus: "RENT",
+      views: 0
     },
     {
       name: "Dacia Lodgy",
@@ -101,6 +109,7 @@ async function main() {
       model: "Lodgy",
       year: 2020,
       price: 18000,
+      discountedPrice: 17000, // Prix après réduction
       availability: true,
       features: {
         airConditioner: true,
@@ -117,7 +126,9 @@ async function main() {
       gearBox: "Manual",
       fuel: "Diesel",
       doors: 5,
-      distance: "650 km"
+      distance: "650 km",
+      saleStatus: "RENT",
+      views: 0
     }
   ];
 
@@ -131,6 +142,7 @@ async function main() {
       brand: "Privée",
       model: "Moderne",
       price: 35000000, // Prix en FCFA
+      discountedPrice: 33000000, // Prix après réduction
       availability: true,
       features: {
         airConditioner: true,
@@ -143,7 +155,10 @@ async function main() {
         "https://static.wixstatic.com/media/1e390e_3962435691774a2f87bac5da772e3e79~mv2.jpg/v1/fill/w_960,h_720,al_c,q_85/IMG-20220923-WA0026.jpg"
       ],
       rooms: 4,
-      starCount: 3
+      starCount: 3,
+      parcelSize: 300, // Taille de la parcelle en m²
+      saleStatus: "SALE", // Statut de vente
+      views: 0
     },
     {
       name: "Terrain à vendre à Pointe-Noire",
@@ -153,6 +168,7 @@ async function main() {
       brand: "Terrain",
       model: "Commercial",
       price: 10000000,
+      discountedPrice: null,
       availability: true,
       features: {
         access: true,
@@ -166,7 +182,8 @@ async function main() {
       rooms: 0,
       starCount: 5,
       parcelSize: 5000,  // Taille du terrain en m²
-      saleStatus: "SALE" // Statut de vente : Vente
+      saleStatus: "SALE", // Statut de vente
+      views: 0
     }
   ];
 
