@@ -1,8 +1,5 @@
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-import DropzoneComponent from "@/components/ui/DropZone";
-import SelectInputs from "@/components/ui/form/form-elements/SelectInputs";
-import TextAreaInput from "@/components/ui/form/form-elements/TextAreaInput";
-import ToggleSwitch from "@/components/ui/form/form-elements/ToggleSwitch";
+
 import ModalBasedAlerts from "@/components/ui/modals/ModalBasedAlerts";
 
 import { Metadata } from "next";
@@ -20,12 +17,10 @@ export default function FormElements() {
       <PageBreadcrumb pageTitle="From Elements" />
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <div className="space-y-6">
-          <SelectInputs />
-          <TextAreaInput />
+        
         </div>
         <div className="space-y-6">
-          <DropzoneComponent />
-          <ToggleSwitch />
+         
           <ModalBasedAlerts />
         </div>
       </div>
