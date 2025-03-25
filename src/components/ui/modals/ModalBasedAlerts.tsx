@@ -61,7 +61,7 @@ export default function ModalBasedAlerts() {
               />
             </svg>
 
-            <span className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
+            <div className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
               <svg
                 className="fill-success-600"
                 width="38"
@@ -77,7 +77,7 @@ export default function ModalBasedAlerts() {
                   fill=""
                 />
               </svg>
-            </span>
+            </div>
           </div>
           <h4 className="mb-2 text-2xl font-semibold text-gray-800    sm:text-title-sm">
             Well Done!
@@ -120,7 +120,7 @@ export default function ModalBasedAlerts() {
               />
             </svg>
 
-            <span className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
+            <div className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
               <svg
                 className="fill-blue-light-500 "
                 width="38"
@@ -136,7 +136,7 @@ export default function ModalBasedAlerts() {
                   fill=""
                 />
               </svg>
-            </span>
+            </div>
           </div>
 
           <h4 className="mb-2 text-2xl font-semibold text-gray-800    sm:text-title-sm">
@@ -180,7 +180,7 @@ export default function ModalBasedAlerts() {
               />
             </svg>
 
-            <span className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
+            <div className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
               <svg
                 className="fill-warning-600"
                 width="38"
@@ -196,7 +196,7 @@ export default function ModalBasedAlerts() {
                   fill=""
                 />
               </svg>
-            </span>
+            </div>
           </div>
 
           <h4 className="mb-2 text-2xl font-semibold text-gray-800    sm:text-title-sm">
@@ -240,7 +240,7 @@ export default function ModalBasedAlerts() {
               />
             </svg>
 
-            <span className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
+            <div className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
               <svg
                 className="fill-error-600 dark:fill-error-500"
                 width="38"
@@ -256,7 +256,7 @@ export default function ModalBasedAlerts() {
                   fill=""
                 />
               </svg>
-            </span>
+            </div>
           </div>
 
           <h4 className="mb-2 text-2xl font-semibold text-gray-800    sm:text-title-sm">

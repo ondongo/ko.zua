@@ -158,7 +158,7 @@ function AppSidebar({ session, signOut }: any) {
                       }`}
                     >
                       {subItem.name}
-                      <span className="flex items-center gap-1 ml-auto">
+                      <div className="flex items-center gap-1 ml-auto">
                         {subItem.new && (
                           <span
                             className={`ml-auto ${
@@ -181,7 +181,7 @@ function AppSidebar({ session, signOut }: any) {
                             pro
                           </span>
                         )}
-                      </span>
+                      </div>
                     </Link>
                   </li>
                 ))}
