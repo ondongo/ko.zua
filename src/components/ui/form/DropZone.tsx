@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ComponentCard from "../../../common/ComponentCard";
+
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
+import ComponentCard from "@/components/common/ComponentCard";
 
 interface DropzoneComponentProps {
   onChange: (files: File[]) => void;
@@ -12,6 +13,12 @@ interface DropzoneComponentProps {
 
 const DropzoneComponent: React.FC<DropzoneComponentProps> = ({ onChange, error }) => {
   const [files, setFiles] = useState<any[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Assurer que l'état est mis à jour après le premier rendu
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleDrop = (acceptedFiles: File[]) => {
     // Vérification de la limite de fichiers
@@ -27,7 +34,7 @@ const DropzoneComponent: React.FC<DropzoneComponentProps> = ({ onChange, error }
 
     setFiles((prevFiles) => {
       const updatedFiles = [...prevFiles, ...newFiles];
-      onChange(updatedFiles.map((f) => f.file));
+      onChange(updatedFiles.map((f) => f.file));  // Envoie les fichiers sélectionnés vers le parent
       return updatedFiles;
     });
   };
@@ -49,6 +56,11 @@ const DropzoneComponent: React.FC<DropzoneComponentProps> = ({ onChange, error }
       files.forEach((fileObj) => URL.revokeObjectURL(fileObj.preview));
     };
   }, [files]);
+
+  // Ne rendre le composant que côté client après le premier rendu
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <ComponentCard title="Dropzone">
@@ -113,5 +125,6 @@ const DropzoneComponent: React.FC<DropzoneComponentProps> = ({ onChange, error }
     </ComponentCard>
   );
 };
+
 
 export default DropzoneComponent;

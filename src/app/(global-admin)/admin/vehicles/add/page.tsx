@@ -1,12 +1,9 @@
 "use client";
 import { createVehicle } from "@/actions/vehicles";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-import DropzoneComponent from "@/components/ui/form/form-elements/DropZone";
-import Input from "@/components/ui/form/input/InputField";
-import TextArea from "@/components/ui/form/input/TextArea";
+import DropzoneComponent from "@/components/ui/form/DropZone";
 import Label from "@/components/ui/form/Label";
-import Select from "@/components/ui/form/Select";
-import Switch from "@/components/ui/form/switch/Switch";
+
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -23,7 +20,7 @@ import AlertModal from "@/components/ui/modals/AlertModal";
 import Image from "next/image";
 export default function AddVehicle() {
   const {
-    control,
+    register,
     handleSubmit,
     formState: { errors },
     setValue,
@@ -144,277 +141,427 @@ export default function AddVehicle() {
         {currentStep === 0 && (
           <Section title="Informations générales">
             <Label>Nom du véhicule</Label>
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }: any) => (
-                <Input
-                  type="text"
-                  placeholder="Nom du véhicule"
-                  {...field}
-                  error={errors.name}
-                />
-              )}
+            <input
+              {...register("name")}
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="Nom du véhicule"
             />
+            {errors.name && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.name?.message}</p>
+              </div>
+            )}
+
+            <Label>Prix</Label>
+            <input
+              {...register("price", {
+                valueAsNumber: true,
+              })}
+              step={100000}
+              type="number"
+              className="w-full p-2 border rounded"
+              placeholder="Prix"
+            />
+            {errors.price && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.price?.message}</p>
+              </div>
+            )}
 
             <Label>Description</Label>
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }: any) => (
-                <TextArea
-                  placeholder="Description"
-                  {...field}
-                  error={errors.description}
-                />
-              )}
+            <textarea
+              {...register("description")}
+              className="w-full p-2 border rounded"
+              placeholder="Description"
+              rows={4}
             />
-
+            {errors.description && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.description?.message}</p>
+              </div>
+            )}
             <Label>Vente ou Location</Label>
-            <Controller
-              name="saleStatus"
-              control={control}
-              render={({ field }: any) => (
-                <Select
-                  placeholder="Sélectionnez un type"
-                  options={saleStatusOptions}
-                  {...field}
-                  error={errors.saleStatus}
-                />
-              )}
-            />
+            <select
+              {...register("saleStatus")}
+              className="w-full p-2 border rounded"
+            >
+              {saleStatusOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            {errors.saleStatus && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.saleStatus?.message}</p>
+              </div>
+            )}
 
             <Label>Catégorie</Label>
-            <Controller
-              name="category"
-              control={control}
-              render={({ field }: any) => (
-                <Select
-                  placeholder="Sélectionnez une catégorie"
-                  options={categoryOptions}
-                  {...field}
-                  error={errors.category}
-                />
-              )}
-            />
+            <select
+              {...register("category")}
+              className="w-full p-2 border rounded"
+            >
+              {categoryOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            {errors.category && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.category?.message}</p>
+              </div>
+            )}
 
             <Label>État</Label>
-            <Controller
-              name="condition"
-              control={control}
-              render={({ field }: any) => (
-                <Select
-                  placeholder="Sélectionnez un état"
-                  options={conditionOptions}
-                  {...field}
-                  error={errors.condition}
-                />
-              )}
-            />
+            <select
+              {...register("condition")}
+              className="w-full p-2 border rounded"
+            >
+              {conditionOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            {errors.condition && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.condition?.message}</p>
+              </div>
+            )}
           </Section>
         )}
 
         {currentStep === 1 && (
           <Section title="Détails du véhicule">
             <Label>Marque</Label>
-            <Controller
-              name="brand"
-              control={control}
-              render={({ field }: any) => (
-                <Input placeholder="Marque" {...field} error={errors.brand} />
-              )}
-            />
-            <Label>Modèle</Label>
-            <Controller
-              name="model"
-              control={control}
-              render={({ field }: any) => (
-                <Input placeholder="Modèle" {...field} error={errors.model} />
-              )}
+            <input
+              {...register("brand")}
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="Marque"
             />
 
+            {errors.brand && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.brand?.message}</p>
+              </div>
+            )}
+            <Label>Modèle</Label>
+            <input
+              {...register("model")}
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="Modèle"
+            />
+            {errors.model && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.model?.message}</p>
+              </div>
+            )}
+
             <Label>Année</Label>
-            <Controller
-              name="year"
-              control={control}
-              render={({ field }: any) => (
-                <Input
-                  placeholder="Année"
-                  type="number"
-                  {...field}
-                  error={errors.year}
-                />
-              )}
+            <input
+              {...register("year", {
+                valueAsNumber: true,
+              })}
+              type="number"
+              className="w-full p-2 border rounded"
+              placeholder="Année"
             />
-            <Label>Prix </Label>
-            <Controller
-              name="price"
-              control={control}
-              render={({ field }: any) => (
-                <Input
-                  placeholder="Prix"
-                  type="number"
-                  {...field}
-                  error={errors.price}
-                />
-              )}
+            {errors.year && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.year?.message}</p>
+              </div>
+            )}
+
+            <Label>Kilométrage</Label>
+            <input
+              {...register("distance")}
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="Kilométrage"
             />
+            {errors.distance && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.distance?.message}</p>
+              </div>
+            )}
+
             <Label>Disponibilité</Label>
-            <Controller
-              name="availability"
-              control={control}
-              render={({ field }: any) => (
-                <Switch
-                  label="Disponible"
-                  {...field}
-                  error={errors.availability}
-                />
-              )}
+            <input
+              {...register("availability")}
+              type="checkbox"
+              className="w-4 h-4"
             />
+            {errors.availability && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.availability?.message}</p>
+              </div>
+            )}
           </Section>
         )}
 
         {currentStep === 2 && (
           <Section title="Caractéristiques & Images">
             <Label>Carburant</Label>
-            <Controller
-              name="fuel"
-              control={control}
-              render={({ field }: any) => (
-                <Select
-                  placeholder="Sélectionnez un carburant"
-                  options={fuelOptions}
-                  {...field}
-                  error={errors.fuel}
-                />
-              )}
-            />
+            <select {...register("fuel")} className="w-full p-2 border rounded">
+              {fuelOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <p>{errors.fuel?.message}</p>
+
             <Label>Nombre de sièges</Label>
-            <Controller
-              name="seats"
-              control={control}
-              render={({ field }: any) => (
-                <Input
-                  placeholder="Nombre de sièges"
-                  type="number"
-                  {...field}
-                  error={errors.seats}
-                />
-              )}
+            <input
+              {...register("seats")}
+              type="number"
+              className="w-full p-2 border rounded"
+              placeholder="Nombre de sièges"
             />
+            {errors.seats && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.seats?.message}</p>
+              </div>
+            )}
+
             <Label>Nombre de portes</Label>
-            <Controller
-              name="doors"
-              control={control}
-              render={({ field }: any) => (
-                <Input
-                  placeholder="Nombre de portes"
-                  type="number"
-                  {...field}
-                  error={errors.doors}
-                />
-              )}
+            <input
+              {...register("doors")}
+              type="number"
+              className="w-full p-2 border rounded"
+              placeholder="Nombre de portes"
             />
+            {errors.doors && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.doors?.message}</p>
+              </div>
+            )}
 
             <Label>Images</Label>
-            <Controller
-              name="images"
-              control={control}
-              render={({ field }: any) => (
-                <DropzoneComponent
-                  {...field}
-                  onChange={(files) => {
-                    setTimeout(() => setValue("images", files), 0);
-                  }}
-                  error={errors.images?.message}
-                />
-              )}
+            <DropzoneComponent
+              {...register("images")}
+              onChange={(files) => {
+                setTimeout(() => setValue("images", files), 0);
+              }}
             />
+
+            {errors.images && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.images?.message}</p>
+              </div>
+            )}
           </Section>
         )}
-
         {currentStep === 3 && (
           <Section title="Validation des informations">
             <div className="flex flex-col gap-2">
               <div className="flex items-center my-4">
                 <div className="flex-grow border-t border-gray-300"></div>
-                <span className="mx-4 text-gray-500">Etape 1</span>
+                <span className="mx-4 text-gray-500">Étape 1</span>
                 <div className="flex-grow border-t border-gray-300"></div>
               </div>
 
               <p>
-                <strong>Nom:</strong> {watch("name")}
+                <strong
+                  className={watch("name") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Nom :
+                </strong>{" "}
+                {watch("name")}
               </p>
               <p className="text-ellipsis">
-                <strong>Description:</strong>{" "}
+                <strong>Description :</strong>{" "}
                 {(watch("description") || "").length > 150
                   ? (watch("description") || "").slice(0, 150) + "..."
                   : watch("description") || ""}
               </p>
               <p>
-                <strong>Catégorie:</strong> {watch("category")}
+                <strong
+                  className={watch("category") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Catégorie :
+                </strong>{" "}
+                {watch("category") || "non spécifiée"}
               </p>
-
               <p>
-                <strong>Statut de vente:</strong> {watch("saleStatus")}
+                <strong
+                  className={
+                    watch("saleStatus") ? "" : "bg-red-200 max-w-auto "
+                  }
+                >
+                  Statut de vente :
+                </strong>{" "}
+                {watch("saleStatus") || "non spécifiée"}
               </p>
 
               <div className="flex items-center my-4">
                 <div className="flex-grow border-t border-gray-300"></div>
-                <span className="mx-4 text-gray-500">Etape 2</span>
+                <span className="mx-4 text-gray-500">Étape 2</span>
                 <div className="flex-grow border-t border-gray-300"></div>
               </div>
+
               <p>
-                <strong>État:</strong> {watch("condition")}
+                <strong>État :</strong> {watch("condition") || "Non spécifié"}
               </p>
               <p>
-                <strong>Marque:</strong> {watch("brand")}
+                <strong
+                  className={watch("brand") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Marque :
+                </strong>{" "}
+                {watch("brand") || "non spécifiée"}
               </p>
               <p>
-                <strong>Modèle:</strong> {watch("model")}
+                <strong
+                  className={watch("model") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Modèle :
+                </strong>{" "}
+                {watch("model") || "non spécifiée"}
               </p>
               <p>
-                <strong>Année:</strong> {watch("year")}
+                <strong
+                  className={watch("year") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Année :
+                </strong>{" "}
+                {watch("year") || "non spécifiée"}
               </p>
               <p>
-                <strong>Prix:</strong> {watch("price")} €
+                <strong
+                  className={watch("price") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Prix :
+                </strong>{" "}
+                {watch("price") || "non spécifiée"}
               </p>
               <p>
-                <strong>Disponibilité:</strong>{" "}
+                <strong>Disponibilité :</strong>{" "}
                 {watch("availability") ? "Disponible" : "Indisponible"}
               </p>
 
               <div className="flex items-center my-4">
                 <div className="flex-grow border-t border-gray-300"></div>
-                <span className="mx-4 text-gray-500">Etape 3</span>
+                <span className="mx-4 text-gray-500">Étape 3</span>
                 <div className="flex-grow border-t border-gray-300"></div>
               </div>
 
               <p>
-                <strong>Carburant:</strong> {watch("fuel")}
+                <strong
+                  className={watch("fuel") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Carburant :
+                </strong>{" "}
+                {watch("fuel") || "non spécifiée"}
               </p>
               <p>
-                <strong>Sièges:</strong> {watch("seats")}
+                <strong
+                  className={watch("gearBox") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Boîte de vitesses :
+                </strong>{" "}
+                {watch("gearBox") || "non spécifiée"}
               </p>
               <p>
-                <strong>Portes:</strong> {watch("doors")}
+                <strong
+                  className={watch("seats") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Sièges: :
+                </strong>{" "}
+                {watch("seats") || "non spécifiée"}
               </p>
               <p>
-                <strong>Images:</strong>
+                <strong
+                  className={watch("doors") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Portes :
+                </strong>{" "}
+                {watch("doors") || "non spécifiée"}
+              </p>
+              <p>
+                <strong>Distance parcourue :</strong>{" "}
+                {watch("distance") || "Non spécifiée"}
+              </p>
+              <p>
+                <strong>Emplacement :</strong>{" "}
+                {watch("location") || "Non spécifié"}
+              </p>
+              <p>
+                <strong>Caractéristiques :</strong>{" "}
+                {watch("features")?.join(", ") || "Aucune"}
+              </p>
+
+              <p>
+                <strong
+                  className={
+                    watch("images")?.length > 0 ? "" : "bg-red-200 max-w-auto "
+                  }
+                >
+                  Images:
+                </strong>
               </p>
               <div className="grid grid-cols-3 gap-2">
                 {watch("images").map((img: File, index) => (
                   <Image
+                    width={24}
                     key={index}
                     src={URL.createObjectURL(img)}
                     alt={`Image ${index + 1}`}
-                    className="w-24 h-24 object-cover"
+                    className="object-cover"
                   />
                 ))}
               </div>
             </div>
           </Section>
         )}
+
         <div className="flex justify-center mt-6 space-x-4 gap-4">
           {currentStep > 0 && (
             <button

@@ -6,9 +6,10 @@ export const featureLabels: Record<string, string> = {
 };
 
 export const categoryOptions = [
+  {value : "Citadine" , label: 'Citadine'},
   { value: "SUV", label: "SUV" },
   { value: "Berline", label: "Berline" },
-  { value: "Coupé", label: "Coupé" },
+  
   { value: "Camionnette", label: "Camionnette" },
 ];
 

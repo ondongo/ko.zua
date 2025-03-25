@@ -1,5 +1,5 @@
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-import DropzoneComponent from "@/components/ui/form/form-elements/DropZone";
+import DropzoneComponent from "@/components/ui/DropZone";
 import SelectInputs from "@/components/ui/form/form-elements/SelectInputs";
 import TextAreaInput from "@/components/ui/form/form-elements/TextAreaInput";
 import ToggleSwitch from "@/components/ui/form/form-elements/ToggleSwitch";
