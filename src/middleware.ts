@@ -11,22 +11,25 @@ export default auth(async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   const { pathname, origin } = req.nextUrl;
 
-  if (token?.role === "admin") {
-    return NextResponse.next();
+  // Si un token existe et que l'utilisateur tente d'accéder à /signin, redirigez vers /admin
+  if (token && pathname === "/signin") {
+    return NextResponse.redirect(`${origin}/admin`);
   }
 
+  // Si un token n'existe pas et que l'utilisateur tente d'accéder à une page protégée, redirigez vers /signin
   if (!token && pathname !== "/signin") {
     return NextResponse.redirect(`${origin}/signin`);
   }
 
-  if (token?.role !== "admin") {
-    const response = NextResponse.redirect(`${origin}/access-denied`);
-    return response;
+  // Si un token existe mais que le rôle n'est pas 'admin' et que l'utilisateur tente d'accéder à /admin, redirigez vers /access-denied
+  if (token?.role !== "admin" && pathname.startsWith("/admin")) {
+    return NextResponse.redirect(`${origin}/access-denied`);
   }
 
+  // Si toutes les conditions sont satisfaites, continuez le traitement de la requête
   return NextResponse.next();
 });
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/signin", "/admin/:path*", "/access-denied"],
 };
