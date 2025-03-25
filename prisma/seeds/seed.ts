@@ -14,7 +14,7 @@ async function main() {
       brand: "Citroën",
       model: "C4",
       year: 2024,
-      pricePerDay: 15000, // Prix en FCFA
+      price: 15000, // Prix en FCFA
       availability: true,
       features: {
         airConditioner: true,
@@ -43,7 +43,7 @@ async function main() {
       brand: "Citroën",
       model: "C4 Picasso",
       year: 2019,
-      pricePerDay: 20000,
+      price: 20000,
       availability: true,
       features: {
         airConditioner: true,
@@ -72,7 +72,7 @@ async function main() {
       brand: "Citroën",
       model: "C4X",
       year: 2022,
-      pricePerDay: 25000,
+      price: 25000,
       availability: true,
       features: {
         airConditioner: true,
@@ -100,7 +100,7 @@ async function main() {
       brand: "Dacia",
       model: "Lodgy",
       year: 2020,
-      pricePerDay: 18000,
+      price: 18000,
       availability: true,
       features: {
         airConditioner: true,

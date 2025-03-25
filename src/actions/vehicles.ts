@@ -23,7 +23,7 @@ export async function getVehicleById(id: string): Promise<Vehicle | null> {
     brand: vehicle.brand,
     model: vehicle.model,
     year: vehicle.year,
-    pricePerDay: vehicle.pricePerDay,
+    price: vehicle.price,
     availability: vehicle.availability,
     saleStatus: vehicle.saleStatus,
     features: {
@@ -64,7 +64,7 @@ export async function getAllVehicles(): Promise<Vehicle[]> {
     brand: vehicle.brand,
     model: vehicle.model,
     year: vehicle.year,
-    pricePerDay: vehicle.pricePerDay,
+    price: vehicle.price,
     availability: vehicle.availability,
     saleStatus: vehicle.saleStatus, // Statut de vente
     features: {
@@ -118,7 +118,7 @@ export async function getFilteredVehicles(filters: {
       brand: vehicle.brand,
       model: vehicle.model,
       year: vehicle.year,
-      pricePerDay: vehicle.pricePerDay,
+      price: vehicle.price,
       availability: vehicle.availability,
       saleStatus: vehicle.saleStatus, // Statut de vente
       features: {

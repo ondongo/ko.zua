@@ -9,7 +9,7 @@ export const fakeVehicles: Vehicle[] = [
     brand: "Toyota",
     model: "RAV4",
     year: 2022,
-    pricePerDay: 50000,
+    price: 50000,
     availability: "available",
     features: {
       mileage: "10,000 km",
@@ -31,7 +31,7 @@ export const fakeVehicles: Vehicle[] = [
     brand: "Honda",
     model: "Civic",
     year: 2021,
-    pricePerDay: 45000,
+    price: 45000,
     availability: "available",
     features: {
       mileage: "12,000 km",
@@ -53,7 +53,7 @@ export const fakeVehicles: Vehicle[] = [
     brand: "Ford",
     model: "Ranger",
     year: 2023,
-    pricePerDay: 60000,
+    price: 60000,
     availability: "available",
     features: {
       mileage: "8,000 km",
@@ -75,7 +75,7 @@ export const fakeVehicles: Vehicle[] = [
     brand: "Toyota",
     model: "RAV4",
     year: 2022,
-    pricePerDay: 50000,
+    price: 50000,
     availability: "available",
     features: {
       mileage: "10,000 km",
@@ -97,7 +97,7 @@ export const fakeVehicles: Vehicle[] = [
     brand: "Toyota",
     model: "RAV4",
     year: 2022,
-    pricePerDay: 50000,
+    price: 50000,
     availability: "available",
     features: {
       mileage: "10,000 km",
@@ -119,7 +119,7 @@ export const fakeVehicles: Vehicle[] = [
     brand: "Toyota",
     model: "RAV4",
     year: 2022,
-    pricePerDay: 50000,
+    price: 50000,
     availability: "available",
     features: {
       mileage: "10,000 km",

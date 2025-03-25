@@ -56,10 +56,10 @@ export class VehicleRepository
         }),
         ...(filters.brand && { brand: filters.brand }),
         ...(filters.minPrice !== undefined && {
-          pricePerDay: { gte: filters.minPrice },
+          price: { gte: filters.minPrice },
         }),
         ...(filters.maxPrice !== undefined && {
-          pricePerDay: { lte: filters.maxPrice },
+          price: { lte: filters.maxPrice },
         }),
         ...(filters.location && {
           location: {

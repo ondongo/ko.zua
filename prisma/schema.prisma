@@ -21,57 +21,63 @@ datasource db {
 }
 
 model Vehicle {
-  id           String        @id @default(uuid())
-  name         String
-  description  String?
-  global       Boolean       @default(false)
-  category     String // Catégorie pour préciser suv et autre 
-  condition    String? // Occasion ou Neuf
-  type         String
-  brand        String
-  model        String
-  year         Int
-  pricePerDay  Float
-  availability Boolean       @default(true)
-  features     Json
-  location     Json
-  images       Json
-  seats        Int
-  starCount    Int           @default(0)
-  gearBox      String
-  fuel         String
-  doors        Int
-  distance     String
-  ratings      Rating[]
-  reservations Reservation[]
-  sales        Vente[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  saleStatus   SaleStatus    @default(RENT)
+  id            String         @id @default(uuid())
+  name          String
+  description   String?
+  global        Boolean        @default(false)
+  category      String // Catégorie pour préciser suv et autre 
+  condition     String? // Occasion ou Neuf
+  type          String
+  brand         String
+  model         String
+  year          Int
+  price         Float
+    discountedPrice Float?  // Prix après réduction si applicableF
+  availability  Boolean        @default(true)
+  features      Json
+  location      Json
+  images        Json
+  seats         Int
+  starCount     Int            @default(0)
+  gearBox       String
+  fuel          String
+  doors         Int
+  distance      String
+  ratings       Rating[]
+  reservations  Reservation[]
+  sales         Vente[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  saleStatus    SaleStatus     @default(RENT)
+  specialOffers SpecialOffer[] // Offres spéciales liées
+  views         Int            @default(0) // Nombre de vues
 }
 
 model Immobilier {
-  id           String        @id @default(uuid())
-  name         String
-  description  String?
-  category     String // Catégorie pour spécifier si c'est une maison, un terrain, etc.
-  type         String // Type (ex : terrain, maison, appartement)
-  brand        String?
-  model        String?
-  price        Float
-  availability Boolean       @default(true)
-  features     Json
-  location     Json
-  images       Json
-  rooms        Int?
-  starCount    Int           @default(0)
-  parcelSize   Float? // Taille de la parcelle en m² (facultatif)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  saleStatus   SaleStatus    @default(RENT)
-  reservations Reservation[]
-  ratings       Rating[] 
-  sales        Vente[]
+  id              String         @id @default(uuid())
+  name            String
+  description     String?
+  category        String // Catégorie pour spécifier si c'est une maison, un terrain, etc.
+  type            String // Type (ex : terrain, maison, appartement)
+  brand           String?
+  model           String?
+  price           Float
+  discountedPrice Float?
+  availability    Boolean        @default(true)
+  features        Json
+  location        Json
+  images          Json
+  rooms           Int?
+  starCount       Int            @default(0)
+  parcelSize      Float? // Taille de la parcelle en m² (facultatif)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  saleStatus      SaleStatus     @default(RENT)
+  reservations    Reservation[]
+  ratings         Rating[]
+  sales           Vente[]
+  specialOffers   SpecialOffer[] // Offres spéciales liées
+  views           Int            @default(0) // Nombre de vues
 }
 
 model Reservation {
@@ -86,6 +92,7 @@ model Reservation {
   customerName  String
   customerPhone String?
   customerEmail String?
+  createdAt     DateTime          @default(now())
 }
 
 model Vente {
@@ -99,30 +106,46 @@ model Vente {
   customerName  String
   customerPhone String?
   customerEmail String?
+  createdAt     DateTime    @default(now())
+}
+
+model SpecialOffer {
+  id           String      @id @default(uuid())
+  title        String
+  description  String?
+  discount     Float // Pourcentage de réduction
+  startDate    DateTime
+  endDate      DateTime
+  vehicleId    String?
+  immobilierId String?
+  vehicle      Vehicle?    @relation(fields: [vehicleId], references: [id])
+  immobilier   Immobilier? @relation(fields: [immobilierId], references: [id])
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model ReservationStats {
+  id         String   @id @default(uuid())
+  year       Int
+  month      Int
+  day        Int
+  totalCount Int
+  createdAt  DateTime @default(now())
 }
 
 model Rating {
-  id            String   @id @default(uuid())
-  vehicleId     String?
-  immobilierId  String?
-  vehicle       Vehicle? @relation(fields: [vehicleId], references: [id])
-  immobilier    Immobilier? @relation(fields: [immobilierId], references: [id])
-  stars         Int
-}
-
-
-model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  password String
-  role     Role   @default(USER)
+  id           String      @id @default(uuid())
+  vehicleId    String?
+  immobilierId String?
+  vehicle      Vehicle?    @relation(fields: [vehicleId], references: [id])
+  immobilier   Immobilier? @relation(fields: [immobilierId], references: [id])
+  stars        Int
 }
 
 enum SaleStatus {
   SALE
   RENT
 }
-
 
 enum ReservationStatus {
   PENDING
@@ -133,4 +156,77 @@ enum ReservationStatus {
 enum Role {
   USER
   ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  role          Role      @default(USER)
+
+  Authenticator Authenticator[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
 }

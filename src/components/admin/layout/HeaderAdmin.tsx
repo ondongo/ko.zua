@@ -4,7 +4,7 @@ import NotificationDropdown from "@/components/admin/header/NotificationDropdown
 import UserDropdown from "@/components/admin/header/UserDropdown";
 import { useSidebar } from "@/context/SidebarContext";
 
-function HeaderAdmin() {
+function HeaderAdmin({ session, signOut }: any) {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
 
@@ -19,6 +19,8 @@ function HeaderAdmin() {
   const toggleApplicationMenu = () => {
     setApplicationMenuOpen(!isApplicationMenuOpen);
   };
+
+
 
   return (
     <header className="bg-white border-gray-200 lg:border-b z-50 h-[100px] flex ">
@@ -65,7 +67,7 @@ function HeaderAdmin() {
         {/* Boutons Notification & User */}
         <div className="flex items-center gap-4">
           <NotificationDropdown />
-          <UserDropdown />
+          <UserDropdown session={session} signOut={signOut} />
           <button
             onClick={toggleApplicationMenu}
             className="w-10 h-10 text-gray-700 rounded-xl hover:bg-gray-100 xl:hidden"

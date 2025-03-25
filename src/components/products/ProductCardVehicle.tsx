@@ -95,7 +95,7 @@ const ProductCardVehicle: React.FC<ProductCardProps> = ({ datas }) => {
               {datas.brand} {datas.model} ({datas.year})
             </h3>
             <h3 className="text-accent text-lg font-bold uppercase mt-2">
-              {datas.pricePerDay.toLocaleString()} FCFA{" "}
+              {datas.price.toLocaleString()} FCFA{" "}
               {datas.saleStatus === "RENT" ? "/ jour" : ""}
             </h3>
           </div>

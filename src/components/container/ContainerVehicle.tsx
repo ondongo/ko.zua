@@ -143,9 +143,9 @@ function ContainerVehicle() {
       }))
     );
     if (option === "price_asc") {
-      return [...vehicles].sort((a, b) => a.pricePerDay - b.pricePerDay);
+      return [...vehicles].sort((a, b) => a.price - b.price);
     } else if (option === "price_desc") {
-      return [...vehicles].sort((a, b) => b.pricePerDay - a.pricePerDay);
+      return [...vehicles].sort((a, b) => b.price - a.price);
     } else if (option === "newest") {
       return [...vehicles]
         .filter((v) => v.createdAt && !isNaN(new Date(v.createdAt).getTime()))

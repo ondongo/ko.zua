@@ -22,12 +22,12 @@ export default function AuthLayout({
                 <Image
                   width={231}
                   height={48}
-                  src="./images/logo/auth-logo.svg"
+                  src="/Kozua v3.png"
                   alt="Logo"
                 />
               </Link>
               <p className="text-center text-gray-400">
-                Free and Open-Source Tailwind CSS Admin Dashboard Template
+                 Admin Dashboard de Kozua
               </p>
             </div>
           </div>

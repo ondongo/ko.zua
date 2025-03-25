@@ -9,7 +9,7 @@ export interface Vehicle {
   brand: string;
   model: string;
   year: number;
-  pricePerDay: number;
+  price: number;
   availability: boolean;
   features: {
     mileage: string; // Le type reste 'string' pour 'mileage'

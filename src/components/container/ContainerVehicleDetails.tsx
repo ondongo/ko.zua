@@ -35,7 +35,7 @@ export default function VehicleDetails({ vehicle }: { vehicle: Vehicle }) {
   const otherCars = [
     {
       name: "Mercedes",
-      pricePerDay: 25000,
+      price: 25000,
       image: "/images/carGray.png",
       type: "Sedan",
       features: ["Automatic", "PB 95", "Air Conditioner"],
@@ -60,7 +60,7 @@ export default function VehicleDetails({ vehicle }: { vehicle: Vehicle }) {
     },
     {
       name: "Mercedes",
-      pricePerDay: 50000,
+      price: 50000,
       image: "/images/carGray.png",
       type: "Sport",
       features: ["Automatic", "PB 95", "Air Conditioner"],
@@ -85,7 +85,7 @@ export default function VehicleDetails({ vehicle }: { vehicle: Vehicle }) {
     },
     {
       name: "Mercedes",
-      pricePerDay: 45000,
+      price: 45000,
       image: "/images/carGray.png",
       type: "Sedan",
       features: ["Automatic", "PB 95", "Air Conditioner"],
@@ -110,7 +110,7 @@ export default function VehicleDetails({ vehicle }: { vehicle: Vehicle }) {
     },
     {
       name: "Mercedes",
-      pricePerDay: 55000,
+      price: 55000,
       image: "/images/carGray.png",
       type: "Sedan",
       features: ["Automatic", "PB 95", "Air Conditioner"],
@@ -288,7 +288,7 @@ export default function VehicleDetails({ vehicle }: { vehicle: Vehicle }) {
                 </div>
 
                 <p className="text-3xl text-yellowkouzua font-bold mt-4">
-                  {vehicle.pricePerDay} FCFA{" "}
+                  {vehicle.price} FCFA{" "}
                   {vehicle.saleStatus === "RENT" ? "/ jour" : ""}
                 </p>
               </div>
@@ -487,7 +487,7 @@ export default function VehicleDetails({ vehicle }: { vehicle: Vehicle }) {
                         {car.name}
                       </h3>
                       <h3 className="text-yellowkouzua font-semibold uppercase">
-                        {car.pricePerDay} FCFA / Jour
+                        {car.price} FCFA / Jour
                       </h3>
                     </div>
 

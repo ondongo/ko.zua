@@ -26,7 +26,7 @@ export default function AddVehicle() {
     brand: "",
     model: "",
     year: "",
-    pricePerDay: "",
+    price: "",
     fuel: "",
     gearBox: "",
     seats: "",
@@ -184,8 +184,8 @@ export default function AddVehicle() {
           <Input
             placeholder="Prix par jour (€)"
             type="number"
-            name="pricePerDay"
-            defaultValue={formData.pricePerDay}
+            name="price"
+            defaultValue={formData.price}
             onChange={handleChange}
           />
           <Label>Disponibilité</Label>

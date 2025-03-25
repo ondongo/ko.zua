@@ -5,7 +5,15 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import { useSidebar } from "@/context/SidebarContext";
-import { LayoutDashboard, CalendarCheck, Car, Building2, Plus, List, ChevronDownIcon } from "lucide-react";
+import {
+  LayoutDashboard,
+  CalendarCheck,
+  Car,
+  Building2,
+  Plus,
+  List,
+  ChevronDownIcon,
+} from "lucide-react";
 import { HorizontaLDots, PlugInIcon } from "@/icons";
 
 const iconSize = 20;
@@ -25,21 +33,26 @@ const navItems: NavItem[] = [
 
   {
     name: "Resevations",
-    icon:<CalendarCheck size={iconSize} />,
-    subItems: [
-       { name: "Lister", path: "/admin/vehicles/list", pro: false }],
+    icon: <CalendarCheck size={iconSize} />,
+    subItems: [{ name: "Lister", path: "/admin/vehicles/list", pro: false }],
   },
 
   {
     name: "Véhicules",
     icon: <Car size={iconSize} />,
-    subItems: [{ name: "Ajouter", path: "/admin/vehicles/add", pro: false }, { name: "Lister", path: "/admin/vehicles/list", pro: false }],
+    subItems: [
+      { name: "Ajouter", path: "/admin/vehicles/add", pro: false },
+      { name: "Lister", path: "/admin/vehicles/list", pro: false },
+    ],
   },
 
   {
     name: "Immobiliers",
-    icon:<Building2 size={iconSize} />,
-    subItems: [{ name: "Ajouter", path: "/admin/real_estates/add", pro: false }, { name: "Lister", path: "/admin/real_estates/list", pro: false }],
+    icon: <Building2 size={iconSize} />,
+    subItems: [
+      { name: "Ajouter", path: "/admin/real_estates/add", pro: false },
+      { name: "Lister", path: "/admin/real_estates/list", pro: false },
+    ],
   },
 ];
 
@@ -47,11 +60,10 @@ const othersItems: NavItem[] = [
   {
     icon: <PlugInIcon />,
     name: "Déconnexion",
-    path: "/",
   },
 ];
 
-function AppSidebar() {
+function AppSidebar({ session, signOut }: any) {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
 
@@ -244,10 +256,10 @@ function AppSidebar() {
       return { type: menuType, index };
     });
   };
-
-  useEffect(() => {
-    console.log("Largeur écran détectée :", window.innerWidth);
-  }, []);
+  const handleSignout = async () => {
+    // Sign out logic here
+    await signOut();
+  };
   return (
     <div
       className={`fixed top-0 left-0 flex flex-col px-5  text-gray-900 h-screen transition-all duration-300 ease-in-out z-20 border-r border-gray-200 
@@ -326,13 +338,13 @@ function AppSidebar() {
                   <HorizontaLDots />
                 )}
               </h2>
-              {renderMenuItems(othersItems, "others")}
+              <button onClick={handleSignout} />
             </div>
           </div>
         </nav>
       </div>
     </div>
   );
-};
+}
 
 export default AppSidebar;
