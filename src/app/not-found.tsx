@@ -9,23 +9,10 @@ export default function NotFound() {
       <GridShape />
       <div className="mx-auto w-full max-w-[242px] text-center sm:max-w-[472px]">
         <h1 className="mb-8 font-bold text-gray-800 text-title-md    xl:text-title-2xl">
-          ERREUR
+          406
         </h1>
 
-        <Image
-          src="/images/error/404.svg"
-          alt="404"
-          className="dark:hidden"
-          width={472}
-          height={152}
-        />
-        <Image
-          src="/images/error/404-dark.svg"
-          alt="404"
-          className="hidden dark:block"
-          width={472}
-          height={152}
-        />
+       
 
         <p className="mt-10 mb-6 text-base text-gray-700   sm:text-lg">
           Nous n&apos;arrivons pas à trouver la page que vous recherchez!

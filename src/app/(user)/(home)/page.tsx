@@ -9,6 +9,7 @@ import Image from "next/image";
 import RecentlyAdded from "@/components/landing/RecentlyAdded";
 
 export default function Home() {
+      
   return (
     <main className="max-w-[1920px] bg-white mx-auto relative overflow-hidden">
       <Header />

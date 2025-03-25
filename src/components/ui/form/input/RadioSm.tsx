@@ -40,13 +40,13 @@ const RadioSm: React.FC<RadioProps> = ({
           className={`mr-2 flex h-4 w-4 items-center justify-center rounded-full border ${
             checked
               ? "border-brand-500 bg-brand-500"
-              : "bg-transparent border-gray-300 dark:border-gray-700"
+              : "bg-transparent border-gray-300 "
           }`}
         >
           {/* Inner Dot */}
           <span
             className={`h-1.5 w-1.5 rounded-full ${
-              checked ? "bg-white" : "bg-white dark:bg-[#1e2636]"
+              checked ? "bg-white" : "bg-white "
             }`}
           ></span>
         </span>
