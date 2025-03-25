@@ -7,6 +7,7 @@ import Label from "@/components/ui/form/Label";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
 import React, { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,7 +35,10 @@ export default function SignInForm() {
           </div>
           <div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5">
-              <button className="inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800 dark:bg-white/5    dark:hover:bg-white/10">
+              <button
+                onClick={() => signIn("google", { redirectTo: "/admin" })}
+                className="inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800"
+              >
                 <svg
                   width="20"
                   height="20"
@@ -61,7 +65,7 @@ export default function SignInForm() {
                 </svg>
                 Sign in with Google
               </button>
-              <button className="inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800 dark:bg-white/5    dark:hover:bg-white/10">
+              <button className="inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800 ">
                 <svg
                   width="21"
                   className="fill-current"
