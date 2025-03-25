@@ -20,10 +20,13 @@ import { useState } from "react";
 import { AlertType } from "@/types/allType";
 import AlertModal from "@/components/ui/modals/AlertModal";
 import Image from "next/image";
+import { v4 as uuid } from "uuid";
+
 export default function AddVehicle() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
     setValue,
     watch,
@@ -61,13 +64,15 @@ export default function AddVehicle() {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<AlertType>("success");
 
-  const onSubmit = async (data: VehicleFormData) => {
-    console.log("Form data submitted:", data); 
+  const onSubmit = async () => {
+    const data = getValues();
+    console.log("Form data submitted:", data);
     console.log("Form data:", data);
     console.log("Form errors:", errors);
+    const imageUrls =
+      data.images?.map((file: any) => file.path || file.url) || [];
     setLoading(true);
     setMessage("");
-
     try {
       const formattedData = {
         ...data,
@@ -77,10 +82,10 @@ export default function AddVehicle() {
         description: data.description ?? "",
         distance: data.distance ?? "",
         discountedPrice: null,
-        features: JSON.stringify({}),
-        location: JSON.stringify({ city: data.location, country: "Congo" }),
-        images: JSON.stringify(data.images),
-        id: "",
+        features: {},
+        location: { city: data.location, country: "Congo" },
+        images: imageUrls,
+        id: uuid(),
         starCount: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -100,10 +105,21 @@ export default function AddVehicle() {
       setLoading(false);
     }
   };
+  const handlePreview = () => {
+    const formData = getValues(); // Cette fonction permet d'obtenir les valeurs actuelles du formulaire
+    console.log("Données du formulaire avant soumission : ", formData);
+  };
 
   return (
     <div className="lg:mx-10">
       <PageBreadcrumb pageTitle="Ajouter un Véhicule" />
+      <button
+        type="button"
+        onClick={handlePreview}
+        className="bg-gray-300 p-2 rounded"
+      >
+        Aperçu des données
+      </button>
 
       <div className="flex items-center justify-center w-full py-6">
         {steps.map((step, index) => (
@@ -140,7 +156,7 @@ export default function AddVehicle() {
         ))}
       </div>
 
-      <form  onSubmit={handleSubmit(onSubmit)} >
+      <form onSubmit={handleSubmit(onSubmit)}>
         {currentStep === 0 && (
           <Section title="Informations générales">
             <Label>Nom du véhicule</Label>
@@ -584,7 +600,6 @@ export default function AddVehicle() {
               </p>
               <p>
                 <strong>Caractéristiques :</strong>{" "}
-              
               </p>
 
               <p>
