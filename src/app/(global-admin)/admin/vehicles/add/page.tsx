@@ -12,6 +12,8 @@ import {
   conditionOptions,
   fuelOptions,
   steps,
+  gearBoxOptions,
+  locationOptions,
 } from "@/utils/records";
 import { VehicleFormData, vehicleSchema } from "@/schemas";
 import { useState } from "react";
@@ -63,6 +65,7 @@ export default function AddVehicle() {
   const [modalType, setModalType] = useState<AlertType>("success");
 
   const onSubmit = async (data: VehicleFormData) => {
+    console.log(">>>>>>>>>>>>>>>>>>>>", data);
     setLoading(true);
     setMessage("");
 
@@ -75,7 +78,7 @@ export default function AddVehicle() {
         distance: data.distance ?? "",
         discountedPrice: data.discountedPrice ? data.discountedPrice : null,
         features: JSON.stringify(data.features),
-        location: JSON.stringify(data.location),
+        location: JSON.stringify({ city: data.location, country: "Congo" }),
         images: JSON.stringify(data.images),
         id: "",
         starCount: 0,
@@ -190,6 +193,27 @@ export default function AddVehicle() {
                 <p>{errors.description?.message}</p>
               </div>
             )}
+
+            <Label>Localisation</Label>
+            <select
+              {...register("location")}
+              className="w-full p-2 border rounded"
+            >
+              {locationOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            {errors.location && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.location?.message}</p>
+              </div>
+            )}
+
             <Label>Vente ou Location</Label>
             <select
               {...register("saleStatus")}
@@ -349,9 +373,32 @@ export default function AddVehicle() {
             </select>
             <p>{errors.fuel?.message}</p>
 
+            <Label>Boite de vitesse</Label>
+            <select
+              {...register("gearBox")}
+              className="w-full p-2 border rounded"
+            >
+              {gearBoxOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            {errors.gearBox && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.gearBox?.message}</p>
+              </div>
+            )}
+
             <Label>Nombre de sièges</Label>
             <input
-              {...register("seats")}
+              {...register("seats", {
+                valueAsNumber: true,
+              })}
               type="number"
               className="w-full p-2 border rounded"
               placeholder="Nombre de sièges"
@@ -367,7 +414,9 @@ export default function AddVehicle() {
 
             <Label>Nombre de portes</Label>
             <input
-              {...register("doors")}
+              {...register("doors", {
+                valueAsNumber: true,
+              })}
               type="number"
               className="w-full p-2 border rounded"
               placeholder="Nombre de portes"

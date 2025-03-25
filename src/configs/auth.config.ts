@@ -32,4 +32,6 @@ export default {
       return session;
     },
   },
+
+  
 } satisfies NextAuthConfig;
