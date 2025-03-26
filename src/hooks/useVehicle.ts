@@ -14,7 +14,7 @@ export const useVehicle = () => {
     setError(null);
 
     try {
-      const data = await VehicleController.getAllVehicles();
+      //const data = await VehicleController.getAllVehicles();
       //setVehicles(data);
     } catch (err: any) {
       setError(err.message);

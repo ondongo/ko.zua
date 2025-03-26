@@ -140,6 +140,9 @@ model Rating {
   vehicle      Vehicle?    @relation(fields: [vehicleId], references: [id])
   immobilier   Immobilier? @relation(fields: [immobilierId], references: [id])
   stars        Int
+  authorName   String      // Nom de l'auteur de l'avis
+  content      String      // Contenu de l'avis
+  createdAt    DateTime    @default(now()) // Date de création
 }
 
 enum SaleStatus {
