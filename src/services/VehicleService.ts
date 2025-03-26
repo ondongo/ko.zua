@@ -36,20 +36,26 @@ export class VehicleService {
     return this.repository.findByBrand(brand);
   }
 
-  async getFilteredVehicles(filters: {
-    availability?: boolean;
-    brand?: string;
-    minPrice?: number;
-    maxPrice?: number;
-    location?: string;
-    category?: string;
-    minRating?: number;
-    searchQuery?: string;
-    startDate?: Date;
-    endDate?: Date;
-    saleStatus?: "RENT" | "SALE";
-  }): Promise<Vehicle[]> {
-    return this.repository.getFilteredVehicles(filters);
+  async getFilteredVehicles(
+    filters: {
+      availability?: boolean;
+      brand?: string;
+      minPrice?: number;
+      maxPrice?: number;
+      location?: string;
+      category?: string;
+      minRating?: number;
+      searchQuery?: string;
+      startDate?: Date;
+      endDate?: Date;
+      saleStatus?: "RENT" | "SALE";
+    },
+    pagination: {
+      page?: number;
+      pageSize?: number;
+    }
+  ): Promise<PaginatedResult<Vehicle>> {
+    return this.repository.getFilteredVehicles(filters, pagination);
   }
 
   async findSimilarVehicles(

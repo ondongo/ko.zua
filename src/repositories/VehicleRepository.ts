@@ -37,23 +37,27 @@ export class VehicleRepository
     });
   }
 
-  async getFilteredVehicles(filters: {
-    availability?: boolean;
-    brand?: string;
-    minPrice?: number;
-    maxPrice?: number;
-    location?: string;
-    category?: string;
-    minRating?: number;
-    searchQuery?: string;
-    startDate?: Date;
-    endDate?: Date;
-    saleStatus?: "RENT" | "SALE";
-    page?: number;
-    pageSize?: number;
-  }){
-    const page = filters.page ?? 1;
-    const pageSize = filters.pageSize ?? 10;
+  async getFilteredVehicles(
+    filters: {
+      availability?: boolean;
+      brand?: string;
+      minPrice?: number;
+      maxPrice?: number;
+      location?: string;
+      category?: string;
+      minRating?: number;
+      searchQuery?: string;
+      startDate?: Date;
+      endDate?: Date;
+      saleStatus?: "RENT" | "SALE";
+    },
+    pagination: {
+      page?: number;
+      pageSize?: number;
+    } 
+  ): Promise<PaginatedResult<Vehicle>> {
+    const page = pagination.page ?? 1;
+    const pageSize = pagination.pageSize ?? 12;
     const [vehicles, totalItems] = await prisma.$transaction([
       prisma.vehicle.findMany({
         where: {
@@ -107,7 +111,7 @@ export class VehicleRepository
         skip: (page - 1) * pageSize,
         take: pageSize,
       }),
-    
+
       prisma.vehicle.count({
         where: {
           ...(filters.availability !== undefined && {
@@ -159,10 +163,9 @@ export class VehicleRepository
         },
       }),
     ]);
-    
+
     const totalPages = Math.ceil(totalItems / pageSize);
-    
-    return { vehicles, totalItems, totalPages };
-    
+
+    return { data: vehicles, totalItems, totalPages };
   }
 }

@@ -17,12 +17,11 @@ export const VehicleController = {
     const result = await vehicleService.getAllVehicles(page, pageSize);
 
     return {
-      vehicles: result.data, 
+      vehicles: result.data,
       totalPages: result.totalPages,
       totalItems: result.totalItems,
     };
   },
-
 
   async getVehicleById(id: string): Promise<Vehicle | null> {
     return await vehicleService.getVehicleById(id);
@@ -44,19 +43,38 @@ export const VehicleController = {
     return await vehicleService.getVehiclesByBrand(brand);
   },
 
-  async getFilteredVehicles(filters: {
-    availability?: boolean;
-    brand?: string;
-    minPrice?: number;
-    maxPrice?: number;
-    location?: string;
-    category?: string;
-    searchQuery?: string;
-    startDate?: Date;
-    endDate?: Date;
-    saleStatus?: "RENT" | "SALE";
-  }): Promise<Vehicle[]> {
-    return await vehicleService.getFilteredVehicles(filters);
+  async getFilteredVehicles(
+    filters: {
+      availability?: boolean;
+      brand?: string;
+      minPrice?: number;
+      maxPrice?: number;
+      location?: string;
+      category?: string;
+      searchQuery?: string;
+      startDate?: Date;
+      endDate?: Date;
+      saleStatus?: "RENT" | "SALE";
+    },
+    pagination: {
+      page?: number;
+      pageSize?: number;
+    }
+  ): Promise<{
+    vehicles: Vehicle[];
+    totalPages: number;
+    totalItems: number;
+  }> {
+    const result = await vehicleService.getFilteredVehicles(
+      filters,
+      pagination
+    );
+
+    return {
+      vehicles: result.data,
+      totalPages: result.totalPages,
+      totalItems: result.totalItems,
+    };
   },
 
   async getSimilarVehicles(

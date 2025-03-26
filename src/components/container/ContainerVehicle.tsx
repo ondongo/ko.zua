@@ -9,20 +9,22 @@ import { getAllVehicles, getFilteredVehicles } from "@/actions/vehicles";
 import SkeletonProductCard from "../skeletons/SkeletonProductCard";
 import ProductCardVehicle from "@/components/products/ProductCardVehicle";
 import ProductsVehiclesFilter from "@/components/products/ProductsVehiclesFilter";
+import Pagination from "../common/tables/Pagination";
 
 function ContainerVehicle() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-
   const [filters, setFilters] = useState<any>({});
   const [availability, setAvailability] = useState<boolean | null>(null);
   const [priceRange, setPriceRange] = useState({ min: 100, max: 500 });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const [searchParams] = useSearchParams();
   const prevSearchParamsRef = useRef<URLSearchParams>(new URLSearchParams());
   const [sortOption, setSortOption] = useState<string>("default");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
+  /* Manage selection input  */
   const selectSaleOrRentHandler = (e: any) => {
     const { value } = e.target;
 
@@ -63,6 +65,7 @@ function ContainerVehicle() {
     }));
   };
 
+  /* Manage Filters */
   const getFiltersFromURL = () => {
     const params = new URLSearchParams(window.location.search);
     const availabilityParam = params.get("availability");
@@ -124,7 +127,7 @@ function ContainerVehicle() {
     if (filters.availability !== null && filters.availability !== undefined) {
       newParams.set("availability", filters.availability.toString());
     }
-
+    if (filters.brand) newParams.set("brand", filters.brand);
     // Comparaison avec les paramètres actuels pour éviter la redondance
     const currentParams = new URLSearchParams(window.location.search);
     if (currentParams.toString() !== newParams.toString()) {
@@ -161,23 +164,28 @@ function ContainerVehicle() {
     setVehicles((prev) => sortVehicles(prev, sortOption));
   }, [sortOption]);
 
+  /* Manage pagination */
+
   const fetchVehicles = async () => {
     setLoading(true);
     try {
       const filters = getFiltersFromURL();
-
-      let data: Vehicle[];
-
+      //let data: Vehicle[];
+      let result: any;
       if (Object.keys(filters).length === 0) {
-        data = await getAllVehicles(1, 1);
+        result = await getAllVehicles(currentPage, 12);
       } else {
-        data = await getFilteredVehicles(filters);
+        result = await getFilteredVehicles(filters, {
+          page: currentPage,
+          pageSize: 12,
+        });
       }
 
-      setVehicles(data);
+      setVehicles(result.vehicles);
+      setTotalPages(result.totalPages);
     } catch (error) {
       console.error("Erreur lors de la récupération des véhicules :", error);
-      setError("Une erreur est survenue lors du chargement des véhicules.");
+      //setError("Une erreur est survenue lors du chargement des véhicules.");
     } finally {
       setLoading(false);
     }
@@ -185,13 +193,16 @@ function ContainerVehicle() {
 
   useEffect(() => {
     fetchVehicles();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     // Vérification si les paramètres ont changé avant d'exécuter la fonction de récupération des données
     const currentSearchParams = new URLSearchParams(window.location.search);
 
     console.log("currentSearchParams:", currentSearchParams);
+    console.log(">>>>>>>>>>>>>>>", Number(currentSearchParams.get("page")));
+    console.log(">>>>>>>>CurrentPage", currentPage);
+
     if (
       currentSearchParams.toString() !== prevSearchParamsRef.current.toString()
     ) {
@@ -247,23 +258,25 @@ function ContainerVehicle() {
                   ))}
                 </>
               ) : (
-                <div>
-                  <DataIteration datas={vehicles} startLength={0} endLength={6}>
-                    {({ datas }: { datas: Vehicle }) => (
-                      <div data-aos="fade-up" key={datas.id} className="mb-8">
-                        <ProductCardVehicle datas={datas} />
-                      </div>
-                    )}
-                  </DataIteration>
-
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={setCurrentPage}
-                  />
-                </div>
+                <DataIteration datas={vehicles} startLength={0} endLength={6}>
+                  {({ datas }: { datas: Vehicle }) => (
+                    <div data-aos="fade-up" key={datas.id} className="mb-8">
+                      <ProductCardVehicle datas={datas} />
+                    </div>
+                  )}
+                </DataIteration>
               )}
             </div>
+
+            {!loading && (
+              <div className="w-full flex justify-center items-center">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

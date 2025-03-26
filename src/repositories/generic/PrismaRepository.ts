@@ -1,9 +1,6 @@
 import { PaginatedResult } from "@/types/allType";
 import { IRepository } from "./IRepository";
-
-
-
-
+import { prisma } from "../../configs/prisma";
 export class GenericRepository<T> implements IRepository<T> {
   private model: any;
 
@@ -13,16 +10,14 @@ export class GenericRepository<T> implements IRepository<T> {
   async findAll(page: number, pageSize: number): Promise<PaginatedResult<T>> {
     const skip = (page - 1) * pageSize;
 
-    const data = await this.model.findMany({
-      skip,
-      take: pageSize,
-    });
+    const [data, totalItems] = await prisma.$transaction([
+      this.model.findMany({ skip, take: pageSize }),
+      this.model.count(),
+    ]);
 
-    const totalItems = await this.model.count();
-    const totalPages = Math.ceil(totalItems / pageSize);
     return {
       data,
-      totalPages,
+      totalPages: Math.ceil(totalItems / pageSize),
       totalItems,
     };
   }

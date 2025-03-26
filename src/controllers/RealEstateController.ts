@@ -1,5 +1,3 @@
-import { VehicleService } from "@/services/VehicleService";
-import { VehicleRepository } from "@/repositories/VehicleRepository";
 import { Immobilier, Vehicle } from "@prisma/client";
 import { RealEstateService } from "@/services/RealEstateService";
 import { RealEstateRepository } from "@/repositories/RealEstateRepository";

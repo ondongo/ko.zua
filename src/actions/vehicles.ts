@@ -101,23 +101,31 @@ export async function getAllVehicles(page: number, pageSize: number) {
   };
 }
 
-export async function getFilteredVehicles(filters: {
-  availability?: boolean;
-  brand?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  location?: string;
-  category?: string;
-  minRating?: number;
-  searchQuery?: string;
-  startDate?: Date;
-  endDate?: Date;
-  saleStatus?: "RENT" | "SALE";
-}): Promise<Vehicle[]> {
+export async function getFilteredVehicles(
+  filters: {
+    availability?: boolean;
+    brand?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    location?: string;
+    category?: string;
+    minRating?: number;
+    searchQuery?: string;
+    startDate?: Date;
+    endDate?: Date;
+    saleStatus?: "RENT" | "SALE";
+  },
+  pagination: {
+    page?: number;
+    pageSize?: number;
+  }
+) {
   try {
-    const vehicles = await VehicleController.getFilteredVehicles(filters);
-
-    return vehicles.map((vehicle) => ({
+    const result = await VehicleController.getFilteredVehicles(
+      filters,
+      pagination
+    );
+    const data = result.vehicles.map((vehicle) => ({
       id: vehicle.id,
       name: vehicle.name,
       description: vehicle.description ?? undefined,
@@ -153,6 +161,11 @@ export async function getFilteredVehicles(filters: {
       fuel: vehicle.fuel,
       createdAt: vehicle.createdAt ? new Date(vehicle.createdAt) : new Date(),
     }));
+    return {
+      vehicles: data,
+      totalPages: result.totalPages ?? 1,
+      totalItems: result.totalItems ?? 0,
+    };
   } catch (error) {
     console.error(
       "Erreur lors de la récupération des véhicules filtrés :",
