@@ -1,6 +1,8 @@
+import { PaginatedResult } from "@/types/allType";
+
 // Abstract Repository Interfaces (repositories/abstract)
 export interface IRepository<T> {
-  findAll(): Promise<T[]>;
+  findAll(page: number, pageSize: number): Promise<PaginatedResult<T>>;
   findById(id: string): Promise<T | null>;
   save(entity: T): Promise<void>;
   delete(id: string): Promise<void>;

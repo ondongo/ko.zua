@@ -6,9 +6,23 @@ const repository = new VehicleRepository();
 const vehicleService = new VehicleService(repository);
 
 export const VehicleController = {
-  async getAllVehicles(): Promise<Vehicle[]> {
-    return await vehicleService.getAllVehicles();
+  async getAllVehicles(
+    page: number,
+    pageSize: number
+  ): Promise<{
+    vehicles: Vehicle[];
+    totalPages: number;
+    totalItems: number;
+  }> {
+    const result = await vehicleService.getAllVehicles(page, pageSize);
+
+    return {
+      vehicles: result.data, 
+      totalPages: result.totalPages,
+      totalItems: result.totalItems,
+    };
   },
+
 
   async getVehicleById(id: string): Promise<Vehicle | null> {
     return await vehicleService.getVehicleById(id);
@@ -43,5 +57,12 @@ export const VehicleController = {
     saleStatus?: "RENT" | "SALE";
   }): Promise<Vehicle[]> {
     return await vehicleService.getFilteredVehicles(filters);
+  },
+
+  async getSimilarVehicles(
+    category: string,
+    excludeId: string
+  ): Promise<Vehicle[]> {
+    return await vehicleService.findSimilarVehicles(category, excludeId);
   },
 };

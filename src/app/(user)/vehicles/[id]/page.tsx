@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { getVehicleById } from "@/actions/vehicles";
+import { getSimilarVehicles, getVehicleById } from "@/actions/vehicles";
 import Breadcrumb from "@/components/landing/Breadcrumb";
 import VehicleDetails from "@/components/container/ContainerVehicleDetails";
 
@@ -9,8 +9,11 @@ import DetailsSkeleton from "@/components/skeletons/DetailsSkeleton";
 
 async function VehicleData({ id }: { id: string }) {
   const vehicle = await getVehicleById(id);
+
   if (!vehicle) return notFound();
-  return <VehicleDetails vehicle={vehicle} />;
+  const similarVehicles = await getSimilarVehicles(vehicle.category, id);
+
+  return <VehicleDetails vehicle={vehicle} similarVehicles={similarVehicles} />;
 }
 
 export default async function VehiclePage({ params }: any) {

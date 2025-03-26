@@ -7,8 +7,6 @@ import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import NavBarStatic from "@/components/landing/NavBarStatic";
-import Breadcrumb from "@/components/landing/Breadcrumb";
 import { motion } from "framer-motion";
 import { DateRange } from "react-date-range";
 import { FaCalendarAlt, FaCheckCircle, FaStar } from "react-icons/fa";

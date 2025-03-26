@@ -113,13 +113,6 @@ export default function AddVehicle() {
   return (
     <div className="lg:mx-10">
       <PageBreadcrumb pageTitle="Ajouter un Véhicule" />
-      <button
-        type="button"
-        onClick={handlePreview}
-        className="bg-gray-300 p-2 rounded"
-      >
-        Aperçu des données
-      </button>
 
       <div className="flex items-center justify-center w-full py-6">
         {steps.map((step, index) => (

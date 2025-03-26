@@ -66,7 +66,7 @@ function HeaderAdmin({ session, signOut }: any) {
 
         {/* Boutons Notification & User */}
         <div className="flex items-center gap-4">
-          <NotificationDropdown />
+         {/*  <NotificationDropdown /> */}
           <UserDropdown session={session} signOut={signOut} />
           <button
             onClick={toggleApplicationMenu}

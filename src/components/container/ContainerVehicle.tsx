@@ -169,7 +169,7 @@ function ContainerVehicle() {
       let data: Vehicle[];
 
       if (Object.keys(filters).length === 0) {
-        data = await getAllVehicles();
+        data = await getAllVehicles(1,1);
       } else {
         data = await getFilteredVehicles(filters);
       }

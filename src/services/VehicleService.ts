@@ -1,5 +1,6 @@
 import { Vehicle } from "@prisma/client";
 import { VehicleRepository } from "@/repositories/VehicleRepository";
+import { PaginatedResult } from "@/types/allType";
 
 export class VehicleService {
   private repository: VehicleRepository;
@@ -8,8 +9,11 @@ export class VehicleService {
     this.repository = repository;
   }
 
-  async getAllVehicles(): Promise<Vehicle[]> {
-    return this.repository.findAll();
+  async getAllVehicles(
+    page: number,
+    pageSize: number
+  ): Promise<PaginatedResult<Vehicle>> {
+    return this.repository.findAll(page, pageSize);
   }
 
   async getVehicleById(id: string): Promise<Vehicle | null> {
