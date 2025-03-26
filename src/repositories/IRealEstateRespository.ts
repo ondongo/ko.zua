@@ -1,5 +1,6 @@
 import { Immobilier } from "@prisma/client";
 import { IRepository } from "./generic/IRepository";
+import { PaginatedResult } from "@/types/allType";
 
 export interface IRealEstateRepository extends IRepository<Immobilier> {
     getFilteredImmobilier(filters: {
@@ -14,7 +15,10 @@ export interface IRealEstateRepository extends IRepository<Immobilier> {
         startDate?: Date;
         endDate?: Date;
         saleStatus?: "RENT" | "SALE";
-      }): Promise<Immobilier[]>;
+      },  pagination: {
+        page?: number;
+        pageSize?: number;
+      }): Promise<PaginatedResult<Immobilier>>;
     
       findSimilarImmobilier(category: string, excludeId: string): Promise<Immobilier[]>;
 }

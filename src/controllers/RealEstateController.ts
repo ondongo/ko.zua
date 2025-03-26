@@ -6,12 +6,22 @@ const repository = new RealEstateRepository();
 const realEstateService = new RealEstateService(repository);
 
 export const RealEstateController = {
+  async getAllRealEstates(
+    page: number,
+    pageSize: number
+  ): Promise<{
+    immobiliers: Immobilier[];
+    totalPages: number;
+    totalItems: number;
+  }> {
+    const result = await realEstateService.getAllRealEstates(page, pageSize);
 
-
-  async getAllRealEstates(): Promise<Immobilier[]> {
-    return await realEstateService.getAllRealEstates();
+    return {
+      immobiliers: result.data,
+      totalPages: result.totalPages,
+      totalItems: result.totalItems,
+    };
   },
-
 
   async getRealEstateById(id: string): Promise<Immobilier | null> {
     return await realEstateService.getRealEstateById(id);
@@ -25,20 +35,44 @@ export const RealEstateController = {
     return await realEstateService.deleteRealEstate(id);
   },
 
+  async getFilteredRealEstates(
+    filters: {
+      availability?: boolean;
+      brand?: string;
+      minPrice?: number;
+      maxPrice?: number;
+      city?: string;
+      neighborhood?: string;
+      category?: string;
+      searchQuery?: string;
+      startDate?: Date;
+      endDate?: Date;
+      saleStatus?: "RENT" | "SALE";
+    },
+    pagination: {
+      page?: number;
+      pageSize?: number;
+    }
+  ): Promise<{
+    immobiliers: Immobilier[];
+    totalPages: number;
+    totalItems: number;
+  }> {
+    const result = await realEstateService.getFilteredRealEstate(
+      filters,
+      pagination
+    );
 
-  async getFilteredRealEstates(filters: {
-    availability?: boolean;
-    brand?: string;
-    minPrice?: number;
-    maxPrice?: number;
-    city?: string;
-    neighborhood?: string;
-    category?: string;
-    searchQuery?: string;
-    startDate?: Date;
-    endDate?: Date;
-    saleStatus?: "RENT" | "SALE";
-  }): Promise<Immobilier[]> {
-    return await realEstateService.getFilteredRealEstate(filters);
+    return {
+      immobiliers: result.data,
+      totalPages: result.totalPages,
+      totalItems: result.totalItems,
+    };
+  },
+  async getSimilarRealEstate(
+    category: string,
+    excludeId: string
+  ): Promise<Immobilier[]> {
+    return await realEstateService.findSimilarRealEstate(category, excludeId);
   },
 };

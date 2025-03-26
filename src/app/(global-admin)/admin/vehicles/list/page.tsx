@@ -3,7 +3,7 @@
 import { getAllVehicles } from "@/actions/vehicles";
 import ComponentCard from "@/components/common/ComponentCard";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-import BasicTableOne from "@/components/common/tables/BasicTableOne";
+
 import Pagination from "@/components/common/tables/Pagination";
 import TableVehicles from "@/components/common/tables/TableVehicles";
 import { Vehicle } from "@/types/vehicle";

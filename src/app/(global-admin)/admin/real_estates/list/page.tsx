@@ -1,26 +1,36 @@
 "use client";
 
+import { getAllRealEstates } from "@/actions/realEstates";
 import ComponentCard from "@/components/common/ComponentCard";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-import BasicTableOne from "@/components/common/tables/BasicTableOne";
 import Pagination from "@/components/common/tables/Pagination";
-import { useState } from "react";
+import TableRealEstates from "@/components/common/tables/TableRealEstates";
+import { RealEstate } from "@/types/real_estate";
+import { useEffect, useState } from "react";
 
 import React from "react";
 
-
-
-export default function BasicTables() {
+export default function RealEstatesList() {
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 10; 
 
+  const [realEstates, setRealEstates] = useState<RealEstate[]>([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const fetchRealEstates = async () => {
+    const result = await getAllRealEstates(currentPage, 4);
+    setRealEstates(result.immobiliers);
+    setTotalPages(result.totalPages);
+  };
+
+  useEffect(() => {
+    fetchRealEstates();
+  }, [currentPage]);
   return (
     <div>
-      <PageBreadcrumb pageTitle="Basic Table" />
+      <PageBreadcrumb pageTitle="Liste des logements" />
       <div className="space-y-6">
-        <ComponentCard title="Basic Table 1">
-          <BasicTableOne />
-          <Pagination 
+        <ComponentCard title="Liste des logements">
+          <TableRealEstates real_estates={realEstates} />
+          <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}

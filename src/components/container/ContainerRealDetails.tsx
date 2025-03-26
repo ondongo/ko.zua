@@ -14,9 +14,15 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 import { featureLabels } from "@/utils/records";
 import { RealEstate } from "@/types/real_estate";
+import { useRouter } from "next/navigation";
 
-
-export default function RealEstateDetails({ realEstate }: { realEstate: RealEstate }) {
+export default function RealEstateDetails({
+  realEstate,
+  similarRealEstates,
+}: {
+  realEstate: RealEstate;
+  similarRealEstates: RealEstate[];
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
   const [activeTab, setActiveTab] = useState<"description" | "reviews">(
@@ -31,109 +37,6 @@ export default function RealEstateDetails({ realEstate }: { realEstate: RealEsta
     },
   ]);
   const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const otherCars = [
-    {
-      name: "Mercedes",
-      price: 25000,
-      image: "/images/carGray.png",
-      type: "Sedan",
-      features: ["Automatic", "PB 95", "Air Conditioner"],
-      info: [
-        {
-          icon: "/icons/carSlider/gearshift.svg",
-          text: "Auto",
-        },
-        {
-          icon: "/icons/carSlider/seat.svg",
-          text: "4 Places",
-        },
-        {
-          icon: "/icons/carSlider/gas.svg",
-          text: "Essence",
-        },
-        {
-          icon: "/icons/carSlider/engine.svg",
-          text: "5.0L V8",
-        },
-      ],
-    },
-    {
-      name: "Mercedes",
-      price: 50000,
-      image: "/images/carGray.png",
-      type: "Sport",
-      features: ["Automatic", "PB 95", "Air Conditioner"],
-      info: [
-        {
-          icon: "/icons/carSlider/gearshift.svg",
-          text: "Auto",
-        },
-        {
-          icon: "/icons/carSlider/seat.svg",
-          text: "4 Places",
-        },
-        {
-          icon: "/icons/carSlider/gas.svg",
-          text: "Essence",
-        },
-        {
-          icon: "/icons/carSlider/engine.svg",
-          text: "5.0L V8",
-        },
-      ],
-    },
-    {
-      name: "Mercedes",
-      price: 45000,
-      image: "/images/carGray.png",
-      type: "Sedan",
-      features: ["Automatic", "PB 95", "Air Conditioner"],
-      info: [
-        {
-          icon: "/icons/carSlider/gearshift.svg",
-          text: "Auto",
-        },
-        {
-          icon: "/icons/carSlider/seat.svg",
-          text: "4 Places",
-        },
-        {
-          icon: "/icons/carSlider/gas.svg",
-          text: "Essence",
-        },
-        {
-          icon: "/icons/carSlider/engine.svg",
-          text: "5.0L V8",
-        },
-      ],
-    },
-    {
-      name: "Mercedes",
-      price: 55000,
-      image: "/images/carGray.png",
-      type: "Sedan",
-      features: ["Automatic", "PB 95", "Air Conditioner"],
-      info: [
-        {
-          icon: "/icons/carSlider/gearshift.svg",
-          text: "Auto",
-        },
-        {
-          icon: "/icons/carSlider/seat.svg",
-          text: "4 Places",
-        },
-        {
-          icon: "/icons/carSlider/gas.svg",
-          text: "Essence",
-        },
-        {
-          icon: "/icons/carSlider/engine.svg",
-          text: "5.0L V8",
-        },
-      ],
-    },
-  ];
 
   const [loading, setLoading] = useState(false);
 
@@ -167,12 +70,16 @@ export default function RealEstateDetails({ realEstate }: { realEstate: RealEsta
 
   const [isClient, setIsClient] = useState(false);
 
+  const router = useRouter();
+  function handleDetail(id: string) {
+    router.push(`/vehicles/${id}`);
+  }
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   if (!isClient) {
-    return null; 
+    return null;
   }
 
   return (
@@ -355,11 +262,9 @@ export default function RealEstateDetails({ realEstate }: { realEstate: RealEsta
                 </button>
               </motion.div>
 
-           
-
               {/* Équipement */}
               <div className="mt-6 mb-10">
-                <h2 className="text-2xl font-semibold mb-4">Car Equipment</h2>
+                <h2 className="text-2xl font-semibold mb-4">r Equipment</h2>
                 <div className="grid grid-cols-2 gap-4">
                   {Object.entries(realEstate.features).map(
                     ([key, value], index) => (
@@ -430,71 +335,108 @@ export default function RealEstateDetails({ realEstate }: { realEstate: RealEsta
         {/* Autres voitures */}
         <div>
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl font-semibold">Autres véhicules</h2>
-            <button className="text-yellowkouzua font-semibold hover:underline">
+            <h2 className="text-3xl font-semibold">Autres immobiliers</h2>
+            <button
+              onClick={() => router.push("/estates")}
+              className="text-yellowkouzua font-semibold hover:underline"
+            >
               Voir Tous →
             </button>
           </div>
 
           {/* Other Cars  */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {otherCars.map((car, index) => (
+            {similarRealEstates.map((r, index) => (
               <div
                 key={index}
-                className="max-w-[385px] mx-auto sm:mx-0 bg-gray-100 shadow-sm rounded-lg overflow-hidden"
+                className="max-w-[385px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden max-h-[600px] transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
               >
-                <Image
-                  src={car.image}
-                  alt={car.name}
-                  width={380}
-                  height={284}
-                  className="rounded-t-lg"
-                />
-                <div className="p-5">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <div className="text-sm text-gray-500">{car.type}</div>
-                      <h3 className="text-lg font-bold uppercase text-gray-800">
-                        {car.name}
-                      </h3>
-                      <h3 className="text-yellowkouzua font-semibold uppercase">
-                        {car.price} FCFA / Jour
-                      </h3>
-                    </div>
-
-                    <div className="flex gap-x-1 text-yellow-500">
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                      <FaStar />
-                    </div>
-                  </div>
-
-                  <div className="flex gap-x-4 mb-4">
-                    {car.info.map((item: any, index: number) => {
-                      return (
-                        <div
-                          key={index}
-                          className="flex flex-col items-center text-center"
-                        >
-                          <div className="bg-primary w-12 h-12 rounded-full flex justify-center items-center mb-2 shadow-md">
+                {/* Swiper avec images */}
+                <div className="relative">
+                  <Swiper
+                    modules={[Navigation, Pagination]}
+                    pagination={{ clickable: true }}
+                  >
+                    {Array.isArray(r.images) && r.images.length > 0 ? (
+                      r.images.map((imgSrc, index) => (
+                        <SwiperSlide key={index}>
+                          <div className="w-full h-[230px] relative">
                             <Image
-                              src={item.icon}
-                              width={24}
-                              height={24}
-                              alt={item.text}
+                              src={
+                                imgSrc.startsWith("http")
+                                  ? imgSrc
+                                  : "/images/about/car01.png"
+                              }
+                              alt={`Image ${index}`}
+                              layout="fill"
+                              objectFit="cover"
                             />
                           </div>
-                          <div className="text-xs text-gray-600 uppercase">
-                            {item.text}
-                          </div>
+                        </SwiperSlide>
+                      ))
+                    ) : (
+                      <SwiperSlide>
+                        <div className="w-full h-[230px] relative">
+                          <Image
+                            src="/placeholder.jpg"
+                            alt="Image par défaut"
+                            layout="fill"
+                            objectFit="cover"
+                          />
                         </div>
-                      );
-                    })}
+                      </SwiperSlide>
+                    )}
+                  </Swiper>
+
+                  {/* Disponibilité en haut à droite */}
+                  <div
+                    className={`absolute top-3 right-3 z-10 rounded-full px-3 py-1.5 font-medium ${
+                      r.availability
+                        ? "bg-green-50 text-green-600"
+                        : "bg-red-50 text-red-600"
+                    }`}
+                  >
+                    {r.availability ? "Disponible" : "Indisponible"}
+                  </div>
+                </div>
+
+                <div className="p-5">
+                  <div className="flex gap-x-1  justify-end">
+                    {/*   {[...Array(5)].map((_, i) => (
+                    <FaStar key={i} />
+                  ))} */}
+
+                    <div
+                      className={`rounded-full px-3 py-1.5 font-medium max-h-10 flex justify-center items-center ${
+                        r.saleStatus === "RENT"
+                          ? "bg-yellowkouzua-dark text-white"
+                          : "bg-[#111828] text-white"
+                      }`}
+                    >
+                      {" "}
+                      {r.saleStatus === "RENT" ? "À louer" : "À vendre"}
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <div className="text-sm text-gray-500">{r.category}</div>
+
+                      <h3 className="text-accent text-lg font-bold uppercase mt-2">
+                        {r.price.toLocaleString()} FCFA{" "}
+                        {r.saleStatus === "RENT" ? "/ jour" : ""}
+                      </h3>
+                    </div>
                   </div>
 
-                  <button className="btn btn-yellowkouzua btn-lg w-full py-3 rounded-lg">
+                  {/* Lieu et spécifications */}
+                  <div className=" text-gray-700 font-medium mb-3">
+                    {r.location.city}
+                  </div>
+
+                  <button
+                    className="btn btn-lg w-full py-3 rounded-lg bg-yellowkouzua"
+                    onClick={() => handleDetail(r.id)}
+                  >
                     Voir plus
                   </button>
                 </div>

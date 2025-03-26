@@ -14,6 +14,7 @@ import {
   getAllRealEstates,
   getFilteredRealEstates,
 } from "@/actions/realEstates";
+import Pagination from "../common/tables/Pagination";
 
 function ContainerRealEstate() {
   const [realEstate, setRealEstate] = useState<RealEstate[]>([]);
@@ -22,11 +23,12 @@ function ContainerRealEstate() {
   const [availability, setAvailability] = useState<boolean | null>(null);
   const [priceRange, setPriceRange] = useState({ min: 100, max: 500 });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const [searchParams] = useSearchParams();
   const prevSearchParamsRef = useRef<URLSearchParams>(new URLSearchParams());
   const [sortOption, setSortOption] = useState<string>("default");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   const selectSaleOrRentHandler = (e: any) => {
     const { value } = e.target;
@@ -148,14 +150,14 @@ function ContainerRealEstate() {
     if (option === "price_asc") {
       return [...realEstate].sort((a, b) => a.price - b.price);
     } else if (option === "price_desc") {
-      return [...realEstate].sort((a, b) => b.price- a.price);
+      return [...realEstate].sort((a, b) => b.price - a.price);
     } else if (option === "newest") {
-       return [...realEstate]
+      return [...realEstate]
         .filter((v) => v.createdAt && !isNaN(new Date(v.createdAt).getTime()))
         .sort(
           (a, b) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        ); 
+        );
     }
     return realEstate;
   };
@@ -169,18 +171,22 @@ function ContainerRealEstate() {
     try {
       const filters = getFiltersFromURL();
 
-      let data: RealEstate[];
+      let result: any;
 
       if (Object.keys(filters).length === 0) {
-        data = await getAllRealEstates();
+        result = await getAllRealEstates(currentPage, 12);
       } else {
-        data = await getFilteredRealEstates(filters);
+        result = await getFilteredRealEstates(filters, {
+          page: currentPage,
+          pageSize: 12,
+        });
       }
 
-      setRealEstate(data);
+      setRealEstate(result.immobiliers);
+      setTotalPages(result.totalPages);
     } catch (error) {
       console.error("Erreur lors de la récupération des Immo :", error);
-      setError("Une erreur est survenue lors du chargement des Immo.");
+      //setError("Une erreur est survenue lors du chargement des Immo.");
     } finally {
       setLoading(false);
     }
@@ -188,7 +194,7 @@ function ContainerRealEstate() {
 
   useEffect(() => {
     fetchRealEstates();
-  }, []);
+  }, [currentPage]);
 
   useEffect(() => {
     // Vérification si les paramètres ont changé avant d'exécuter la fonction de récupération des données
@@ -259,6 +265,16 @@ function ContainerRealEstate() {
                 </DataIteration>
               )}
             </div>
+
+            {!loading && (
+              <div className="w-full flex justify-center items-center">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -7,12 +7,13 @@ import NavBarStatic from "@/components/landing/NavBarStatic";
 import { notFound } from "next/navigation";
 import DetailsSkeleton from "@/components/skeletons/DetailsSkeleton";
 import RealEstateDetails from "@/components/container/ContainerRealDetails";
-import { getRealEstateById } from "@/actions/realEstates";
+import { getRealEstateById, getSimilarRealEstate } from "@/actions/realEstates";
 
 async function RealEstateData({ id }: { id: string }) {
   const realEstate = await getRealEstateById(id);
   if (!realEstate) return notFound();
-  return <RealEstateDetails realEstate={realEstate} />;
+  const similarRealEstates = await getSimilarRealEstate(realEstate.category, id);
+  return <RealEstateDetails realEstate={realEstate} similarRealEstates={similarRealEstates} />;
 }
 
 export default async function EstatePage({ params }: any) {
