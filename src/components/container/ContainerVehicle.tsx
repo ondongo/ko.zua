@@ -169,7 +169,7 @@ function ContainerVehicle() {
       let data: Vehicle[];
 
       if (Object.keys(filters).length === 0) {
-        data = await getAllVehicles(1,1);
+        data = await getAllVehicles(1, 1);
       } else {
         data = await getFilteredVehicles(filters);
       }
@@ -247,13 +247,21 @@ function ContainerVehicle() {
                   ))}
                 </>
               ) : (
-                <DataIteration datas={vehicles} startLength={0} endLength={6}>
-                  {({ datas }: { datas: Vehicle }) => (
-                    <div data-aos="fade-up" key={datas.id} className="mb-8">
-                      <ProductCardVehicle datas={datas} />
-                    </div>
-                  )}
-                </DataIteration>
+                <div>
+                  <DataIteration datas={vehicles} startLength={0} endLength={6}>
+                    {({ datas }: { datas: Vehicle }) => (
+                      <div data-aos="fade-up" key={datas.id} className="mb-8">
+                        <ProductCardVehicle datas={datas} />
+                      </div>
+                    )}
+                  </DataIteration>
+
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                  />
+                </div>
               )}
             </div>
           </div>

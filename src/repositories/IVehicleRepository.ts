@@ -1,5 +1,6 @@
 import { Vehicle } from "@prisma/client";
 import { IRepository } from "./generic/IRepository";
+import { PaginatedResult } from "@/types/allType";
 
 export interface IVehicleRepository extends IRepository<Vehicle> {
   findAvailableVehicles(): Promise<Vehicle[]>;
@@ -16,7 +17,9 @@ export interface IVehicleRepository extends IRepository<Vehicle> {
     startDate?: Date;
     endDate?: Date;
     saleStatus?: "RENT" | "SALE";
-  }): Promise<Vehicle[]>;
+    page?: number;
+    pageSize?: number;
+  }):any;
 
   findSimilarVehicles(category: string, excludeId: string): Promise<Vehicle[]>;
 }

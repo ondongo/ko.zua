@@ -2,6 +2,7 @@ import { Prisma, Vehicle } from "@prisma/client";
 import { IVehicleRepository } from "./IVehicleRepository";
 import { GenericRepository } from "./generic/PrismaRepository";
 import { prisma } from "@/configs/prisma";
+import { PaginatedResult } from "@/types/allType";
 
 export class VehicleRepository
   extends GenericRepository<Vehicle>
@@ -48,56 +49,120 @@ export class VehicleRepository
     startDate?: Date;
     endDate?: Date;
     saleStatus?: "RENT" | "SALE";
-  }): Promise<Vehicle[]> {
-    return prisma.vehicle.findMany({
-      where: {
-        ...(filters.availability !== undefined && {
-          availability: filters.availability,
-        }),
-        ...(filters.brand && { brand: filters.brand }),
-        ...(filters.minPrice !== undefined && {
-          price: { gte: filters.minPrice },
-        }),
-        ...(filters.maxPrice !== undefined && {
-          price: { lte: filters.maxPrice },
-        }),
-        ...(filters.location && {
-          location: {
-            path: "city",
-            equals: filters.location,
-          },
-        }),
-        ...(filters.category && { category: filters.category }),
-        ...(filters.searchQuery && {
-          OR: [
-            {
-              brand: {
-                contains: filters.searchQuery,
-                mode: "insensitive",
-              } as Prisma.StringFilter,
+    page?: number;
+    pageSize?: number;
+  }){
+    const page = filters.page ?? 1;
+    const pageSize = filters.pageSize ?? 10;
+    const [vehicles, totalItems] = await prisma.$transaction([
+      prisma.vehicle.findMany({
+        where: {
+          ...(filters.availability !== undefined && {
+            availability: filters.availability,
+          }),
+          ...(filters.brand && { brand: filters.brand }),
+          ...(filters.minPrice !== undefined && {
+            price: { gte: filters.minPrice },
+          }),
+          ...(filters.maxPrice !== undefined && {
+            price: { lte: filters.maxPrice },
+          }),
+          ...(filters.location && {
+            location: {
+              path: "city",
+              equals: filters.location,
             },
-            {
-              model: {
-                contains: filters.searchQuery,
-                mode: "insensitive",
-              } as Prisma.StringFilter,
+          }),
+          ...(filters.category && { category: filters.category }),
+          ...(filters.searchQuery && {
+            OR: [
+              {
+                brand: {
+                  contains: filters.searchQuery,
+                  mode: "insensitive",
+                } as Prisma.StringFilter,
+              },
+              {
+                model: {
+                  contains: filters.searchQuery,
+                  mode: "insensitive",
+                } as Prisma.StringFilter,
+              },
+              {
+                name: {
+                  contains: filters.searchQuery,
+                  mode: "insensitive",
+                } as Prisma.StringFilter,
+              },
+              {
+                description: {
+                  contains: filters.searchQuery,
+                  mode: "insensitive",
+                } as Prisma.StringFilter,
+              },
+            ],
+          }),
+          ...(filters.saleStatus && { saleStatus: filters.saleStatus }),
+        },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
+    
+      prisma.vehicle.count({
+        where: {
+          ...(filters.availability !== undefined && {
+            availability: filters.availability,
+          }),
+          ...(filters.brand && { brand: filters.brand }),
+          ...(filters.minPrice !== undefined && {
+            price: { gte: filters.minPrice },
+          }),
+          ...(filters.maxPrice !== undefined && {
+            price: { lte: filters.maxPrice },
+          }),
+          ...(filters.location && {
+            location: {
+              path: "city",
+              equals: filters.location,
             },
-            {
-              name: {
-                contains: filters.searchQuery,
-                mode: "insensitive",
-              } as Prisma.StringFilter,
-            },
-            {
-              description: {
-                contains: filters.searchQuery,
-                mode: "insensitive",
-              } as Prisma.StringFilter,
-            },
-          ],
-        }),
-        ...(filters.saleStatus && { saleStatus: filters.saleStatus }),
-      },
-    });
+          }),
+          ...(filters.category && { category: filters.category }),
+          ...(filters.searchQuery && {
+            OR: [
+              {
+                brand: {
+                  contains: filters.searchQuery,
+                  mode: "insensitive",
+                } as Prisma.StringFilter,
+              },
+              {
+                model: {
+                  contains: filters.searchQuery,
+                  mode: "insensitive",
+                } as Prisma.StringFilter,
+              },
+              {
+                name: {
+                  contains: filters.searchQuery,
+                  mode: "insensitive",
+                } as Prisma.StringFilter,
+              },
+              {
+                description: {
+                  contains: filters.searchQuery,
+                  mode: "insensitive",
+                } as Prisma.StringFilter,
+              },
+            ],
+          }),
+          ...(filters.saleStatus && { saleStatus: filters.saleStatus }),
+        },
+      }),
+    ]);
+    
+    const totalPages = Math.ceil(totalItems / pageSize);
+    
+    return { vehicles, totalItems, totalPages };
+    
   }
 }
