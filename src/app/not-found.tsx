@@ -9,10 +9,8 @@ export default function NotFound() {
       <GridShape />
       <div className="mx-auto w-full max-w-[242px] text-center sm:max-w-[472px]">
         <h1 className="mb-8 font-bold text-gray-800 text-title-md    xl:text-title-2xl">
-          406
+          404
         </h1>
-
-       
 
         <p className="mt-10 mb-6 text-base text-gray-700   sm:text-lg">
           Nous n&apos;arrivons pas à trouver la page que vous recherchez!

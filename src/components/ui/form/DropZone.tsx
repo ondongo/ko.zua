@@ -1,29 +1,13 @@
-"use client";
-import React, { useEffect, useState } from "react";
-
 import { useDropzone } from "react-dropzone";
-import Image from "next/image";
-import ComponentCard from "@/components/common/ComponentCard";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { FaTrash } from "react-icons/fa";
 
-interface DropzoneComponentProps {
-  onChange: (files: File[]) => void;
-  error?: string;
-}
-
-const DropzoneComponent: React.FC<DropzoneComponentProps> = ({
-  onChange,
-  error,
-}) => {
-  const [files, setFiles] = useState<any[]>([]);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
+const DropzoneComponent = ({ setValue, files, setFiles }: any) => {
+  // Fonction pour gérer les fichiers déposés
   const handleDrop = (acceptedFiles: File[]) => {
     if (files.length + acceptedFiles.length > 4) {
-      alert("Vous ne pouvez télécharger que 4 fichiers maximum.");
+      toast.error("Vous ne pouvez télécharger que 4 fichiers maximum.");
       return;
     }
 
@@ -32,13 +16,28 @@ const DropzoneComponent: React.FC<DropzoneComponentProps> = ({
       preview: URL.createObjectURL(file),
     }));
 
-    setFiles((prevFiles) => {
+    setFiles((prevFiles: any) => {
       const updatedFiles = [...prevFiles, ...newFiles];
-      onChange(updatedFiles.map((f) => f.file)); // Transférer les fichiers sélectionnés au parent
+      // Mettre à jour le champ 'images' du formulaire
+      setValue(
+        "images",
+        updatedFiles.map((f) => f.file)
+      );
       return updatedFiles;
     });
   };
 
+  // Fonction pour supprimer un fichier
+  const handleRemoveFile = (index: number) => {
+    const updatedFiles = files.filter((_: any, i: any) => i !== index);
+    setFiles(updatedFiles);
+    setValue(
+      "images",
+      updatedFiles.map((f: any) => f.file)
+    );
+  };
+
+  // Configuration de react-dropzone
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleDrop,
     accept: {
@@ -50,22 +49,23 @@ const DropzoneComponent: React.FC<DropzoneComponentProps> = ({
     maxFiles: 4,
   });
 
+  // Nettoyage des URLs des fichiers après usage
   useEffect(() => {
     return () => {
-      files.forEach((fileObj) => URL.revokeObjectURL(fileObj.preview)); // Nettoyage des URLs
+      files.forEach((fileObj: any) => URL.revokeObjectURL(fileObj.preview));
     };
   }, [files]);
 
-  if (!isMounted) return null; // Ne rendre que côté client
-
   return (
-    <ComponentCard title="Dropzone">
+    <div>
+      {/* Zone de drop */}
       <div
-        className="transition border border-gray-300 border-dashed cursor-pointer rounded-xl hover:border-brand-500 py-8"
+        className="transition border border-gray-300 border-dashed cursor-pointer rounded-xl hover:border-yellowkouzua py-8"
         {...getRootProps()}
       >
         <input {...getInputProps()} />
-        <div className="dz-message flex flex-col items-center">
+        <div className="dz-message flex flex-col items-center m-0!">
+          {/* Conteneur de l'icône */}
           <div className="mb-[22px] flex justify-center">
             <div className="flex h-[68px] w-[68px] items-center justify-center rounded-full bg-gray-200 text-gray-700">
               <svg
@@ -83,28 +83,32 @@ const DropzoneComponent: React.FC<DropzoneComponentProps> = ({
               </svg>
             </div>
           </div>
-          <h4 className="mb-3 font-semibold text-gray-800 text-xl">
+
+          {/* Contenu textuel */}
+          <h4 className="mb-3 font-semibold text-gray-800 text-theme-xl">
             {isDragActive
-              ? "Déposez vos fichiers ici"
+              ? "Déposez les fichiers ici"
               : "Glissez & Déposez vos fichiers ici"}
           </h4>
+
           <span className="text-center mb-5 block w-full max-w-[290px] text-sm text-gray-700">
-            Glissez vos images PNG, JPG, WebP, SVG ici ou sélectionnez-les
+            Glissez et déposez vos images PNG, JPG, WebP, SVG ici ou parcourez
           </span>
-          <span className="font-medium underline text-theme-sm text-brand-500">
+
+          <span className="font-medium underline text-theme-sm text-yellowkouzua">
             Parcourir le fichier
           </span>
         </div>
       </div>
 
-      {/* Affichage des fichiers téléchargés */}
+      {/* Liste des fichiers */}
       <div>
-        <h5 className="mt-5">Fichiers sélectionnés :</h5>
+        <h5 className="my-5">Fichiers sélectionnés :</h5>
         <div className="flex flex-col gap-4">
-          {files.map((fileObj, index) => (
-            <div key={index} className="flex flex-row gap-4">
+          {files.map((fileObj: any, index: number) => (
+            <div key={index} className="flex flex-row gap-4 items-center">
               <div className="w-10 h-10 overflow-hidden rounded-full">
-                <Image
+                <img
                   width={40}
                   height={40}
                   src={fileObj.preview}
@@ -113,11 +117,17 @@ const DropzoneComponent: React.FC<DropzoneComponentProps> = ({
                 />
               </div>
               <p>{fileObj.file.name}</p>
+              <button
+                onClick={() => handleRemoveFile(index)}
+                className="ml-2 text-red-500 hover:text-red-700"
+              >
+                <FaTrash size={16} />
+              </button>
             </div>
           ))}
         </div>
       </div>
-    </ComponentCard>
+    </div>
   );
 };
 

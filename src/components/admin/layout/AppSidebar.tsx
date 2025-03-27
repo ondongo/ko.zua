@@ -13,6 +13,7 @@ import {
   Plus,
   List,
   ChevronDownIcon,
+  ShoppingCart,
 } from "lucide-react";
 import { HorizontaLDots, PlugInIcon } from "@/icons";
 
@@ -34,7 +35,14 @@ const navItems: NavItem[] = [
   {
     name: "Resevations",
     icon: <CalendarCheck size={iconSize} />,
-    subItems: [{ name: "Lister", path: "/admin/vehicles/list", pro: false }],
+    subItems: [{ name: "Lister", path: "/admin/reservations/list", pro: false }],
+  },
+
+
+  {
+    name: "Ventes",
+    icon: <ShoppingCart size={iconSize} />,
+    subItems: [{ name: "Lister", path: "/admin/sales/list", pro: false }],
   },
 
   {

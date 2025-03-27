@@ -16,11 +16,14 @@ import {
   locationOptions,
 } from "@/utils/records";
 import { VehicleFormData, vehicleSchema } from "@/schemas";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AlertType } from "@/types/allType";
 import AlertModal from "@/components/ui/modals/AlertModal";
 import Image from "next/image";
 import { v4 as uuid } from "uuid";
+import { toast } from "react-toastify";
+import { z } from "zod";
+import { useDropzone } from "react-dropzone";
 
 export default function AddVehicle() {
   const {
@@ -69,6 +72,17 @@ export default function AddVehicle() {
     console.log("Form data submitted:", data);
     console.log("Form data:", data);
     console.log("Form errors:", errors);
+    try {
+      vehicleSchema.parse(data);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast.error(
+          "Veuillez remplir tous les champs obligatoires surlignés en rouge"
+        );
+      }
+      return;
+    }
+
     const imageUrls =
       data.images?.map((file: any) => file.path || file.url) || [];
     setLoading(true);
@@ -108,12 +122,17 @@ export default function AddVehicle() {
   const handlePreview = () => {
     const formData = getValues(); // Cette fonction permet d'obtenir les valeurs actuelles du formulaire
     console.log("Données du formulaire avant soumission : ", formData);
+    toast.error("Veuillez remplir tous les champs obligatoire");
   };
+
+  /* ***** DropZone Manage ***** */
+  const [files, setFiles] = useState<any[]>([]);
+
 
   return (
     <div className="lg:mx-10">
       <PageBreadcrumb pageTitle="Ajouter un Véhicule" />
-
+      <button onClick={handlePreview}>Teste</button>
       <div className="flex items-center justify-center w-full py-6">
         {steps.map((step, index) => (
           <div key={index} className="relative flex flex-1 items-center">
@@ -149,10 +168,17 @@ export default function AddVehicle() {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onSubmit();
+        }}
+      >
         {currentStep === 0 && (
           <Section title="Informations générales">
-            <Label>Nom du véhicule</Label>
+            <Label>
+              Nom du véhicule <span className="text-red-500">*</span>
+            </Label>
             <input
               {...register("name")}
               type="text"
@@ -168,7 +194,9 @@ export default function AddVehicle() {
               </div>
             )}
 
-            <Label>Prix</Label>
+            <Label>
+              Prix <span className="text-red-500">*</span>
+            </Label>
             <input
               {...register("price", {
                 valueAsNumber: true,
@@ -187,7 +215,7 @@ export default function AddVehicle() {
               </div>
             )}
 
-            <Label>Description</Label>
+            <Label>Description </Label>
             <textarea
               {...register("description")}
               className="w-full p-2 border rounded"
@@ -203,7 +231,9 @@ export default function AddVehicle() {
               </div>
             )}
 
-            <Label>Localisation</Label>
+            <Label>
+              Localisation <span className="text-red-500">*</span>
+            </Label>
             <select
               {...register("location")}
               className="w-full p-2 border rounded"
@@ -223,7 +253,9 @@ export default function AddVehicle() {
               </div>
             )}
 
-            <Label>Vente ou Location</Label>
+            <Label>
+              Vente ou Location <span className="text-red-500">*</span>
+            </Label>
             <select
               {...register("saleStatus")}
               className="w-full p-2 border rounded"
@@ -243,7 +275,9 @@ export default function AddVehicle() {
               </div>
             )}
 
-            <Label>Catégorie</Label>
+            <Label>
+              Catégorie <span className="text-red-500">*</span>
+            </Label>
             <select
               {...register("category")}
               className="w-full p-2 border rounded"
@@ -287,7 +321,9 @@ export default function AddVehicle() {
 
         {currentStep === 1 && (
           <Section title="Détails du véhicule">
-            <Label>Marque</Label>
+            <Label>
+              Marque <span className="text-red-500">*</span>
+            </Label>
             <input
               {...register("brand")}
               type="text"
@@ -439,12 +475,13 @@ export default function AddVehicle() {
               </div>
             )}
 
-            <Label>Images</Label>
+            <Label>
+              Images <span className="text-red-500">*</span>
+            </Label>
             <DropzoneComponent
-              {...register("images")}
-              onChange={(files) => {
-                setTimeout(() => setValue("images", files), 0);
-              }}
+              setValue={setValue}
+              files={files}
+              setFiles={setFiles}
             />
 
             {errors.images && (
@@ -560,35 +597,25 @@ export default function AddVehicle() {
                 {watch("fuel") || "non spécifiée"}
               </p>
               <p>
-                <strong
-                  className={watch("gearBox") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Boîte de vitesses :
-                </strong>{" "}
+                <strong>Boîte de vitesses :</strong>{" "}
                 {watch("gearBox") || "non spécifiée"}
               </p>
               <p>
-                <strong
-                  className={watch("seats") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Sièges: :
-                </strong>{" "}
-                {watch("seats") || "non spécifiée"}
+                <strong>Sièges: :</strong> {watch("seats") || "non spécifiée"}
               </p>
               <p>
-                <strong
-                  className={watch("doors") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Portes :
-                </strong>{" "}
-                {watch("doors") || "non spécifiée"}
+                <strong>Portes :</strong> {watch("doors") || "non spécifiée"}
               </p>
               <p>
                 <strong>Distance parcourue :</strong>{" "}
                 {watch("distance") || "Non spécifiée"}
               </p>
               <p>
-                <strong>Emplacement :</strong>{" "}
+                <strong
+                  className={watch("fuel") ? "" : "bg-red-200 max-w-auto "}
+                >
+                  Emplacement :
+                </strong>{" "}
                 {watch("location") || "Non spécifié"}
               </p>
               <p>
