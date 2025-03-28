@@ -11,12 +11,12 @@ const DropzoneComponent = ({ setValue, files, setFiles }: any) => {
       return;
     }
 
-    const newFiles = acceptedFiles.map((file) => ({
+    const newFiles = acceptedFiles.map((file, index) => ({
       file,
       preview: URL.createObjectURL(file),
     }));
 
-    setFiles((prevFiles: any) => {
+    setFiles((prevFiles: any[]) => {
       const updatedFiles = [...prevFiles, ...newFiles];
       // Mettre à jour le champ 'images' du formulaire
       setValue(
