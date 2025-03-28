@@ -13,8 +13,8 @@ const nextConfig: NextConfig = {
     domains: ["images.unsplash.com", "example.com", "localhost:3000"],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "**",
+        protocol: 'https',
+        hostname: '**',
       },
     ],
   },

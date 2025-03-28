@@ -642,7 +642,7 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
                     width={40}
                     height={40}
                     key={index}
-                    src={URL.createObjectURL(img)}
+                    src={typeof img === "string" ? img : URL.createObjectURL(img)} 
                     alt={`Image ${index + 1}`}
                     className="object-cover"
                   />

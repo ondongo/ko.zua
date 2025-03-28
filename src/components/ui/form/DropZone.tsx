@@ -19,6 +19,8 @@ const DropzoneComponent = ({ setValue, files, setFiles }: any) => {
     setFiles((prevFiles: any[]) => {
       const updatedFiles = [...prevFiles, ...newFiles];
       // Mettre à jour le champ 'images' du formulaire
+
+      console.log(updatedFiles, "updated ici>>>>>")
       setValue(
         "images",
         updatedFiles.map((f) => f.file)
