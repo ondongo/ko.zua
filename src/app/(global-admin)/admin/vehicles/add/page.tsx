@@ -96,6 +96,8 @@ export default function AddVehicle() {
         description: data.description ?? "",
         distance: data.distance ?? "",
         discountedPrice: null,
+        seats: data.seats ?? 0,
+        doors: data.doors ?? 0,
         features: {},
         location: { city: data.location, country: "Congo" },
         images: imageUrls,
@@ -127,7 +129,6 @@ export default function AddVehicle() {
 
   /* ***** DropZone Manage ***** */
   const [files, setFiles] = useState<any[]>([]);
-
 
   return (
     <div className="lg:mx-10">
@@ -339,7 +340,9 @@ export default function AddVehicle() {
                 <p>{errors.brand?.message}</p>
               </div>
             )}
-            <Label>Modèle</Label>
+            <Label>
+              Modèle <span className="text-red-500">*</span>{" "}
+            </Label>
             <input
               {...register("model")}
               type="text"
@@ -355,7 +358,9 @@ export default function AddVehicle() {
               </div>
             )}
 
-            <Label>Année</Label>
+            <Label>
+              Année <span className="text-red-500">*</span>{" "}
+            </Label>
             <input
               {...register("year", {
                 valueAsNumber: true,
@@ -408,7 +413,9 @@ export default function AddVehicle() {
 
         {currentStep === 2 && (
           <Section title="Caractéristiques & Images">
-            <Label>Carburant</Label>
+            <Label>
+              Carburant <span className="text-red-500">*</span>{" "}
+            </Label>
             <select {...register("fuel")} className="w-full p-2 border rounded">
               {fuelOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -418,7 +425,9 @@ export default function AddVehicle() {
             </select>
             <p>{errors.fuel?.message}</p>
 
-            <Label>Boite de vitesse</Label>
+            <Label>
+              Boite de vitesse <span className="text-red-500">*</span>
+            </Label>
             <select
               {...register("gearBox")}
               className="w-full p-2 border rounded"

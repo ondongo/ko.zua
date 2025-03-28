@@ -116,7 +116,11 @@ const DropzoneComponent = ({ setValue, files, setFiles }: any) => {
                   className="object-cover w-full h-full"
                 />
               </div>
-              <p>{fileObj.file.name}</p>
+              <p>
+                {fileObj.file.name.length > 50
+                  ? fileObj.file.name.slice(0, 50) + "..."
+                  : fileObj.file.name}
+              </p>
               <button
                 onClick={() => handleRemoveFile(index)}
                 className="ml-2 text-red-500 hover:text-red-700"

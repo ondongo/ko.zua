@@ -92,7 +92,7 @@ const ProductCardVehicle: React.FC<ProductCardProps> = ({ datas }) => {
           <div>
             <div className="text-sm text-gray-500">{datas.category}</div>
             <h3 className="text-md font-semibold uppercase text-gray-800 mt-2">
-              {datas.brand} {datas.model} ({datas.year})
+              {datas.name} - ({datas.year})
             </h3>
             <h3 className="text-accent text-lg font-bold uppercase mt-2">
               {datas.price.toLocaleString()} FCFA{" "}
