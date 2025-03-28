@@ -4,9 +4,55 @@ import { VehicleController } from "@/controllers/VehicleController";
 import { Vehicle } from "@/types/vehicle";
 import { Vehicle as PrismaVehicle } from "@prisma/client";
 
+
+
+export async function toggleAvailability(vehicleId: string, availability: boolean): Promise<Vehicle> {
+  const vehicle: PrismaVehicle | null= await VehicleController.toggleAvailability(vehicleId, availability);
+  return {
+    id: vehicle.id,
+    name: vehicle.name,
+    description: vehicle.description ?? "",
+    global: vehicle.global,
+    category: vehicle.category,
+    condition: vehicle.condition ?? "Neuf",
+    type: vehicle.type,
+    brand: vehicle.brand,
+    model: vehicle.model,
+    year: vehicle.year,
+    price: vehicle.price,
+    availability: vehicle.availability,
+    saleStatus: vehicle.saleStatus,
+    features: {
+      mileage: (vehicle.features as any).mileage,
+      fuel: (vehicle.features as any).fuel,
+      transmission: (vehicle.features as any).gearBox,
+      seats: (vehicle.features as any).seats,
+      abs: (vehicle.features as any).abs ?? false,
+      cruiseControl: (vehicle.features as any).cruiseControl ?? false,
+      airBags: (vehicle.features as any).airBags ?? false,
+      airConditioner: (vehicle.features as any).airConditioner,
+    },
+    location: {
+      city: (vehicle.location as any).city ?? "",
+      neighborhood: (vehicle.location as any).neighborhood ?? "",
+    },
+    images: vehicle.images ?? [],
+    starCount: vehicle.starCount,
+    doors: vehicle.doors,
+    distance: vehicle.distance,
+    gearBox: vehicle.gearBox,
+    fuel: vehicle.fuel,
+    createdAt: vehicle.createdAt ? new Date(vehicle.createdAt) : new Date(),
+  };
+}
+
+export async  function deleteVehicle(vehicleId: string): Promise<void> {
+  await VehicleController.deleteVehicle(vehicleId);
+}
 export async function createVehicle(vehicleData: PrismaVehicle): Promise<void> {
   await VehicleController.createVehicle(vehicleData);
 }
+
 
 export async function getVehicleById(id: string): Promise<Vehicle | null> {
   const vehicle: PrismaVehicle | null = await VehicleController.getVehicleById(

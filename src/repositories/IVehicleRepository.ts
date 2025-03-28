@@ -3,6 +3,8 @@ import { IRepository } from "./generic/IRepository";
 import { PaginatedResult } from "@/types/allType";
 
 export interface IVehicleRepository extends IRepository<Vehicle> {
+
+  toggleAvailability(vehicleId: string, availability: boolean): Promise<Vehicle>;
   findAvailableVehicles(): Promise<Vehicle[]>;
   findByBrand(brand: string): Promise<Vehicle[]>;
   getFilteredVehicles(

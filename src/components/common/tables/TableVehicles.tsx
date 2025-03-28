@@ -11,7 +11,15 @@ import {
 import Badge from "@/components/ui/badge/Badge";
 import { Vehicle } from "@/types/vehicle";
 
-export default function TableVehicles({ vehicles }: { vehicles: Vehicle[] }) {
+export default function TableVehicles({
+  vehicles,
+  toggleAvailability,
+  handleDeleteVehicle,
+}: {
+  vehicles: Vehicle[];
+  toggleAvailability: (id: string, availability: boolean) => Promise<void>;
+  handleDeleteVehicle: (vehicleId: string) => Promise<void>;
+}) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white  ">
       <div className="max-w-full overflow-x-auto">
@@ -86,7 +94,6 @@ export default function TableVehicles({ vehicles }: { vehicles: Vehicle[] }) {
                               src={srcImage || "/placeholder.jpg"}
                               alt={`Photo principale ${index + 1}`}
                               className="w-full h-full object-cover"
-                              
                             />
                           </div>
                         ))}
@@ -121,8 +128,24 @@ export default function TableVehicles({ vehicles }: { vehicles: Vehicle[] }) {
                       <button className="px-4 py-2 bg-blue-500 text-white rounded-lg">
                         Modifier
                       </button>
-                      <button className="px-4 py-2 bg-red-500 text-white rounded-lg">
+                      <button
+                        className="px-4 py-2 bg-red-500 text-white rounded-lg"
+                        onClick={() => handleDeleteVehicle(v.id)}
+                      >
                         Supprimer
+                      </button>
+
+                      <button
+                        className={`px-4 py-2 rounded-lg ${
+                          v.availability ? "bg-yellow-500" : "bg-green-500"
+                        } text-white`}
+                        onClick={() =>
+                          toggleAvailability(v.id, !v.availability)
+                        }
+                      >
+                        {v.availability
+                          ? "Rendre indisponible"
+                          : "Rendre disponible"}
                       </button>
                     </div>
                   </TableCell>

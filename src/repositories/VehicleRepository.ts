@@ -12,6 +12,13 @@ export class VehicleRepository
     super(prisma.vehicle);
   }
 
+
+  async toggleAvailability(vehicleId: string, availability: boolean): Promise<Vehicle> {
+    return await prisma.vehicle.update({
+      where: { id: vehicleId },
+      data: { availability },
+    });
+  }
   async findAvailableVehicles(): Promise<Vehicle[]> {
     return await prisma.vehicle.findMany({
       where: { availability: true },

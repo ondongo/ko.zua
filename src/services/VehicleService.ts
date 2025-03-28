@@ -9,6 +9,11 @@ export class VehicleService {
     this.repository = repository;
   }
 
+
+  async toggleAvailability(vehicleId: string, availability: boolean):Promise<Vehicle> {
+    return this.repository.toggleAvailability(vehicleId, availability);
+  }
+  
   async getAllVehicles(
     page: number,
     pageSize: number

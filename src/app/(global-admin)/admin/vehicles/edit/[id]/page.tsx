@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { useDropzone } from "react-dropzone";
 
-export default function AddVehicle() {
+export default function Edit() {
   const {
     register,
     handleSubmit,

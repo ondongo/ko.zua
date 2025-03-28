@@ -6,6 +6,13 @@ const repository = new VehicleRepository();
 const vehicleService = new VehicleService(repository);
 
 export const VehicleController = {
+  async toggleAvailability(
+    vehicleId: string,
+    availability: boolean
+  ): Promise<Vehicle> {
+    return await vehicleService.toggleAvailability(vehicleId, availability);
+  },
+
   async getAllVehicles(
     page: number,
     pageSize: number
