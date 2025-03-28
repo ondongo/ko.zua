@@ -92,12 +92,12 @@ export default function AddVehicle() {
         ...data,
         condition: data.condition ?? "",
         global: false,
-        type: "",
         description: data.description ?? "",
         distance: data.distance ?? "",
         discountedPrice: null,
         seats: data.seats ?? 0,
         doors: data.doors ?? 0,
+        type: "Car",
         features: {},
         location: { city: data.location, country: "Congo" },
         images: imageUrls,
@@ -133,7 +133,7 @@ export default function AddVehicle() {
   return (
     <div className="lg:mx-10">
       <PageBreadcrumb pageTitle="Ajouter un Véhicule" />
-      <button onClick={handlePreview}>Teste</button>
+
       <div className="flex items-center justify-center w-full py-6">
         {steps.map((step, index) => (
           <div key={index} className="relative flex flex-1 items-center">
@@ -169,12 +169,7 @@ export default function AddVehicle() {
         ))}
       </div>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          onSubmit();
-        }}
-      >
+      <form>
         {currentStep === 0 && (
           <Section title="Informations générales">
             <Label>
@@ -677,7 +672,11 @@ export default function AddVehicle() {
             </button>
           ) : (
             <button
-              type="submit"
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                onSubmit();
+              }}
               className="px-4 py-2 bg-green-500 text-white rounded-md"
               disabled={loading}
             >

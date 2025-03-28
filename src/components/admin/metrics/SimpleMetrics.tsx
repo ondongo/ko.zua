@@ -14,9 +14,7 @@ export const SimpleMetrics = () => {
 
         <div className="flex items-end justify-between mt-5">
           <div>
-            <span className="text-sm text-gray-500 ">
-              Customers
-            </span>
+            <span className="text-sm text-gray-500 ">Réservations</span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm ">
               3,782
             </h4>
@@ -36,9 +34,7 @@ export const SimpleMetrics = () => {
         </div>
         <div className="flex items-end justify-between mt-5">
           <div>
-            <span className="text-sm text-gray-500 ">
-              Orders
-            </span>
+            <span className="text-sm text-gray-500 ">Ventes</span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm ">
               5,359
             </h4>
