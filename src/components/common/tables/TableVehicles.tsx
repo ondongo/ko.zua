@@ -15,10 +15,12 @@ export default function TableVehicles({
   vehicles,
   toggleAvailability,
   handleDeleteVehicle,
+  handleEditLink,
 }: {
   vehicles: Vehicle[];
   toggleAvailability: (id: string, availability: boolean) => Promise<void>;
   handleDeleteVehicle: (vehicleId: string) => Promise<void>;
+  handleEditLink: (vehicleId: string) => void;
 }) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white  ">
@@ -125,7 +127,10 @@ export default function TableVehicles({
 
                   <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm">
                     <div className="flex gap-2">
-                      <button className="px-4 py-2 bg-blue-500 text-white rounded-lg">
+                      <button
+                        className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                        onClick={() => handleEditLink(v.id)}
+                      >
                         Modifier
                       </button>
                       <button

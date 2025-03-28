@@ -4,10 +4,12 @@ import { VehicleController } from "@/controllers/VehicleController";
 import { Vehicle } from "@/types/vehicle";
 import { Vehicle as PrismaVehicle } from "@prisma/client";
 
-
-
-export async function toggleAvailability(vehicleId: string, availability: boolean): Promise<Vehicle> {
-  const vehicle: PrismaVehicle | null= await VehicleController.toggleAvailability(vehicleId, availability);
+export async function toggleAvailability(
+  vehicleId: string,
+  availability: boolean
+): Promise<Vehicle> {
+  const vehicle: PrismaVehicle | null =
+    await VehicleController.toggleAvailability(vehicleId, availability);
   return {
     id: vehicle.id,
     name: vehicle.name,
@@ -22,6 +24,7 @@ export async function toggleAvailability(vehicleId: string, availability: boolea
     price: vehicle.price,
     availability: vehicle.availability,
     saleStatus: vehicle.saleStatus,
+    seats: vehicle.seats,
     features: {
       mileage: (vehicle.features as any).mileage,
       fuel: (vehicle.features as any).fuel,
@@ -46,13 +49,12 @@ export async function toggleAvailability(vehicleId: string, availability: boolea
   };
 }
 
-export async  function deleteVehicle(vehicleId: string): Promise<void> {
+export async function deleteVehicle(vehicleId: string): Promise<void> {
   await VehicleController.deleteVehicle(vehicleId);
 }
 export async function createVehicle(vehicleData: PrismaVehicle): Promise<void> {
   await VehicleController.createVehicle(vehicleData);
 }
-
 
 export async function getVehicleById(id: string): Promise<Vehicle | null> {
   const vehicle: PrismaVehicle | null = await VehicleController.getVehicleById(
@@ -77,6 +79,7 @@ export async function getVehicleById(id: string): Promise<Vehicle | null> {
     price: vehicle.price,
     availability: vehicle.availability,
     saleStatus: vehicle.saleStatus,
+    seats: vehicle.seats,
     features: {
       mileage: (vehicle.features as any).mileage,
       fuel: (vehicle.features as any).fuel,
@@ -118,6 +121,7 @@ export async function getAllVehicles(page: number, pageSize: number) {
     price: vehicle.price,
     availability: vehicle.availability,
     saleStatus: vehicle.saleStatus,
+    seats: vehicle.seats,
     features: {
       mileage: (vehicle.features as any).mileage,
       fuel: (vehicle.features as any).fuel,
@@ -183,6 +187,7 @@ export async function getFilteredVehicles(
       model: vehicle.model,
       year: vehicle.year,
       price: vehicle.price,
+      seats: vehicle.seats,
       availability: vehicle.availability,
       saleStatus: vehicle.saleStatus, // Statut de vente
       features: {
@@ -240,6 +245,7 @@ export async function getSimilarVehicles(category: string, excludeId: string) {
     price: vehicle.price,
     availability: vehicle.availability,
     saleStatus: vehicle.saleStatus, // Statut de vente
+    seats: vehicle.seats,
     features: {
       mileage: (vehicle.features as any).mileage, // Accès via 'as any'
       fuel: (vehicle.features as any).fuel,

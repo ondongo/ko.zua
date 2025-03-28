@@ -8,7 +8,8 @@ export const featureLabels: Record<string, string> = {
 export const categoryOptions = [
   { value: "", label: "Faire le choix de la catégorie" },
   { value: "Citadine", label: 'Citadine' },
-  { value: "SUV", label: "SUV" },
+  { value: "Suv", label: "Suv" },
+  { value: "4x4", label: "4x4" },
   { value: "Berline", label: "Berline" },
   { value: "Camionnette", label: "Camionnette" },
 ];

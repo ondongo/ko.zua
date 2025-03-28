@@ -11,6 +11,7 @@ import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import Pagination from "@/components/common/tables/Pagination";
 import TableVehicles from "@/components/common/tables/TableVehicles";
 import { Vehicle } from "@/types/vehicle";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -18,9 +19,10 @@ import { toast } from "react-toastify";
 
 export default function VehiclesList() {
   const [currentPage, setCurrentPage] = useState(1);
-
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [totalPages, setTotalPages] = useState(0);
+  const router =  useRouter();
+
   const fetchVehicles = async () => {
     const result = await getAllVehicles(currentPage, 4);
     setVehicles(result.vehicles);
@@ -59,6 +61,12 @@ export default function VehiclesList() {
     }
   };
 
+  const handleEditLink = (vehicleId: string) => {
+    router.push(`/admin/vehicles/edit/${vehicleId}`);
+
+  }
+
+
   return (
     <div>
       <PageBreadcrumb pageTitle="Liste des vehicules" />
@@ -68,6 +76,7 @@ export default function VehiclesList() {
             vehicles={vehicles}
             toggleAvailability={handleToggleAvailability}
             handleDeleteVehicle={handleDeleteVehicle}
+            handleEditLink={handleEditLink}
           />
           <Pagination
             currentPage={currentPage}
