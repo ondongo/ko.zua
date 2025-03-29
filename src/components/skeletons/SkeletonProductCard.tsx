@@ -2,7 +2,7 @@ import React from "react";
 
 const SkeletonProductCard = () => {
   return (
-    <div className="r max-w-[180px] lg:max-w-[385px]  max-h-[470px]  lg:max-h-[600px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden  border-2 border-[#FAFAFA] animate-pulse">
+    <div className="min-w-[180px] max-w-[180px] lg:max-w-[385px]  max-h-[470px]  lg:max-h-[600px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden  border-2 border-[#FAFAFA] animate-pulse">
       {/* Image Placeholder */}
       <div className="w-full h-[165px] lg:h-[230px] bg-gray-300"></div>
 
