@@ -2,11 +2,11 @@ import React from "react";
 
 const SkeletonProductCard = () => {
   return (
-    <div className="max-w-[385px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden max-h-[600px] border-2 border-[#FAFAFA] animate-pulse">
+    <div className="r max-w-[180px] lg:max-w-[385px]  max-h-[470px]  lg:max-h-[600px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden  border-2 border-[#FAFAFA] animate-pulse">
       {/* Image Placeholder */}
-      <div className="w-full h-[230px] bg-gray-300"></div>
+      <div className="w-full h-[165px] lg:h-[230px] bg-gray-300"></div>
 
-      <div className="p-5">
+      <div className="p-2 lg:p-5 my-2">
         {/* Stars Placeholder */}
         <div className="flex gap-x-1 justify-end mb-2">
           {[...Array(5)].map((_, i) => (
@@ -35,7 +35,7 @@ const SkeletonProductCard = () => {
         </div>
 
         {/* Button Placeholder */}
-        <div className="w-full h-10 bg-gray-300 rounded-lg"></div>
+        <div className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-gray-300 g"></div>
       </div>
     </div>
   );

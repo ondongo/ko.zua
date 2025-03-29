@@ -211,9 +211,9 @@ function ContainerRealEstate() {
 
   return (
     <>
-      <div className="p-10 mt-2">
+      <div className="p-2 lg:p-10 mt-2">
         <div className="w-full flex flex-col xl:flex-row xl:space-x-[30px]">
-          <div className="lg:w-[300px]">
+          <div className="hidden lg:block lg:w-[300px]">
             <ProductsImmobiliersFilter
               filters={filters}
               selectCategoryHandler={selectCategoryHandler}
@@ -248,7 +248,7 @@ function ContainerRealEstate() {
                 </p>
               </div>
             </div>
-            <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:gap-[30px] gap-5 mb-[40px]">
+            <div className="grid xl:grid-cols-3 grid-cols-2  xl:gap-[30px] gap-2 mb-[40px]">
               {loading ? (
                 <>
                   {[...Array(3)].map((_, index) => (

@@ -213,7 +213,7 @@ function ContainerVehicle() {
 
   return (
     <>
-      <div className="p-4 lg:p-10 mt-2">
+      <div className="p-2 lg:p-10 mt-2">
         <div className="w-full flex flex-col xl:flex-row xl:space-x-[30px]">
           <div className="hidden lg:block lg:w-[300px]">
             <ProductsVehiclesFilter
@@ -250,7 +250,7 @@ function ContainerVehicle() {
                 </p>
               </div>
             </div>
-            <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:gap-[30px] gap-5 mb-[40px]">
+            <div className="grid xl:grid-cols-3 grid-cols-2  xl:gap-[30px] gap-2 mb-[40px]">
               {loading ? (
                 <>
                   {[...Array(3)].map((_, index) => (

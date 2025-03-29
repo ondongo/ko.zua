@@ -13,32 +13,36 @@ import CustomSwiper from "../CustomSwiper";
 function HeroMobile() {
   const { searchActive } = useContext(SearchContext);
   const router = useRouter();
-  function handleSearch() {
+  function handleSearchVehicles() {
     router.push("/vehicles");
+  }
+
+  function handleSearchEstates() {
+    router.push("/estates");
   }
   return (
     <section className="flex flex-col gap-4" id="home">
       <div className="h-[55vh] mb-20">
         {" "}
         <div
-        className="h-full bg-no-repeat bg-contain bg-right"
-        style={{ backgroundImage: `url('/c.svg')` }}
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="w-full h-full max-w-[100%] lg:max-w-[600px] max-h-[390px] lg:max-h-[430px] lg:absolute lg:right-[100px] lg:top-48"
+          className="h-full bg-no-repeat bg-contain bg-right"
+          style={{ backgroundImage: `url('/c.svg')` }}
         >
-          <Image
-            src="/header/voiture.svg"
-            fill
-            alt=""
-            style={{ objectFit: "contain" }}
-            priority
-          />
-        </motion.div>
-      </div>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="w-full h-full max-w-[100%] lg:max-w-[600px] max-h-[390px] lg:max-h-[430px] lg:absolute lg:right-[100px] lg:top-48"
+          >
+            <Image
+              src="/header/voiture.svg"
+              fill
+              alt=""
+              style={{ objectFit: "contain" }}
+              priority
+            />
+          </motion.div>
+        </div>
       </div>
 
       <div className="container mx-auto h-full z-30">
@@ -75,15 +79,18 @@ function HeroMobile() {
               viewport={{ once: false, amount: 0.8 }}
               className="flex flex-col gap-x-3 justify-center my-4 "
             >
-              <button className="btn btn-sm   mt-4  bg-[#111828] hover:bg-[#111828]/10">
+              <button
+                className="btn btn-sm   mt-4  bg-[#111828] hover:bg-[#111828]/10"
+                onClick={handleSearchEstates}
+              >
                 Je réserve un appart
               </button>
 
               <button
                 className="btn btn-sm bg-yellowkouzua  hover:bg-yellowkouzua-dark mt-4"
-                onClick={handleSearch}
+                onClick={handleSearchVehicles}
               >
-                Je réserve une voiture
+                Je recherche une voiture
               </button>
             </motion.div>
           </div>
