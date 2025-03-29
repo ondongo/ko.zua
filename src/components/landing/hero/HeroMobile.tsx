@@ -24,7 +24,7 @@ function HeroMobile() {
       </div>
 
       <div className="container mx-auto h-full z-30">
-        <div className="flex flex-col lg:flex-row justify-center items-center  h-full">
+        <div className="flex flex-col justify-center items-center  h-full">
           <div className="text-center">
             <motion.h1
               variants={fadeIn("down", 0.2)}
@@ -55,7 +55,7 @@ function HeroMobile() {
               initial="hidden"
               whileInView={"show"}
               viewport={{ once: false, amount: 0.8 }}
-              className="flex flex-col lg:flex-row gap-x-3 justify-center lg:justify-start "
+              className="flex flex-col gap-x-3 justify-center my-4 "
             >
               <button className="btn btn-sm   mt-4  bg-[#111828] hover:bg-[#111828]/10">
                 Je réserve un appart

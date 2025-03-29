@@ -40,12 +40,7 @@ function NavBarStatic() {
     >
       <div className="xl:container mx-auto flex flex-col xl:flex-row xl:items-center xl:justify-between">
         <div className="flex justify-between items-center px-4">
-          <Link
-            to="home"
-            smooth={desktopMode}
-            spy={true}
-            className="cursot-pointer"
-          >
+          <a href="/" className="cursor-pointer">
             <div className=" relative  w-[110px] h-[80px] overflow-hidden mt-1">
               <Image
                 src="/Kozua v3.png"
@@ -54,7 +49,7 @@ function NavBarStatic() {
                 objectFit="cover"
               />
             </div>
-          </Link>
+          </a>
 
           <div
             onClick={() => setNav(!nav)}

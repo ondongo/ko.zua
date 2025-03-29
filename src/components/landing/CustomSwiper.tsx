@@ -57,7 +57,7 @@ export default function CustomSwiper() {
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="w-full h-full max-w-[50vh] md:max-w-[70vw] lg:max-w-[600px] max-h-[430px] lg:absolute lg:right-[100px] lg:top-48"
+                  className="w-full h-full max-w-[100%] lg:max-w-[600px] max-h-[390px] lg:max-h-[430px] lg:absolute lg:right-[100px] lg:top-48"
                 >
                   <Image
                     src={slide.img}

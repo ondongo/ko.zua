@@ -11,13 +11,7 @@ function RecentlyAdded() {
   return (
     <section className="lg:section lg:h-screen flex items-center" id="cars">
       {/*   <Brands /> */}
-      <motion.div
-        variants={fadeIn("down", 0.2)}
-        initial="hidden"
-        whileInView={"show"}
-        viewport={{ once: false, amount: 0.6 }}
-        className="container mx-auto px-4 lg:mt-16"
-      >
+      <div className="container mx-auto px-4 lg:mt-16">
         <h2 className="text-2xl font-bold text-gray-800 my-6">
           Location et ventes récemment ajoutées
         </h2>
@@ -63,7 +57,7 @@ function RecentlyAdded() {
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
-      </motion.div>
+      </div>
     </section>
   );
 }

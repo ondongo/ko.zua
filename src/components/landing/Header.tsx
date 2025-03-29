@@ -61,8 +61,8 @@ function Header() {
   return (
     <header
       className={`${
-        header ? "bg-white shadow-md py-2" : "bg-transparent shadow-none py-4"
-      } fixed w-full max-w-[1920px] mx-auto z-50 transition-all duration-300`}
+        header ? "bg-white shadow-md py-2 " : "bg-white lg:bg-transparent shadow-none py-4"
+      } fixed w-full max-w-[1920px] mx-auto z-[9999] transition-all duration-300`}
     >
       <div className="xl:container mx-auto flex flex-col xl:flex-row xl:items-center xl:justify-between">
         <div className="flex justify-between items-center px-4">
@@ -70,9 +70,9 @@ function Header() {
             to="home"
             smooth={desktopMode}
             spy={true}
-            className="cursot-pointer"
+            className="cursor-pointer"
           >
-            <div className="relative  w-[110px] h-[80px] overflow-hidden ">
+            <div className="relative w-[110px] h-[80px] overflow-hidden ">
               <Image
                 src="/Kozua v3.png"
                 alt="logo"
@@ -375,33 +375,7 @@ function Header() {
               </>
             )}
           </Popover>
-          <Link
-            className="cursor-pointer"
-            to="about"
-            smooth={desktopMode}
-            activeClass="active"
-            spy={true}
-          >
-            A propos
-          </Link>
-          <Link
-            className="cursor-pointer"
-            to="contact"
-            smooth={desktopMode}
-            activeClass="active"
-            spy={true}
-          >
-            Contact
-          </Link>
-          <Link
-            className="xl:hidden btn btn-primary btn-sm max-w-[164px] mx-auto"
-            to="/"
-            smooth={desktopMode}
-            activeClass="active"
-            spy={true}
-          >
-            Réserver
-          </Link>
+
           <SearchMobile />
         </nav>
       </div>
