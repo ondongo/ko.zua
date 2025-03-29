@@ -25,11 +25,11 @@ const SkeletonProductCard = () => {
         <div className="w-1/2 h-4 bg-gray-300 rounded mb-3"></div>
 
         {/* Specs Placeholder */}
-        <div className="grid grid-cols-4 gap-4 mb-4 text-center">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4 mb-4 text-centerr">
           {[...Array(4)].map((_, index) => (
             <div key={index} className="flex flex-col items-center">
-              <div className="bg-gray-300 w-12 h-12 rounded-full mb-2"></div>
-              <div className="w-10 h-3 bg-gray-300 rounded"></div>
+              <div className="bg-gray-300 w-8 h-8 lg:w-12 lg:h-12 rounded-full mb-2"></div>
+              <div className="w-8 lg:w-10 h-2 lg:h-3 bg-gray-300 rounded"></div>
             </div>
           ))}
         </div>
