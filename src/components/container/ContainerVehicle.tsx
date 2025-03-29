@@ -10,7 +10,7 @@ import SkeletonProductCard from "../skeletons/SkeletonProductCard";
 import ProductCardVehicle from "@/components/products/ProductCardVehicle";
 import ProductsVehiclesFilter from "@/components/products/ProductsVehiclesFilter";
 import Pagination from "../common/tables/Pagination";
-import { Filter } from "lucide-react";
+import { Filter, RotateCw } from "lucide-react";
 import ProductsVehiclesFilterMobile from "../products/ProductsVehiclesFilterMobile";
 
 function ContainerVehicle() {
@@ -266,6 +266,15 @@ function ContainerVehicle() {
                 <Filter className="h-5 w-5" />
               </div>
 
+              <div
+                className="md:hidden bg-primary text-white py-2 px-4 rounded-full shadow-md cursor-pointer w-full flex items-center justify-between "
+                onClick={() => router.push("/vehicles")}
+              >
+                {/* Icône de filtre */}
+
+                <span>Rénitialiser les filtres</span>
+                <RotateCw className="h-5 w-5" />
+              </div>
               {/* Modal */}
               {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col gap-3 justify-center items-center z-[999999]">
