@@ -57,7 +57,7 @@ export default function CustomSwiper() {
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="relative w-full h-full max-w-[50vh] md:max-w-[70vw] xl:max-w-[600px] xl:max-h-[430px] xl:absolute xl:right-[100px] xl:top-48"
+                  className="w-full h-full max-w-[50vh] md:max-w-[70vw] lg:max-w-[600px] max-h-[430px] lg:absolute lg:right-[100px] lg:top-48"
                 >
                   <Image
                     src={slide.img}
@@ -73,7 +73,7 @@ export default function CustomSwiper() {
         ))}
       </Swiper>
 
-      <div className="slider-button-next slider-button">
+      <div className="slider-button-next slider-button ">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 350 160 90">
           <g className="slider-svg-wrap">
             <g className="slider-svg-circle-wrap">
