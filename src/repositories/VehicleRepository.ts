@@ -80,9 +80,9 @@ export class VehicleRepository
           }),
           ...(filters.location && {
             location: {
-              path: "city",
+              path: ["city"],
               equals: filters.location,
-            },
+            } as Prisma.JsonFilter,
           }),
           ...(filters.category && { category: filters.category }),
           ...(filters.searchQuery && {
@@ -133,9 +133,9 @@ export class VehicleRepository
           }),
           ...(filters.location && {
             location: {
-              path: "city",
+              path: ["city"],
               equals: filters.location,
-            },
+            } as Prisma.JsonFilter,
           }),
           ...(filters.category && { category: filters.category }),
           ...(filters.searchQuery && {
