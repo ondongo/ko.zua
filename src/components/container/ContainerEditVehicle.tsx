@@ -130,7 +130,11 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
       preview: imgUrl,
     }));
   });
-
+  const images = watch("images");
+  useEffect(() => {
+    console.log(">>>>>>>>files", files);
+    console.log("===========******==============", images);
+  }, [images]);
   return (
     <div className="lg:mx-10">
       <PageBreadcrumb pageTitle={`Modifier le Véhicule / ${vehicleData.id}`} />
@@ -637,15 +641,17 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
                 </strong>
               </p>
               <div className="flex flex-wrap gap-2">
-                {watch("images").map((img: File, index) => (
-                  <Image
-                    width={40}
-                    height={40}
-                    key={index}
-                    src={typeof img === "string" ? img : URL.createObjectURL(img)} 
-                    alt={`Image ${index + 1}`}
-                    className="object-cover"
-                  />
+                {files.map((img: any, index) => (
+                  <div className="w-10 h-10 overflow-hidden rounded-full">
+                    <Image
+                      width={40}
+                      height={20}
+                      key={index}
+                      src={img.preview}
+                      alt={`Image ${index + 1}`}
+                      className="object-cover"
+                    />{" "}
+                  </div>
                 ))}
               </div>
             </div>
