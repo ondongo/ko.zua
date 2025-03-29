@@ -61,7 +61,7 @@ function Header() {
   return (
     <header
       className={`${
-        header ? "bg-white shadow-md py-2 " : "bg-white lg:bg-transparent shadow-none py-4"
+        header ? "bg-white shadow-md py-2 " : "bg-transparent shadow-none py-4"
       } fixed w-full max-w-[1920px] mx-auto z-[9999] transition-all duration-300`}
     >
       <div className="xl:container mx-auto flex flex-col xl:flex-row xl:items-center xl:justify-between">

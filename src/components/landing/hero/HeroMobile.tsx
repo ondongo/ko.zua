@@ -18,9 +18,27 @@ function HeroMobile() {
   }
   return (
     <section className="flex flex-col gap-4" id="home">
-      <div className="h-[55vh] relative">
+      <div className="h-[55vh] mb-20">
         {" "}
-        <CustomSwiper />
+        <div
+        className="h-full bg-no-repeat bg-contain bg-right"
+        style={{ backgroundImage: `url('/c.svg')` }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full h-full max-w-[100%] lg:max-w-[600px] max-h-[390px] lg:max-h-[430px] lg:absolute lg:right-[100px] lg:top-48"
+        >
+          <Image
+            src="/header/voiture.svg"
+            fill
+            alt=""
+            style={{ objectFit: "contain" }}
+            priority
+          />
+        </motion.div>
+      </div>
       </div>
 
       <div className="container mx-auto h-full z-30">
