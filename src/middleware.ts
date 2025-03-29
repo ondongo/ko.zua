@@ -9,8 +9,8 @@ const { auth } = NextAuth(authConfig);
 
 export default auth(async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
-  const { pathname, origin } = req.nextUrl;
-
+  const { pathname } = req.nextUrl;
+  const origin = "https://ko-zua.vercel.app/";
   // Si un token existe et que l'utilisateur tente d'accéder à /signin, redirigez vers /admin
   if (token && pathname === "/signin") {
     return NextResponse.redirect(`${origin}/admin`);
