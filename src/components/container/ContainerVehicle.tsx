@@ -213,7 +213,7 @@ function ContainerVehicle() {
 
   return (
     <>
-      <div className="p-10 mt-2">
+      <div className="p-4 lg:p-10 mt-2">
         <div className="w-full flex flex-col xl:flex-row xl:space-x-[30px]">
           <div className="hidden lg:block lg:w-[300px]">
             <ProductsVehiclesFilter
