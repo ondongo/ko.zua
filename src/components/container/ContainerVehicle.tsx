@@ -268,8 +268,8 @@ function ContainerVehicle() {
 
               {/* Modal */}
               {isModalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[999999]">
-                  <div className="h-auto overflow-y-scroll bg-white w-11/12 md:w-1/3 rounded-lg p-6">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col gap-3 justify-center items-center z-[999999]">
+                  <div className="h-auto overflow-y-scroll bg-white max-h-[70vh]  w-11/12 md:w-1/3 rounded-lg p-6">
                     <div className="flex items-center justify-between">
                       <h3 className="text-lg font-semibold">Filtres</h3>
                       <button
@@ -302,7 +302,9 @@ function ContainerVehicle() {
                       selectAvailabilityHandler={selectAvailabilityHandler}
                       selectSaleOrRentHandler={selectSaleOrRentHandler}
                     />
+                  </div>
 
+                  <div className="h-auto  bg-white w-11/12 md:w-1/3 rounded-lg p-6">
                     <button
                       onClick={() => {
                         handleFilterSubmit();
