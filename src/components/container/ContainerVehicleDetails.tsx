@@ -79,7 +79,7 @@ export default function VehicleDetails({
         {/* Détails principaux */}
 
         <div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 mb-10">
             <div>
               {/* Swiper pour la galerie */}
 
@@ -377,7 +377,7 @@ export default function VehicleDetails({
           {similarVehicles.length > 0 && (
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl lg:text-2xl font-semibold">
-                Autres véhicules
+                Véhicules similaires
               </h2>
               <button
                 className="text-yellowkouzua font-semibold hover:underline"
@@ -389,11 +389,11 @@ export default function VehicleDetails({
           )}
 
           {/* Other Cars  */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6">
             {similarVehicles.map((car, index) => (
               <div
                 onClick={() => handleDetail(car.id)}
-                className="cursor-pointer max-w-[180px] lg:max-w-[385px]  max-h-[470px]  lg:max-h-[600px]  mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
+                className="cursor-pointer max-w-[180px] lg:max-w-[385px]  max-h-[490px]  lg:max-h-[600px]  mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
               >
                 {/* Swiper avec images */}
                 <div className="relative">
