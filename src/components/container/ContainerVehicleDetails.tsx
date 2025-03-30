@@ -7,8 +7,6 @@ import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import NavBarStatic from "@/components/landing/NavBarStatic";
-import Breadcrumb from "@/components/landing/Breadcrumb";
 import { motion } from "framer-motion";
 import { DateRange } from "react-date-range";
 import { FaCalendarAlt, FaCheckCircle, FaStar } from "react-icons/fa";
@@ -77,7 +75,7 @@ export default function VehicleDetails({
 
   return (
     <>
-      <div className="container mx-auto py-10 px-4 mt-12">
+      <div className="container mx-auto py-5 lg:py-10 px-2 lg:px-4 mt-12">
         {/* Détails principaux */}
 
         <div>
@@ -290,15 +288,21 @@ export default function VehicleDetails({
                         alt={""}
                       />
                     </div>
-                    <p className="text-md lg:text-lg font-bold text-black ">{item.text}</p>
-                    <p className="text-xs lg:text-sm text-gray-500">{item.text}</p>
+                    <p className="text-md lg:text-lg font-bold text-black ">
+                      {item.text}
+                    </p>
+                    <p className="text-xs lg:text-sm text-gray-500">
+                      {item.text}
+                    </p>
                   </div>
                 ))}
               </div>
 
               {/* Équipement */}
               <div className="mt-6 mb-10">
-                <h2 className="text-md lg:text-xl font-semibold mb-4">Equipement de la voiture </h2>
+                <h2 className="text-md lg:text-xl font-semibold mb-4">
+                  Equipement de la voiture{" "}
+                </h2>
                 <div className="grid grid-cols-2 gap-4">
                   {Object.entries(vehicle.features).map(
                     ([key, value], index) => (
@@ -372,7 +376,9 @@ export default function VehicleDetails({
         <div>
           {similarVehicles.length > 0 && (
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-3xl font-semibold">Autres véhicules</h2>
+              <h2 className="text-xl lg:text-2xl font-semibold">
+                Autres véhicules
+              </h2>
               <button
                 className="text-yellowkouzua font-semibold hover:underline"
                 onClick={() => router.push("/vehicles")}
@@ -383,11 +389,11 @@ export default function VehicleDetails({
           )}
 
           {/* Other Cars  */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {similarVehicles.map((car, index) => (
               <div
-                key={index}
-                className="max-w-[385px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden max-h-[600px] transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
+                onClick={() => handleDetail(car.id)}
+                className="cursor-pointer max-w-[180px] lg:max-w-[385px]  max-h-[470px]  lg:max-h-[600px]  mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
               >
                 {/* Swiper avec images */}
                 <div className="relative">
@@ -398,7 +404,7 @@ export default function VehicleDetails({
                     {Array.isArray(car.images) && car.images.length > 0 ? (
                       car.images.map((imgSrc, imgIndex) => (
                         <SwiperSlide key={imgIndex}>
-                          <div className="w-full h-[230px] relative">
+                          <div className="w-full h-[165px] lg:h-[230px] relative">
                             <Image
                               src={
                                 imgSrc.startsWith("http")
@@ -408,18 +414,20 @@ export default function VehicleDetails({
                               alt={`Image ${imgIndex}`}
                               layout="fill"
                               objectFit="cover"
+                              className="object-[50%_50%]"
                             />
                           </div>
                         </SwiperSlide>
                       ))
                     ) : (
                       <SwiperSlide>
-                        <div className="w-full h-[230px] relative">
+                        <div className="w-full h-[165px] lg:h-[230px] relative">
                           <Image
                             src="/placeholder.jpg"
                             alt="Image par défaut"
                             layout="fill"
                             objectFit="cover"
+                            className="object-[50%_50%]"
                           />
                         </div>
                       </SwiperSlide>
@@ -428,7 +436,7 @@ export default function VehicleDetails({
 
                   {/* Disponibilité en haut à droite */}
                   <div
-                    className={`absolute top-3 right-3 z-10 rounded-full px-3 py-1.5 font-medium ${
+                    className={`absolute top-3 right-3 z-10 rounded-full text-sm lg:text-[15px] px-2 lg:px-3 py-1.5 font-medium ${
                       car.availability
                         ? "bg-green-50 text-green-600"
                         : "bg-red-50 text-red-600"
@@ -438,10 +446,10 @@ export default function VehicleDetails({
                   </div>
                 </div>
 
-                <div className="p-5">
+                <div className="p-2 lg:p-5 my-2">
                   <div className="flex gap-x-1 justify-end">
                     <div
-                      className={`rounded-full px-3 py-1.5 font-medium max-h-10 flex justify-center items-center ${
+                      className={`rounded-full px-3 py-1.5 text-sm lg:text-[15px] font-medium max-h-10 flex justify-center items-center  ${
                         car.saleStatus === "RENT"
                           ? "bg-yellowkouzua-dark text-white"
                           : "bg-[#111828] text-white"
@@ -455,10 +463,11 @@ export default function VehicleDetails({
                       <div className="text-sm text-gray-500">
                         {car.category}
                       </div>
-                      <h3 className="text-md font-semibold uppercase text-gray-800 mt-2">
-                        {car.brand} {car.model} ({car.year})
+                      <h3 className="w-full sm:max-w-[250px] text-sm lg:text-md font-semibold uppercase text-gray-800 mt-2 line-clamp-1">
+                        {car.name} ({car.year})
                       </h3>
-                      <h3 className="text-accent text-lg font-bold uppercase mt-2">
+
+                      <h3 className="text-accent text-sm lg:text-lg font-bold uppercase mt-2">
                         {car.price.toLocaleString()} FCFA{" "}
                         {car.saleStatus === "RENT" ? "/ jour" : ""}
                       </h3>
@@ -470,7 +479,7 @@ export default function VehicleDetails({
                     {car.location.city}
                   </div>
 
-                  <div className="grid grid-cols-4 gap-4 mb-4 text-center">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4 mb-4 text-center">
                     {[
                       { text: `${car.fuel}`, icon: "/icons/carSlider/gas.svg" },
                       {
@@ -478,23 +487,25 @@ export default function VehicleDetails({
                         icon: "/icons/carSlider/gearshift.svg",
                       },
                       {
-                        text: `${car.doors} Portes`,
+                        text: `${car.doors} Places`,
                         icon: "/icons/carSlider/seat.svg",
                       },
                       {
-                        text: `${car.distance} km`,
+                        text: `${car.distance}`,
                         icon: "/icons/carSlider/wheel.svg",
                       },
                     ].map((item, index) => (
                       <div key={index} className="flex flex-col items-center">
-                        <div className="bg-primary w-12 h-12 rounded-full flex justify-center items-center mb-2 shadow-md">
+                        <div className="bg-primary w-8 h-8 lg:w-12 lg:h-12 rounded-full flex justify-center items-center mb-2 shadow-md">
                           <Image
                             src={item.icon}
-                            width={24}
-                            height={24}
                             alt={item.text}
+                            width={20}
+                            height={20}
+                            className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8"
                           />
                         </div>
+
                         <div className="text-xs text-gray-600 uppercase">
                           {item.text}
                         </div>
@@ -503,7 +514,7 @@ export default function VehicleDetails({
                   </div>
 
                   <button
-                    className="btn btn-lg w-full py-3 rounded-lg bg-yellowkouzua"
+                    className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
                     onClick={() => handleDetail(car.id)} // Assure-toi que handleDetail prend l'ID ou autre paramètre pour rediriger vers la page de détails
                   >
                     Voir plus
