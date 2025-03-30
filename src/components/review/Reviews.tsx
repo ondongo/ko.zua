@@ -70,7 +70,7 @@ export default function Reviews({ vehicleId }: { vehicleId: string }) {
     });
   }
   return (
-    <div className="flex flex-col md:flex-row gap-8 p-6">
+    <div className="flex flex-col md:flex-row gap-8 p-2 lg:p-6">
       {/* Section Note Moyenne */}
       <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-1/3">
         <h2 className="text-lg font-semibold">Notes</h2>
@@ -126,30 +126,37 @@ export default function Reviews({ vehicleId }: { vehicleId: string }) {
 
       {/* Section Avis Clients */}
       <div className="w-full md:w-2/3">
-        <h2 className="text-lg font-semibold"> Listes des clients</h2>
+        <h2 className="text-lg font-semibold"> Listes des 10 derniers avis</h2>
+
         <div className="mt-4 border-t pt-4">
-          {reviews.map((review) => (
-            <div
-              key={review.id}
-              className="mb-4 flex flex-col items-start gap-2 justify-start"
-            >
-              <div className="flex items-center justify-start gap-2">
-                <div className="w-10 h-10 bg-yellowkouzua text-white rounded-full flex items-center justify-center font-semibold">
-                  {review.authorName[0]}
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <div
+                key={review.id}
+                className="mb-4 flex flex-col items-start gap-2 justify-start"
+              >
+                <div className="flex items-center justify-start gap-2">
+                  <div className="w-10 h-10 bg-yellowkouzua text-white rounded-full flex items-center justify-center font-semibold">
+                    {review.authorName[0]}
+                  </div>
+                  <div>
+                    <p className="font-semibold">{review.authorName}</p>
+                    <p className="text-gray-500 text-sm">
+                      {new Date(review.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-semibold">{review.authorName}</p>
-                  <p className="text-gray-500 text-sm">
-                    {new Date(review.createdAt).toLocaleDateString()}
-                  </p>
+                <div className="flex items-center mt-1">
+                  {renderStars(review.stars)}
                 </div>
+                <p className="text-gray-700 mt-2">{review.content}</p>
               </div>
-              <div className="flex items-center mt-1">
-                {renderStars(review.stars)}
-              </div>
-              <p className="text-gray-700 mt-2">{review.content}</p>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>
+              Aucun avis pour le moment. Soyez le premier à laisser un avis !
+            </p>
+          )}
         </div>
       </div>
 

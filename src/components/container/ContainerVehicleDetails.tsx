@@ -366,11 +366,7 @@ export default function VehicleDetails({
 
             {activeTab === "reviews" && (
               <div className="text-center text-gray-500 py-6">
-                {/* <p>
-                  Aucun avis pour le moment. Soyez le premier à laisser un avis
-                  !
-                </p> */}
-
+              
                 <Reviews vehicleId={vehicle.id} />
               </div>
             )}
