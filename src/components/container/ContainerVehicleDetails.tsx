@@ -165,7 +165,7 @@ export default function VehicleDetails({
               <div className="mb-10">
                 <div className="flex flex-row justify-between w-[100%]">
                   <div>
-                    <h1 className="text-3xl font-bold text-start">
+                    <h1 className="text-2xl lg:text-3xl  font-bold text-start">
                       {vehicle.name}
                     </h1>
                     <div className="flex flex-col gap-2 justify-start mt-2">
@@ -197,7 +197,7 @@ export default function VehicleDetails({
                   </div>
                 </div>
 
-                <p className="text-3xl text-yellowkouzua font-bold mt-4">
+                <p className="text-2xl lg:text-3xl text-yellowkouzua font-bold mt-4">
                   {vehicle.price} FCFA{" "}
                   {vehicle.saleStatus === "RENT" ? "/ jour" : ""}
                 </p>
@@ -205,7 +205,7 @@ export default function VehicleDetails({
 
               {/* Filtrer par date */}
               <div>
-                <h3 className="font-bold text-md mb-4">
+                <h3 className="font-bold text-sm lg:text-md mb-4">
                   Selectionner une plage de date reservation disponible
                 </h3>
                 <div
@@ -255,10 +255,10 @@ export default function VehicleDetails({
                 </button>
               </motion.div>
 
-              <h2 className="text-xl font-semibold mb-4">
+              <h2 className="text-md lg:text-xl font-semibold mb-4">
                 Specification Technique
               </h2>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4">
                 {[
                   { text: `${vehicle.fuel}`, icon: "/icons/carSlider/gas.svg" },
                   {
@@ -266,17 +266,17 @@ export default function VehicleDetails({
                     icon: "/icons/carSlider/gearshift.svg",
                   },
                   {
-                    text: `${vehicle.doors} Portes`,
+                    text: `${vehicle.seats} places`,
                     icon: "/icons/carSlider/seat.svg",
                   },
                   {
-                    text: `${vehicle.distance} km`,
+                    text: `${vehicle.distance}`,
                     icon: "/icons/carSlider/wheel.svg",
                   },
                 ].map((item, index) => (
                   <div
                     key={index}
-                    className="p-4 bg-[#FAFAFA] rounded-lg text-start w-[196px] h-[148px] "
+                    className="p-4 bg-[#FAFAFA] rounded-lg text-start max-w-[196px] max-h-[148px] "
                   >
                     <div className="bg-primary w-12 h-12 rounded-full flex justify-center items-center mb-2 shadow-md">
                       <Image
@@ -290,21 +290,21 @@ export default function VehicleDetails({
                         alt={""}
                       />
                     </div>
-                    <p className="text-lg font-bold text-black ">{item.text}</p>
-                    <p className="text-sm text-gray-500">{item.text}</p>
+                    <p className="text-md lg:text-lg font-bold text-black ">{item.text}</p>
+                    <p className="text-xs lg:text-sm text-gray-500">{item.text}</p>
                   </div>
                 ))}
               </div>
 
               {/* Équipement */}
               <div className="mt-6 mb-10">
-                <h2 className="text-2xl font-semibold mb-4">Car Equipment</h2>
+                <h2 className="text-md lg:text-xl font-semibold mb-4">Equipement de la voiture </h2>
                 <div className="grid grid-cols-2 gap-4">
                   {Object.entries(vehicle.features).map(
                     ([key, value], index) => (
                       <div
                         key={index}
-                        className="flex items-center space-x-2 text-yellowkouzua"
+                        className="flex items-center space-x-2 text-yellowkouzua text-sm lg:text-md"
                       >
                         <FaCheckCircle />
                         <span className="text-gray-700">
@@ -328,7 +328,7 @@ export default function VehicleDetails({
             <div className="flex border-b border-gray-300 mb-6">
               <button
                 onClick={() => setActiveTab("description")}
-                className={`flex-1 text-center py-3 text-lg font-semibold ${
+                className={`flex-1 text-center py-3 text-md lg:text-lg font-semibold ${
                   activeTab === "description"
                     ? "text-black border-b-2 border-black"
                     : "text-gray-500"
@@ -338,7 +338,7 @@ export default function VehicleDetails({
               </button>
               <button
                 onClick={() => setActiveTab("reviews")}
-                className={`flex-1 text-center py-3 text-lg font-semibold ${
+                className={`flex-1 text-center py-3 text-md lg:text-lg  font-semibold ${
                   activeTab === "reviews"
                     ? "text-black border-b-2 border-black"
                     : "text-gray-500"
