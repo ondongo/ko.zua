@@ -534,7 +534,7 @@ export default function VehicleDetails({
         onClose={closeModal}
         className="max-w-[520px] py-10"
       >
-        <div className="max-h-[550px] p-6 overflow-auto">
+        <div className="max-h-[580px] p-6 overflow-auto">
           <h2 className="text-md font-semibold my-4">
             Merci de remplir les informations pour réserver
           </h2>
