@@ -15,4 +15,19 @@ export class ReviewService {
   async deleteReview(id: string): Promise<void> {
     return this.repository.delete(id);
   }
+  async getLastFiveRatingsForVehicle(vehicleId: string){
+    return this.repository.getLastFiveRatingsForVehicle(vehicleId);
+  }
+
+  async getLastFiveRatingsForImmobilier(immobilierId: string){
+    return this.repository.getLastFiveRatingsForVehicle(immobilierId);
+  }
+
+  async getAverageRatingForVehicle(immobilierId: string){
+    return this.repository.getAverageRatingForVehicle(immobilierId);
+  }
+
+  async getAverageRatingForImmobilier(vehicleId: string){
+    return this.repository.getAverageRatingForImmobilier(vehicleId);
+  }
 }

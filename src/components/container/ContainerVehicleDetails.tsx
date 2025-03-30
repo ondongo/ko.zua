@@ -176,6 +176,11 @@ export default function VehicleDetails({
                       </p>
 
                       <p className="text-md text-secondary">
+                        Année{" "}
+                        <span className="font-semibold"> : {vehicle.year}</span>
+                      </p>
+
+                      <p className="text-md text-secondary">
                         Localisation{" "}
                         <span className="font-semibold">
                           {" "}
@@ -348,7 +353,7 @@ export default function VehicleDetails({
                     : "text-gray-500"
                 }`}
               >
-                Avis (0)
+                Avis
               </button>
             </div>
 
@@ -366,7 +371,7 @@ export default function VehicleDetails({
                   !
                 </p> */}
 
-                <Reviews />
+                <Reviews vehicleId={vehicle.id} />
               </div>
             )}
           </div>

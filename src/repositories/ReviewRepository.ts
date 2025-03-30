@@ -48,7 +48,9 @@ export class ReviewRepository
       where: { vehicleId },
       _avg: { stars: true },
     });
-    return result._avg.stars ?? 0;
+
+    const average = result._avg.stars ?? 0;
+    return average;
   }
 
   async getAverageRatingForImmobilier(immobilierId: string) {
@@ -56,6 +58,8 @@ export class ReviewRepository
       where: { immobilierId },
       _avg: { stars: true },
     });
-    return result._avg.stars ?? 0;
+
+    const average = result._avg.stars ?? 0;
+    return average;
   }
 }
