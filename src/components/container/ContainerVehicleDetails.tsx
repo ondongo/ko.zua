@@ -16,6 +16,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Vehicle } from "@/types/vehicle";
 import { featureLabels } from "@/utils/records";
 import { useRouter } from "next/navigation";
+import Reviews from "../review/Reviews";
 
 export default function VehicleDetails({
   vehicle,
@@ -356,10 +357,12 @@ export default function VehicleDetails({
 
             {activeTab === "reviews" && (
               <div className="text-center text-gray-500 py-6">
-                <p>
+                {/* <p>
                   Aucun avis pour le moment. Soyez le premier à laisser un avis
                   !
-                </p>
+                </p> */}
+
+                <Reviews />
               </div>
             )}
           </div>
