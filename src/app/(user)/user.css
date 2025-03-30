@@ -59,19 +59,6 @@
 }
 
 /* date range custom css */
-.swiper-custom-pagination {
-  position: absolute !important;
-  top: 10% !important;
-  transform: translateY(-50%) !important;
-  transform: translateX(-4%) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center;
-  align-items: flex-end !important;
-  gap: 4rem !important;
-  z-index: 50 !important;
-}
-
 .rdrDayToday:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span::after,
 .rdrDayToday:not(.rdrDayPassive) .rdrStartEdge ~ .rdrDayNumber span::after,
 .rdrDayToday:not(.rdrDayPassive) .rdrEndEdge ~ .rdrDayNumber span::after,
@@ -288,6 +275,19 @@
 /************************************************************/
 /*           Swipper Css                */
 /***********************************************************/
+.swiper-custom-pagination {
+  position: absolute !important;
+  top: 10% !important;
+  transform: translateY(-50%) !important;
+  transform: translateX(-4%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center;
+  align-items: flex-end !important;
+  gap: 4rem !important;
+  z-index: 50 !important;
+}
+
 
 .autoplay-progress {
   position: absolute;
@@ -476,4 +476,41 @@
   50% {
     transform: scale(1);
   }
+}
+
+
+/* Supprime le fond blanc derrière le drapeau */
+.selected-flag {
+  background: transparent !important;
+}
+
+/* Corrige aussi le padding du bouton */
+.selected-flag {
+  background: transparent !important;
+  padding-left: 8px !important; /* Ajuste l'espace */
+}
+
+
+/* ✅ Ajuste la position du dropdown */
+.country-list {
+  top: 100% !important; /* Place le dropdown juste sous le champ */
+  left: 0 !important; /* Aligné avec le champ */
+  width: 250px !important; /* Taille adaptée au contenu */
+  
+}
+
+.country {
+  border-radius: 10px !important;
+  margin-bottom: 8px !important;
+  font-size: 14px !important;
+}
+/* ✅ Corrige la couleur de l'élément actif */
+.country .highlight {
+  background-color: #E7F0F7 !important;
+  border-radius: 40px !important;
+}
+
+/* ✅ Corrige la couleur au survol */
+.country:hover {
+  background-color: #E7F0F7 !important;
 }

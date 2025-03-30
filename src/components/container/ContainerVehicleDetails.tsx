@@ -9,13 +9,27 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { motion } from "framer-motion";
 import { DateRange } from "react-date-range";
+import "react-date-range/dist/styles.css"; // Styles de base
+import "react-date-range/dist/theme/default.css"; // Thème par défaut
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import { FaCalendarAlt, FaCheckCircle, FaStar } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Vehicle } from "@/types/vehicle";
 import { featureLabels } from "@/utils/records";
 import { useRouter } from "next/navigation";
 import Reviews from "../review/Reviews";
+import { Modal } from "../ui/modals";
 
+const countryFormats: Record<string, string> = {
+  sn: "+221 77 777 77 77", // Sénégal 🇸🇳
+  ga: "+241 06 12 34 56", // Gabon 🇬🇦
+  cg: "+242 06 123 45 67", // Congo 🇨🇬
+};
+
+const getPlaceholder = (country: string) => {
+  return countryFormats[country] || "Entrez votre numéro";
+};
 export default function VehicleDetails({
   vehicle,
   similarVehicles,
@@ -38,7 +52,13 @@ export default function VehicleDetails({
   ]);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
+  /* Réservation */
+
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [phone, setPhone] = useState("");
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   const handlePayment = async () => {
     setLoading(true);
@@ -160,7 +180,7 @@ export default function VehicleDetails({
 
             {/* Spécifications techniques */}
             <div>
-              <div className="mb-10">
+              <div className="mb-4">
                 <div className="flex flex-row justify-between w-[100%]">
                   <div>
                     <h1 className="text-2xl lg:text-3xl  font-bold text-start">
@@ -206,38 +226,6 @@ export default function VehicleDetails({
                 </p>
               </div>
 
-              {/* Filtrer par date */}
-              <div>
-                <h3 className="font-bold text-sm lg:text-md mb-4">
-                  Selectionner une plage de date reservation disponible
-                </h3>
-                <div
-                  onClick={() => setShowDatePicker(!showDatePicker)}
-                  className="cursor-pointer flex items-center justify-between bg-gray-100 p-3 rounded-lg"
-                >
-                  <div className="flex items-center gap-2 text-sm">
-                    <FaCalendarAlt className="text-yellowkouzua" />
-                    <span>
-                      {date[0].startDate.toLocaleDateString()} -{" "}
-                      {date[0].endDate?.toLocaleDateString()}
-                    </span>
-                  </div>
-                  <FaArrowRightLong className="text-yellowkouzua" />
-                </div>
-                {showDatePicker && (
-                  <div className="mt-4">
-                    <DateRange
-                      onChange={(item: any) => setDate([item.selection])}
-                      ranges={date}
-                      rangeColors={["#004aad"]}
-                      editableDateInputs={true}
-                      moveRangeOnFirstSelection={false}
-                      minDate={new Date()}
-                    />
-                  </div>
-                )}
-              </div>
-
               <motion.div
                 /* variants={fadeIn("down", 0.6)}
                 initial="hidden"
@@ -245,7 +233,10 @@ export default function VehicleDetails({
                 viewport={{ once: false, amount: 0.8 }} */
                 className="flex flex-col xl:flex-row gap-x-3 justify-center xl:justify-start  mb-10"
               >
-                <button className="btn btn-sm btn-yellowkouzua xl:max-w-[50%]  mt-4  bg-[#111828] hover:bg-[#111828]/10">
+                <button
+                  className="btn btn-sm btn-yellowkouzua xl:max-w-[50%]  mt-4  bg-[#111828] hover:bg-[#111828]/10"
+                  onClick={openModal}
+                >
                   Réservation simple
                 </button>
 
@@ -366,7 +357,6 @@ export default function VehicleDetails({
 
             {activeTab === "reviews" && (
               <div className="text-center text-gray-500 py-6">
-              
                 <Reviews vehicleId={vehicle.id} />
               </div>
             )}
@@ -526,6 +516,103 @@ export default function VehicleDetails({
           </div>
         </div>
       </div>
+
+      {/* Modal Réservation */}
+      <Modal
+        isOpen={modalOpen}
+        onClose={closeModal}
+        className="max-w-[520px] py-10"
+      >
+        <div className="max-h-[520px]  p-6 overflow-auto">
+          <h2 className="text-md font-semibold my-4">
+            Merci de remplir les informations pour réserver
+          </h2>
+
+          {/* Filtrer par date */}
+          <div>
+            <h3 className="text-sm lg:text-md mb-4">
+              Selectionner une plage de date reservation disponible
+            </h3>
+            <div
+              onClick={() => setShowDatePicker(!showDatePicker)}
+              className="cursor-pointer flex items-center justify-between bg-gray-100 p-3 rounded-lg"
+            >
+              <div className="flex items-center gap-2 text-sm">
+                <FaCalendarAlt className="text-yellowkouzua" />
+                <span>
+                  {date[0].startDate.toLocaleDateString()} -{" "}
+                  {date[0].endDate?.toLocaleDateString()}
+                </span>
+              </div>
+              <FaArrowRightLong className="text-yellowkouzua" />
+            </div>
+            {showDatePicker && (
+              <div className="mt-4">
+                <DateRange
+                  onChange={(item: any) => setDate([item.selection])}
+                  ranges={date}
+                  rangeColors={["#004aad"]}
+                  editableDateInputs={true}
+                  moveRangeOnFirstSelection={false}
+                  minDate={new Date()}
+                />
+              </div>
+            )}
+          </div>
+
+          <input
+            type="text"
+            placeholder="Votre nom "
+            className="w-full text-[16px] mt-4 p-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-yellowkouzua outline-none"
+          />
+
+          <input
+            type="email"
+            placeholder="Votre email (pas obligatoire)"
+            className="w-full text-[16px] mt-4 p-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-yellowkouzua outline-none"
+          />
+
+          <div className="mt-4 h-14 w-full flex items-center border border-gray-300 rounded-full bg-white shadow-sm focus-within:ring-2 focus-within:ring-yellowkouzua ">
+            <PhoneInput
+              country={"cg"}
+              onlyCountries={["sn", "cg"]}
+              enableLongNumbers={true}
+              autoFormat={true}
+              value={phone}
+              placeholder={getPlaceholder("cg")} //
+              inputProps={{
+                maxLength: 16,
+              }}
+              onChange={(phone) => setPhone(phone)}
+              inputClass="!w-full !h-full !border-none !outline-none !text-gray-700 !bg-transparent !pl-20"
+              containerClass="w-full !h-full flex items-center"
+              buttonClass="!bg-[#E7F0F7] !border-none !h-full !rounded-l-full !px-4 !text-white !font-semibold !cursor-pointer flex items-center justify-center"
+              dropdownClass="!bg-white !shadow-lg !border !border-gray-200 !rounded-lg !text-[#1C486F]"
+              dropdownStyle={{
+                borderRadius: "10px",
+                padding: "8px",
+                boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.1)",
+              }}
+            />
+          </div>
+
+          <div className="mt-6 flex justify-center">
+            <button
+              onClick={closeModal}
+              className="mr-4 bg-gray-500 text-white mt-4 p-3 px-10  rounded-full"
+            >
+              Annuler
+            </button>
+
+            <button
+              onClick={handlePayment}
+              className="bg-yellowkouzua hover:bg-yellowkouzua-dark text-white mt-4 p-3 px-10 rounded-full"
+            >
+              Réserver
+            </button>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 }
