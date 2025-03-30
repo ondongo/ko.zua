@@ -232,10 +232,17 @@ function ContainerVehicle() {
             />
 
             <button
-              className="btn btn-sm btn-accent  mt-4  bg-[#111828] hover:bg-[#111828]"
+              className="btn btn-sm btn-accent  mt-4  bg-yellowkouzua hover:bg-yellowkouzua-dark"
               onClick={handleFilterSubmit}
             >
               Filtrer
+            </button>
+
+            <button
+              className="sm:hidden lg:block btn btn-sm btn-accent mt-4  bg-primary hover:bg-primary/50 text-white "
+              onClick={() => router.push("/vehicles")}
+            >
+              Rénitialiser les filtres
             </button>
           </div>
 
