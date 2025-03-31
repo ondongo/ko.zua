@@ -16,7 +16,7 @@ import "react-phone-input-2/lib/style.css";
 import { FaCalendarAlt, FaCheckCircle, FaStar } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Vehicle } from "@/types/vehicle";
-import { featureLabels } from "@/utils/records";
+import { featureLabels, getPlaceholder } from "@/utils/records";
 import { useRouter } from "next/navigation";
 import Reviews from "../review/Reviews";
 import { Modal } from "../ui/modals";
@@ -25,15 +25,7 @@ import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 
-const countryFormats: Record<string, string> = {
-  sn: "+221 77 777 77 77", // Sénégal 🇸🇳
-  ga: "+241 06 12 34 56", // Gabon 🇬🇦
-  cg: "+242 06 123 45 67", // Congo 🇨🇬
-};
 
-const getPlaceholder = (country: string) => {
-  return countryFormats[country] || "Entrez votre numéro";
-};
 export default function VehicleDetails({
   vehicle,
   similarVehicles,

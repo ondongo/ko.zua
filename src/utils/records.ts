@@ -70,3 +70,13 @@ export const steps = [
   "Validation des informations",
 ];
 
+
+export const countryFormats: Record<string, string> = {
+  sn: "+221 77 777 77 77", // Sénégal 🇸🇳
+  ga: "+241 06 12 34 56", // Gabon 🇬🇦
+  cg: "+242 06 123 45 67", // Congo 🇨🇬
+};
+
+export const getPlaceholder = (country: string) => {
+  return countryFormats[country] || "Entrez votre numéro";
+};
