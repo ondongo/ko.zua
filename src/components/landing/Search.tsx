@@ -1,17 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { SearchContext } from "@/context/SearchContext";
-import LocationSelection from "./QuerySelection";
-import DateSelection from "./DateSelection";
-import HourSelection from "./HourSelection";
+
 import { useRouter } from "next/navigation";
 import TypeServiceSelection from "./TypeServiceSelection";
 import SaleOrRentSelection from "./SaleOrRentSelection";
+import QuerySelection from "./QuerySelection";
+type SaleOrRent = "RENT" | "SALE";
 
 function Search() {
   const { searchActive } = useContext(SearchContext);
   const router = useRouter();
+  const [type, setType] = useState<SaleOrRent>("RENT"); 
+  const [query, setQuery] = useState(""); 
+  const [serviceType, setServiceType] = useState("vehicles");
+
   function handleSearch() {
-    router.push("/vehicles");
+    const baseUrl = serviceType === "Immobilier" ? "/estates" : "/vehicles";
+    router.push(`${baseUrl}?searchQuery=${query}&search=${type}`);
   }
   return (
     <div
@@ -22,10 +27,10 @@ function Search() {
       } hidden xl:block w-full relative shadow-lg`}
     >
       <div className={`flex h-full ${searchActive && "container mx-auto"} `}>
-        <LocationSelection />
-        <SaleOrRentSelection />
+        <QuerySelection query={query} setQuery={setQuery}  />
+        <SaleOrRentSelection  type={type} setType={setType}/>
         {/* <HourSelection /> */}
-        <TypeServiceSelection />
+        <TypeServiceSelection serviceType={serviceType} setServiceType={setServiceType}/>
 
         <div className="xl:h-full flex items-center px-6 xl:px-0">
           <button

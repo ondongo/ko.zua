@@ -5,8 +5,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 const typeServiceList = ["Voiture", "Immobilier"];
 
-function TypeServiceSelection() {
-  const [type, setType] = useState("Voiture");
+function TypeServiceSelection({ serviceType, setServiceType }: { serviceType: string, setServiceType: React.Dispatch<React.SetStateAction<string>> }) {
 
   return (
     <Menu as="div" className="w-full h-full flex xl:flex-row">
@@ -26,7 +25,7 @@ function TypeServiceSelection() {
             <FaArrowRightLong className="text-yellowkouzua text-[12px]" />
 
             <div className="uppercase font-medium text-[13px] text-secondary text-center">
-              {type}
+              {serviceType}
             </div>
           </div>
         </Menu.Button>
@@ -39,7 +38,7 @@ function TypeServiceSelection() {
             <div
               key={item}
               className="cursor-pointer py-4 text-center  hover:bg-gray-50 text-[13px] "
-              onClick={() => setType(item)}
+              onClick={() => setServiceType(item)}
             >
               {item}
             </div>

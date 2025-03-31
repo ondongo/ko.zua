@@ -10,9 +10,24 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 const SaleOrRentList = ["En location", "En vente"];
 
-function SaleOrRentSelection() {
-  const [type, setType] = useState("En location");
+function SaleOrRentSelection({
+  type,
+  setType,
+}: {
+  type: string;
+  setType: any;
+}) {
+  const mapValueToLabel = (value: string) => {
+    if (value === "RENT") return "En location";
+    if (value === "SALE") return "En vente";
+    return value;
+  };
 
+  const mapTypeToValue = (item: string) => {
+    if (item === "En location") return "RENT";
+    if (item === "En vente") return "SALE";
+    return item;
+  };
   return (
     <Menu as="div" className="w-full h-full flex xl:flex-row">
       <div className="relative flex-1">
@@ -31,7 +46,7 @@ function SaleOrRentSelection() {
             <FaArrowRightLong className="text-yellowkouzua text-[12px]" />
 
             <div className="uppercase font-medium text-[13px] text-secondary text-center">
-              {type}
+              {mapValueToLabel(type)}
             </div>
           </div>
         </Menu.Button>
@@ -44,7 +59,7 @@ function SaleOrRentSelection() {
             <div
               key={item}
               className="cursor-pointer py-4 text-center  hover:bg-gray-50 text-[13px] "
-              onClick={() => setType(item)}
+              onClick={() => setType(mapTypeToValue(item))}
             >
               {item}
             </div>

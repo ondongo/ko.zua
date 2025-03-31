@@ -2,15 +2,14 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-function QuerySelection() {
-  const [value, setValue] = useState<string>("");
+function QuerySelection({ query, setQuery }: { query: string, setQuery: React.Dispatch<React.SetStateAction<string>> }) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setQuery(e.target.value);
   };
 
   const handleClear = () => {
-    setValue("");
+    setQuery("");
   };
 
   return (
@@ -20,10 +19,10 @@ function QuerySelection() {
           type="text"
           className="w-full h-[40px] ml-6 pl-3 rounded-lg placeholder-black placeholder-opacity-50 font-medium focus:outline-none focus:ring-1 focus:ring-yellowkouzua focus:border-yellowkouzua"
           placeholder="Rechercher un vehicule ou un appart ..."
-          value={value}
+          value={query}
           onChange={handleInputChange}
         />
-        {value && (
+        {query && (
           <div className="absolute inset-y-0 right-1 flex items-center">
             <button
               onClick={handleClear}

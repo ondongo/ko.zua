@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useContext, Fragment } from "react";
 import Image from "next/image";
-import { Link } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 import SearchMobile from "./SearchMobile";
 import { useMediaQuery } from "react-responsive";
 import { BiMenuAltRight, BiX } from "react-icons/bi";
@@ -15,6 +15,7 @@ import {
   FaTruck,
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function Header() {
   const { setSearchActive } = useContext(SearchContext);
@@ -66,7 +67,7 @@ function Header() {
     >
       <div className="xl:container mx-auto flex flex-col xl:flex-row xl:items-center xl:justify-between">
         <div className="flex justify-between items-center px-4">
-          <Link
+          <ScrollLink
             to="home"
             smooth={desktopMode}
             spy={true}
@@ -80,7 +81,7 @@ function Header() {
                 objectFit="cover"
               />
             </div>
-          </Link>
+          </ScrollLink>
 
           <div
             onClick={() => setNav(!nav)}
@@ -101,7 +102,7 @@ function Header() {
            xl:w-max xl:gap-x-8 xl:h-max xl:bg-transparent xl:pb-0 transition-all duration-150 text-center 
            xl:text-left uppercase text-sm xl:text-[15px] xl:normal-case`}
         >
-          <Link
+          <ScrollLink
             className="cursor-pointer"
             to="home"
             activeClass="active"
@@ -109,7 +110,7 @@ function Header() {
             spy={true}
           >
             Accueil
-          </Link>
+          </ScrollLink>
           <Popover>
             {({ open }) => (
               <>
@@ -376,6 +377,9 @@ function Header() {
             )}
           </Popover>
 
+          <Link href="https://api.whatsapp.com/send/?phone=242056977474&text&type=phone_number&app_absent=0">
+            Contact
+          </Link>
           <SearchMobile />
         </nav>
       </div>
