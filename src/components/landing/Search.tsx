@@ -12,11 +12,11 @@ function Search() {
   const router = useRouter();
   const [type, setType] = useState<SaleOrRent>("RENT"); 
   const [query, setQuery] = useState(""); 
-  const [serviceType, setServiceType] = useState("vehicles");
+  const [serviceType, setServiceType] = useState("Voiture");
 
   function handleSearch() {
     const baseUrl = serviceType === "Immobilier" ? "/estates" : "/vehicles";
-    router.push(`${baseUrl}?searchQuery=${query}&search=${type}`);
+    router.push(`${baseUrl}?searchQuery=${query}&saleStatus=${type}`);
   }
   return (
     <div

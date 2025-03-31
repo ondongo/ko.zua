@@ -86,6 +86,7 @@ function ContainerVehicle() {
       location: params.get("location") || "",
       category: params.get("category") || "",
       saleStatus: params.get("saleStatus") || "",
+      searchQuery: params.get("searchQuery") || "",
     };
 
     // Ajoutez minPrice et maxPrice uniquement si les paramètres sont présents dans l'URL
@@ -133,6 +134,8 @@ function ContainerVehicle() {
       newParams.set("availability", filters.availability.toString());
     }
     if (filters.brand) newParams.set("brand", filters.brand);
+    if (filters.searchQuery) newParams.set("searchQuery", filters.searchQuery);
+
     // Comparaison avec les paramètres actuels pour éviter la redondance
     const currentParams = new URLSearchParams(window.location.search);
     if (currentParams.toString() !== newParams.toString()) {

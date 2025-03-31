@@ -534,3 +534,19 @@
 .country:hover {
   background-color: #E7F0F7 !important;
 }
+
+
+
+/************************************************************/
+/*          Menu Css                */
+/***********************************************************/
+
+.dropdown-menu {
+  position: absolute; 
+  top: 90px;
+  left: 0;
+  transform: translateX(0); 
+  z-index: 10;
+  max-height: 400px; 
+  overflow-y: auto; 
+}

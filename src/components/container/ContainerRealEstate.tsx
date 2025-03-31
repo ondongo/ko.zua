@@ -87,6 +87,7 @@ function ContainerRealEstate() {
       location: params.get("location") || "",
       category: params.get("category") || "",
       saleStatus: params.get("saleStatus") || "",
+      searchQuery: params.get("searchQuery") || "",
     };
 
     // Ajoutez minPrice et maxPrice uniquement si les paramètres sont présents dans l'URL
@@ -130,6 +131,7 @@ function ContainerRealEstate() {
       newParams.set("maxPrice", filters.maxPrice.toString());
     if (filters.location) newParams.set("location", filters.location);
     if (filters.saleStatus) newParams.set("saleStatus", filters.saleStatus);
+    if (filters.searchQuery) newParams.set("searchQuery", filters.searchQuery);
     if (filters.availability !== null && filters.availability !== undefined) {
       newParams.set("availability", filters.availability.toString());
     }

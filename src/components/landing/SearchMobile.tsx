@@ -1,24 +1,32 @@
-import React from "react";
-import LocationSelection from "./QuerySelection";
-import DateSelection from "./DateSelection";
-import HourSelection from "./HourSelection";
+import React, { useState } from "react";
+
 import SaleOrRentSelection from "./SaleOrRentSelection";
 import TypeServiceSelection from "./TypeServiceSelection";
 import { useRouter } from "next/navigation";
+import QuerySelection from "./QuerySelection";
+type SaleOrRent = "RENT" | "SALE";
 
 function SearchMobile() {
   const router = useRouter();
+  const [type, setType] = useState<SaleOrRent>("RENT");
+  const [query, setQuery] = useState("");
+  const [serviceType, setServiceType] = useState("Voiture");
+
   function handleSearch() {
-    router.push("/vehicles");
+    const baseUrl = serviceType === "Immobilier" ? "/estates" : "/vehicles";
+    router.push(`${baseUrl}?searchQuery=${query}&saleStatus=${type}`);
   }
   return (
     <div className="xl:hidden font-medium">
       <div className="container mx-auto">
         <div className="flex flex-col gap-y-4">
-          <LocationSelection />
-          <SaleOrRentSelection />
+          <QuerySelection query={query} setQuery={setQuery} />
+          <SaleOrRentSelection type={type} setType={setType} />
           {/* <HourSelection /> */}
-          <TypeServiceSelection />
+          <TypeServiceSelection
+            serviceType={serviceType}
+            setServiceType={setServiceType}
+          />
 
           <div className="flex items-center px-6">
             <button
