@@ -71,6 +71,10 @@ export default function VehicleDetails({
   };
 
   const closeModal = () => {
+    setSuccess(false);
+    setName("");
+    setEmail("");
+    setPhone("");
     setModalOpen(false);
   };
   const handlePayment = async (totalAmount: number) => {
