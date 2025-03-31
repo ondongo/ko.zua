@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { quartiers } from "@/utils/records";
+import { quartiersBrazzaville, quartiersPointeNoire } from "@/utils/records";
 
 function Header() {
   const { setSearchActive } = useContext(SearchContext);
@@ -254,13 +254,13 @@ function Header() {
                   <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-3xl -translate-x-1/2 transform px-4 sm:px-0">
                     <div className="overflow-hidden  z-50 rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
                       <div className="flex p-7 gap-8">
-                        {/* Vente et achat */}
+                        {/* Immobilier à Pointe-Noire */}
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            Vente et achat
+                            Immobilier à Pointe-Noire
                           </h3>
                           <div className="flex flex-col gap-4">
-                            {quartiers.map((quartier) => (
+                            {quartiersPointeNoire.map((quartier) => (
                               <a
                                 key={quartier}
                                 href="#"
@@ -274,28 +274,24 @@ function Header() {
                             ))}
                           </div>
                         </div>
-                        {/* Location */}
+
+                        {/* Immobilier à Brazzaville */}
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            Location
+                            Immobilier à Brazzaville
                           </h3>
                           <div className="flex flex-col gap-4">
-                            {quartiers.map((quartier) => (
-                              <div
+                            {quartiersBrazzaville.map((quartier) => (
+                              <a
                                 key={quartier}
-                                className="flex flex-col gap-2 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
+                                href="#"
+                                className="flex items-center gap-3 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                               >
-                                <div className="flex items-center gap-3">
-                                  <FaMapMarkerAlt className="text-green-500 text-xl" />
-                                  <span className="text-sm font-medium text-gray-900">
-                                    {quartier}
-                                  </span>
-                                </div>
-                                <span className="text-xs text-gray-500">
-                                  Maison moderne avec 3 chambres, salon
-                                  spacieux, et jardin.
+                                <FaMapMarkerAlt className="text-green-500 text-xl" />
+                                <span className="text-sm font-medium text-gray-900">
+                                  {quartier}
                                 </span>
-                              </div>
+                              </a>
                             ))}
                           </div>
                         </div>
@@ -307,7 +303,6 @@ function Header() {
             )}
           </Popover>
 
-          
           <Link href="https://api.whatsapp.com/send/?phone=242056977474&text&type=phone_number&app_absent=0">
             Contact
           </Link>

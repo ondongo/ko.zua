@@ -48,7 +48,7 @@ function About() {
               <div className="flex items-center gap-x-6 mb-10">
                 {/* Stats here */}
 
-                <div className="flex flex-col w-[50%]">
+                <div className="flex flex-col w-[50%] justify-center items-center">
                   {/* Icons 1 */}
                   <MdOutlineDirectionsCar className="text-5xl text-yellowkouzua" />
                   <div className="text-3xl font-black">
