@@ -13,7 +13,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
 }) => {
   const [values, setValues] = React.useState([priceRange.min, priceRange.max]);
   const min = 5000;
-  const max = 50000000;
+  const max = 500000;
 
   React.useEffect(() => {
     setValues([priceRange.min, priceRange.max]);

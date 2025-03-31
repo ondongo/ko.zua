@@ -17,7 +17,7 @@ function ContainerVehicle() {
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [filters, setFilters] = useState<any>({});
   const [availability, setAvailability] = useState<boolean | null>(null);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 50000 });
+  const [priceRange, setPriceRange] = useState({ min: 5000, max: 500000 });
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [searchParams] = useSearchParams();
