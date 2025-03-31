@@ -23,7 +23,7 @@ function ContainerRealEstate() {
 
   const [filters, setFilters] = useState<any>({});
   const [availability, setAvailability] = useState<boolean | null>(null);
-  const [priceRange, setPriceRange] = useState({ min: 100, max: 500 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 50000000 });
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [searchParams] = useSearchParams();

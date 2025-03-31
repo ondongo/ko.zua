@@ -12,8 +12,8 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
   priceRangeHandler,
 }) => {
   const [values, setValues] = React.useState([priceRange.min, priceRange.max]);
-  const min = 0;
-  const max = 500000;
+  const min = 5000;
+  const max = 50000000;
 
   React.useEffect(() => {
     setValues([priceRange.min, priceRange.max]);
@@ -47,7 +47,7 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
       <div className="w-full max-w-md">
         <Range
           values={values}
-          step={1000}
+          step={5000}
           min={min}
           max={max}
           onChange={handleChange}
