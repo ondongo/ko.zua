@@ -124,6 +124,24 @@
 /************************************************************/
 /*           Loader OpenStreet map Search                  */
 /***********************************************************/
+/* Ajoutez ceci dans votre fichier CSS global ou dans un module CSS */
+/* Spinner simple et blanc */
+.spinner {
+  border: 4px solid #f3f3f3; /* Gris clair pour le fond */
+  border-top: 4px solid #ffffff; /* Blanc pour la partie visible */
+  border-radius: 50%;
+  width: 20px; /* Taille du spinner */
+  height: 20px; /* Taille du spinner */
+  animation: spin 1s linear infinite; /* Animation de rotation */
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg); /* Effectue une rotation complète */
+  }
+}
+
+
 .loader {
   width: 30px;
   aspect-ratio: 1;
@@ -154,6 +172,8 @@
     transform: rotate(1turn);
   }
 }
+
+
 
 /************************************************************/
 /*           BreadCumb Animation                  */

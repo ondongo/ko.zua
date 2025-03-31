@@ -70,8 +70,9 @@ export default function VehicleDetails({
     setModalOpen(true);
   };
 
-  const closeModal = () => setModalOpen(false);
-
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const handlePayment = async (totalAmount: number) => {
     const response = await fetch("/api/yabetoo/payment", {
       method: "POST",
@@ -656,7 +657,7 @@ export default function VehicleDetails({
             <input
               type="email"
               placeholder="Votre email (pas obligatoire)"
-              value={email} 
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full text-[16px] mt-4 p-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-yellowkouzua outline-none"
             />
@@ -694,17 +695,15 @@ export default function VehicleDetails({
               </button>
 
               <button
+                disabled={loading} 
                 onClick={handleReservation}
                 className="bg-yellowkouzua hover:bg-yellowkouzua-dark text-white mt-4 p-3 px-10 rounded-full"
               >
-               
                 {loading ? (
-                <span className="animate-spin border-t-2 border-white border-solid rounded-full w-5 h-5"></span>
-              ) : (
-                <>
-                 Réserver
-                </>
-              )}
+                  <div className="spinner"></div>
+                ) : (
+                  <>Réserver</>
+                )}
               </button>
             </div>
           </div>
@@ -722,7 +721,7 @@ export default function VehicleDetails({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.5 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center max-h-[580px] p-6"
             >
               <AiOutlineCheckCircle size={80} className="text-green-500" />
 

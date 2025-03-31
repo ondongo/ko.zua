@@ -8,7 +8,7 @@ export default function NotFound() {
     <div className="relative flex flex-col items-center justify-center min-h-screen p-6 overflow-hidden z-1">
       <GridShape />
       <div className="mx-auto w-full max-w-[242px] text-center sm:max-w-[472px]">
-        <h1 className="mb-8 font-bold text-gray-800 text-title-md    xl:text-title-2xl">
+        <h1 className="mb-8 font-bold text-yellowkouzua text-title-md    xl:text-title-2xl">
           404
         </h1>
 
@@ -18,7 +18,7 @@ export default function NotFound() {
 
         <Link
           href="/"
-          className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-3.5 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700    dark:hover:bg-white/[0.03] "
+          className="inline-flex items-center justify-center rounded-lg border  bg-yellowkouzua px-5 py-3.5 text-sm font-medium text-white shadow-theme-xs hover:bg-yellowkouzua-dark  "
         >
           Retour à la page d&apos;accueil
         </Link>
