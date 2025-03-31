@@ -42,8 +42,7 @@ function About() {
                 <strong>Ko.Zua</strong>, votre plateforme de confiance pour
                 louer un véhicule ou acquérir un bien immobilier en Afrique.
                 Simplicité, sécurité et partenaires fiables pour vous
-                accompagner.
-                <strong>Ko.Zua, votre allié mobilité & logement !</strong>
+                accompagner. 
               </p>
 
               <div className="flex items-center gap-x-6 mb-10">
