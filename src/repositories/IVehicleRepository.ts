@@ -3,8 +3,10 @@ import { IRepository } from "./generic/IRepository";
 import { PaginatedResult } from "@/types/allType";
 
 export interface IVehicleRepository extends IRepository<Vehicle> {
-
-  toggleAvailability(vehicleId: string, availability: boolean): Promise<Vehicle>;
+  toggleAvailability(
+    vehicleId: string,
+    availability: boolean
+  ): Promise<Vehicle>;
   findAvailableVehicles(): Promise<Vehicle[]>;
   findByBrand(brand: string): Promise<Vehicle[]>;
   getFilteredVehicles(
@@ -20,7 +22,7 @@ export interface IVehicleRepository extends IRepository<Vehicle> {
       startDate?: Date;
       endDate?: Date;
       saleStatus?: "RENT" | "SALE";
-      condition?:string
+      condition?: string;
     },
     pagination: {
       page?: number;
@@ -29,4 +31,5 @@ export interface IVehicleRepository extends IRepository<Vehicle> {
   ): Promise<PaginatedResult<Vehicle>>;
 
   findSimilarVehicles(category: string, excludeId: string): Promise<Vehicle[]>;
+  getLatestVehicles(): Promise<Vehicle[]>;
 }

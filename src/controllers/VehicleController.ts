@@ -91,4 +91,8 @@ export const VehicleController = {
   ): Promise<Vehicle[]> {
     return await vehicleService.findSimilarVehicles(category, excludeId);
   },
+
+  async getLatestVehicles(): Promise<Vehicle[]> {
+    return await vehicleService.getLatestVehicles();
+  },
 };

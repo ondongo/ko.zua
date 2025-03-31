@@ -3,7 +3,7 @@ import TestimonialSlider from "./TestimonialSlider";
 
 function Testimonial() {
   return (
-    <section className="lg:section flex items-center " id="testimonial">
+    <section className="my-10 lg:my-20 flex items-center " id="testimonial">
       <TestimonialSlider />
     </section>
   );

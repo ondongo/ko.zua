@@ -70,4 +70,8 @@ export class VehicleService {
   ): Promise<Vehicle[]> {
     return this.repository.findSimilarVehicles(category, excludeId);
   }
+
+  async getLatestVehicles(): Promise<Vehicle[]> {
+    return this.repository.getLatestVehicles();
+  }
 }

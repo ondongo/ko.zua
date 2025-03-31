@@ -9,10 +9,10 @@ import ImmoSlider from "./ImmoSlider";
 
 function RecentlyAdded() {
   return (
-    <section className="lg:section lg:h-screen flex items-center" id="cars">
+    <section className="lg:h-screen flex items-center  mb-4" id="cars">
       {/*   <Brands /> */}
       <div className="container mx-auto px-4 lg:mt-16">
-        <h2 className="text-2xl font-bold text-gray-800 my-6">
+        <h2 className="text-xl lg:text-2xl font-bold text-gray-800 my-6">
           Location et ventes récemment ajoutées
         </h2>
         <Tab.Group>

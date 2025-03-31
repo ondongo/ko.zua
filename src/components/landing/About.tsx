@@ -16,7 +16,7 @@ function About() {
     threshold: 0.5,
   });
   return (
-    <section className="section flex  justify-start" id="about" ref={ref}>
+    <section className="flex justify-start" id="about" ref={ref}>
       <div className="container mx-auto">
         <div className="flex flex-col xl:flex-row xl:justify-between">
           <motion.div
@@ -28,9 +28,9 @@ function About() {
           >
             <Image
               className="rounded-[20px]"
-              src="/Cars_03_2x.png"
+              src="/images/location-de-voiture-entre-particulier-1024x683-1.jpg"
               width={580}
-              height={540}
+              height={500}
               alt=""
             />
           </motion.div>
@@ -39,15 +39,24 @@ function About() {
             <div className="xl:max-w-[580px]">
               <h2 className="h2">A propos</h2>
               <p className="text-lg text-gray-600 mb-[30px]">
-                Notre entreprise de location de voitures s'engage à vous offrir
-                une expérience de conduite exceptionnelle. Notre équipe dévouée
-                est là pour vous accompagner et vous garantir un service
-                personnalisé de première classe.
+                Chez <strong>Ko.Zua</strong>, nous facilitons l&apos;accès aux{" "}
+                <strong>véhicules et aux biens immobiliers en Afrique</strong>.
+                Que vous souhaitiez louer une voiture pour un déplacement
+                ponctuel, acheter un bien immobilier, notre plateforme vous
+                accompagne à chaque étape. Nous mettons à votre disposition une
+                sélection variée de véhicules fiables et de logements adaptés à
+                vos besoins, tout en collaborant avec des partenaires de
+                confiance pour vous garantir des transactions sécurisées et un
+                service de qualité.{" "}
+                <strong>
+                  Ko.Zua, votre allié pour une mobilité sans limites et un
+                  logement sur mesure !
+                </strong>
               </p>
               <div className="flex items-center gap-x-6 mb-10">
                 {/* Stats here */}
 
-                <div className="flex flex-col w-[100px]">
+                <div className="flex flex-col w-[50%]">
                   {/* Icons 1 */}
                   <MdOutlineDirectionsCar className="text-5xl text-yellowkouzua" />
                   <div className="text-3xl font-black">
@@ -57,12 +66,11 @@ function About() {
                     +
                   </div>
                   <div className="upppercase text-[13px] font-semibold text-secondary">
-                    types de <br />
-                    voiture
+                    types de voiture
                   </div>
                 </div>
 
-                <div className="flex flex-col w-[100px]">
+                <div className="flex flex-col w-[50%]">
                   {/* Icons 1 */}
                   <MdOutlineMapsHomeWork className="text-5xl text-yellowkouzua" />
                   <div className="text-3xl font-black">
@@ -72,28 +80,10 @@ function About() {
                     +
                   </div>
                   <div className="upppercase text-[13px] font-semibold text-secondary">
-                    Rental <br /> outlet
-                  </div>
-                </div>
-
-                <div className="flex flex-col w-[100px]">
-                  {/* Icons 1 */}
-                  <MdOutlineBuildCircle className="text-5xl text-yellowkouzua" />
-                  <div className="text-3xl font-black">
-                    {inView ? (
-                      <CountUp start={0} end={35} duration={3} delay={1} />
-                    ) : null}
-                    +
-                  </div>
-                  <div className="upppercase text-[13px] font-semibold text-secondary">
-                    types de <br />
-                    voiture
+                    Maisons et Parcelles
                   </div>
                 </div>
               </div>
-              <button className="hidden xl:block bg-yellowkouzua hover:bg-yellowkouzua-dark rounded-[10px] w-full h-16 uppercase font-medium text-white tracking-[2px] text-[13px] max-w-[184px]">
-                Voir les voitures
-              </button>
             </div>
           </div>
         </div>
