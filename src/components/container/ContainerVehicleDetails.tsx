@@ -648,12 +648,16 @@ export default function VehicleDetails({
             <input
               type="text"
               placeholder="Votre nom "
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full text-[16px] mt-4 p-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-yellowkouzua outline-none"
             />
 
             <input
               type="email"
               placeholder="Votre email (pas obligatoire)"
+              value={email} 
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full text-[16px] mt-4 p-3 border border-gray-300 rounded-full shadow-sm focus:ring-2 focus:ring-yellowkouzua outline-none"
             />
 
@@ -693,7 +697,14 @@ export default function VehicleDetails({
                 onClick={handleReservation}
                 className="bg-yellowkouzua hover:bg-yellowkouzua-dark text-white mt-4 p-3 px-10 rounded-full"
               >
-                Réserver
+               
+                {loading ? (
+                <span className="animate-spin border-t-2 border-white border-solid rounded-full w-5 h-5"></span>
+              ) : (
+                <>
+                 Réserver
+                </>
+              )}
               </button>
             </div>
           </div>
