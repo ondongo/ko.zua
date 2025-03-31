@@ -54,6 +54,7 @@ export class VehicleService {
       startDate?: Date;
       endDate?: Date;
       saleStatus?: "RENT" | "SALE";
+      condition?: string;
     },
     pagination: {
       page?: number;

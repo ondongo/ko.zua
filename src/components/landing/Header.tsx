@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { quartiers } from "@/utils/records";
 
 function Header() {
   const { setSearchActive } = useContext(SearchContext);
@@ -48,17 +49,10 @@ function Header() {
     };
   });
 
-  const quartiers = [
-    "Centre-ville",
-    "Plateaux",
-    "Makélékélé",
-    "Talangaï",
-    "Ouenze",
-  ];
-
-  const redirectToCategory = (category: string) => {
+  const redirectToCategoryVehicle = (category: string) => {
     router.push(`/vehicles?category=${category}`);
   };
+
   return (
     <header
       className={`${
@@ -140,7 +134,7 @@ function Header() {
                           </h3>
                           <div className="flex flex-col gap-4">
                             <a
-                              href="#"
+                              href="/vehicles?condition=Neuf"
                               className="flex flex-col gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                             >
                               <span className="text-sm font-medium text-gray-900">
@@ -151,14 +145,14 @@ function Header() {
                               </span>
                             </a>
                             <a
-                              href="#"
+                              href="/vehicles?condition=Occasion"
                               className="flex flex-col gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                             >
                               <span className="text-sm font-medium text-gray-900">
                                 Occasion
                               </span>
                               <span className="text-xs text-gray-500">
-                                Trouvez des véhicules d'occasion fiables et
+                                Trouvez des véhicules d&apos;occasion fiables et
                                 abordables.
                               </span>
                             </a>
@@ -187,7 +181,7 @@ function Header() {
                                   "Profitez du confort pour vos longs trajets.",
                               },
                               {
-                                type: "SUV",
+                                type: "Suv",
                                 icon: (
                                   <FaCar className="text-green-500 text-xl" />
                                 ),
@@ -215,7 +209,7 @@ function Header() {
                                 key={type}
                                 onClick={(e) => {
                                   e.preventDefault(); // Empêche le comportement par défaut du lien
-                                  redirectToCategory(type); // Redirige vers la catégorie
+                                  redirectToCategoryVehicle(type); // Redirige vers la catégorie
                                 }}
                                 className="flex flex-col gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                               >

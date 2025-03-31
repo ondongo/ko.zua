@@ -87,6 +87,7 @@ function ContainerVehicle() {
       category: params.get("category") || "",
       saleStatus: params.get("saleStatus") || "",
       searchQuery: params.get("searchQuery") || "",
+      condition: params.get("condition") || "",
     };
 
     // Ajoutez minPrice et maxPrice uniquement si les paramètres sont présents dans l'URL
@@ -112,6 +113,8 @@ function ContainerVehicle() {
       !filters.location &&
       !filters.category &&
       !filters.saleStatus &&
+      !filters.condition &&
+      !filters.searchQuery&&
       availability === null
     ) {
       return {};
@@ -135,7 +138,7 @@ function ContainerVehicle() {
     }
     if (filters.brand) newParams.set("brand", filters.brand);
     if (filters.searchQuery) newParams.set("searchQuery", filters.searchQuery);
-
+    if (filters.condition) newParams.set("condition", filters.condition);
     // Comparaison avec les paramètres actuels pour éviter la redondance
     const currentParams = new URLSearchParams(window.location.search);
     if (currentParams.toString() !== newParams.toString()) {
@@ -144,15 +147,6 @@ function ContainerVehicle() {
   };
 
   const sortVehicles = (vehicles: Vehicle[], option: string) => {
-    console.log(
-      "Véhicules avant tri :",
-      vehicles.map((v) => ({
-        id: v.id,
-        createdAt: v.createdAt,
-        parsedDate: new Date(v.createdAt),
-        isValid: !isNaN(new Date(v.createdAt).getTime()),
-      }))
-    );
     if (option === "price_asc") {
       return [...vehicles].sort((a, b) => a.price - b.price);
     } else if (option === "price_desc") {
@@ -179,6 +173,8 @@ function ContainerVehicle() {
     try {
       const filters = getFiltersFromURL();
       //let data: Vehicle[];
+      console.log("Condition filter:", filters.condition);
+
       let result: any;
       if (Object.keys(filters).length === 0) {
         result = await getAllVehicles(currentPage, 12);

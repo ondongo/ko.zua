@@ -20,6 +20,7 @@ export interface IVehicleRepository extends IRepository<Vehicle> {
       startDate?: Date;
       endDate?: Date;
       saleStatus?: "RENT" | "SALE";
+      condition?:string
     },
     pagination: {
       page?: number;

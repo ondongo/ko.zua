@@ -57,6 +57,7 @@ export class VehicleRepository
       startDate?: Date;
       endDate?: Date;
       saleStatus?: "RENT" | "SALE";
+      condition?: string;
     },
     pagination: {
       page?: number;
@@ -72,6 +73,7 @@ export class VehicleRepository
             availability: filters.availability,
           }),
           ...(filters.brand && { brand: filters.brand }),
+          ...(filters.condition && { condition: filters.condition }),
           ...(filters.minPrice !== undefined && {
             price: { gte: filters.minPrice },
           }),
@@ -125,6 +127,7 @@ export class VehicleRepository
             availability: filters.availability,
           }),
           ...(filters.brand && { brand: filters.brand }),
+          ...(filters.condition && { condition: filters.condition }),
           ...(filters.minPrice !== undefined && {
             price: { gte: filters.minPrice },
           }),

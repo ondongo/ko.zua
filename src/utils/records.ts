@@ -1,3 +1,11 @@
+export const quartiers = [
+  "Centre-ville",
+  "Plateaux",
+  "Makélékélé",
+  "Talangaï",
+  "Ouenze",
+];
+
 export const featureLabels: Record<string, string> = {
   airConditioner: "Climatisation",
   airBags: "Airbags",

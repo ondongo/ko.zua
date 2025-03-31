@@ -259,6 +259,14 @@ export default function VehicleDetails({
                           : {vehicle.location.city}
                         </span>
                       </p>
+
+                      <p className="text-md text-secondary">
+                        Etat {" "}
+                        <span className="font-semibold">
+                          {" "}
+                          : {vehicle.condition || "non précisé"}
+                        </span>
+                      </p>
                     </div>
                   </div>
                   <div
@@ -699,15 +707,11 @@ export default function VehicleDetails({
               </button>
 
               <button
-                disabled={loading} 
+                disabled={loading}
                 onClick={handleReservation}
                 className="bg-yellowkouzua hover:bg-yellowkouzua-dark text-white mt-4 p-3 px-10 rounded-full"
               >
-                {loading ? (
-                  <div className="spinner"></div>
-                ) : (
-                  <>Réserver</>
-                )}
+                {loading ? <div className="spinner"></div> : <>Réserver</>}
               </button>
             </div>
           </div>

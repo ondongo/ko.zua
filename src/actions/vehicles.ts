@@ -113,7 +113,7 @@ export async function getAllVehicles(page: number, pageSize: number) {
     description: vehicle.description ?? "",
     global: vehicle.global,
     category: vehicle.category,
-    condition: vehicle.condition ?? "Neuf",
+    condition: vehicle.condition ?? "non précisé",
     type: vehicle.type,
     brand: vehicle.brand,
     model: vehicle.model,
@@ -164,6 +164,7 @@ export async function getFilteredVehicles(
     startDate?: Date;
     endDate?: Date;
     saleStatus?: "RENT" | "SALE";
+    condition?: string;
   },
   pagination: {
     page?: number;
@@ -181,7 +182,7 @@ export async function getFilteredVehicles(
       description: vehicle.description ?? undefined,
       global: vehicle.global,
       category: vehicle.category,
-      condition: vehicle.condition ?? "Neuf", // Condition par défaut "Neuf"
+      condition: vehicle.condition ?? "non précisé", // Condition par défaut "Neuf"
       type: vehicle.type,
       brand: vehicle.brand,
       model: vehicle.model,
@@ -237,7 +238,7 @@ export async function getSimilarVehicles(category: string, excludeId: string) {
     description: vehicle.description ?? undefined,
     global: vehicle.global,
     category: vehicle.category,
-    condition: vehicle.condition ?? "Neuf", // Condition par défaut "Neuf"
+    condition: vehicle.condition ?? "non précisé", // Condition par défaut "Neuf"
     type: vehicle.type,
     brand: vehicle.brand,
     model: vehicle.model,

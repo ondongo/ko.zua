@@ -15,19 +15,13 @@ import {
   FaTruck,
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { quartiers } from "@/utils/records";
 
 function NavBarStatic() {
   const [nav, setNav] = useState(false);
   const mobileMode = useMediaQuery({ query: "(max-width: 768px)" });
   const desktopMode = useMediaQuery({ query: "max-width: 1300px" });
   const router = useRouter();
-  const quartiers = [
-    "Centre-ville",
-    "Plateaux",
-    "Makélékélé",
-    "Talangaï",
-    "Ouenze",
-  ];
 
   const redirectToCategory = (category: string) => {
     router.push(`/vehicles?category=${category}`);
@@ -109,7 +103,7 @@ function NavBarStatic() {
                           </h3>
                           <div className="flex flex-col gap-4">
                             <a
-                              href="#"
+                              href="/vehicles?condition=Neuf"
                               className="flex flex-col gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                             >
                               <span className="text-sm font-medium text-gray-900">
@@ -120,14 +114,14 @@ function NavBarStatic() {
                               </span>
                             </a>
                             <a
-                              href="#"
+                              href="/vehicles?condition=Occasion"
                               className="flex flex-col gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                             >
                               <span className="text-sm font-medium text-gray-900">
                                 Occasion
                               </span>
                               <span className="text-xs text-gray-500">
-                                Trouvez des véhicules d'occasion fiables et
+                                Trouvez des véhicules d&apos;occasion fiables et
                                 abordables.
                               </span>
                             </a>
@@ -156,7 +150,7 @@ function NavBarStatic() {
                                   "Profitez du confort pour vos longs trajets.",
                               },
                               {
-                                type: "SUV",
+                                type: "Suv",
                                 icon: (
                                   <FaCar className="text-green-500 text-xl" />
                                 ),

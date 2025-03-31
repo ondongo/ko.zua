@@ -62,6 +62,7 @@ export const VehicleController = {
       startDate?: Date;
       endDate?: Date;
       saleStatus?: "RENT" | "SALE";
+      condition?: string;
     },
     pagination: {
       page?: number;
