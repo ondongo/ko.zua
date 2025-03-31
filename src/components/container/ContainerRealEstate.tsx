@@ -239,6 +239,13 @@ function ContainerRealEstate() {
             >
               Filtrer
             </button>
+
+            <button
+              className="sm:hidden lg:block btn btn-sm btn-accent mt-4  bg-primary hover:bg-primary/50 text-white "
+              onClick={() => router.push("/estates")}
+            >
+              Rénitialiser les filtres
+            </button>
           </div>
 
           <div className="flex-1">
