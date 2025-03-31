@@ -21,36 +21,36 @@ datasource db {
 }
 
 model Vehicle {
-  id            String         @id @default(uuid())
-  name          String
-  description   String?
-  global        Boolean        @default(false)
-  category      String // Catégorie pour préciser suv et autre 
-  condition     String? // Occasion ou Neuf
-  type          String
-  brand         String
-  model         String
-  year          Int
-  price         Float
-  discountedPrice Float?  // Prix après réduction si applicableF
-  availability  Boolean        @default(true)
-  features      Json
-  location      Json
-  images        Json
-  seats         Int
-  starCount     Int            @default(0)
-  gearBox       String
-  fuel          String
-  doors         Int
-  distance      String
-  ratings       Rating[]
-  reservations  Reservation[]
-  sales         Vente[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  saleStatus    SaleStatus     @default(RENT)
-  specialOffers SpecialOffer[] // Offres spéciales liées
-  views         Int            @default(0) // Nombre de vues
+  id              String         @id @default(uuid())
+  name            String
+  description     String?
+  global          Boolean        @default(false)
+  category        String // Catégorie pour préciser suv et autre 
+  condition       String? // Occasion ou Neuf
+  type            String
+  brand           String
+  model           String
+  year            Int
+  price           Float
+  discountedPrice Float? // Prix après réduction si applicableF
+  availability    Boolean        @default(true)
+  features        Json
+  location        Json
+  images          Json
+  seats           Int
+  starCount       Int            @default(0)
+  gearBox         String
+  fuel            String
+  doors           Int
+  distance        String
+  ratings         Rating[]
+  reservations    Reservation[]
+  sales           Vente[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  saleStatus      SaleStatus     @default(RENT)
+  specialOffers   SpecialOffer[] // Offres spéciales liées
+  views           Int            @default(0) // Nombre de vues
 }
 
 model Immobilier {
@@ -89,6 +89,7 @@ model Reservation {
   startDate     DateTime
   endDate       DateTime
   status        ReservationStatus @default(PENDING)
+  price         Float
   customerName  String
   customerPhone String?
   customerEmail String?
@@ -129,8 +130,20 @@ model ReservationStats {
   year       Int
   month      Int
   day        Int
-  totalCount Int
+  totalCount Int // Nombre total de réservations pour ce jour
   createdAt  DateTime @default(now())
+  @@unique([year, month, day]) // Assurer qu'il y a une entrée unique par jour
+}
+
+model VenteStats {
+  id           String   @id @default(uuid())
+  year         Int
+  month        Int
+  day          Int
+  totalSales   Int // Nombre total de ventes pour ce jour
+  totalRevenue Float // Chiffre d'affaire total pour ce jour
+  createdAt    DateTime @default(now())
+  @@unique([year, month, day]) // Assurer qu'il y a une entrée unique par jour
 }
 
 model Rating {
@@ -140,8 +153,8 @@ model Rating {
   vehicle      Vehicle?    @relation(fields: [vehicleId], references: [id])
   immobilier   Immobilier? @relation(fields: [immobilierId], references: [id])
   stars        Int
-  authorName   String      // Nom de l'auteur de l'avis
-  content      String      // Contenu de l'avis
+  authorName   String // Nom de l'auteur de l'avis
+  content      String // Contenu de l'avis
   createdAt    DateTime    @default(now()) // Date de création
 }
 

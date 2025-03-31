@@ -1,12 +1,8 @@
-export type ReservationStatus = "PENDING" | "CONFIRMED" | "CANCELLED";
-
-export interface Reservation {
+export interface Vente {
   id: string;
   vehicleId?: string | null;
   immobilierId?: string | null;
-  startDate: Date;
-  endDate: Date;
-  status: ReservationStatus;
+  saleDate: Date;
   price: number;
   customerName: string;
   customerPhone?: string | null;
