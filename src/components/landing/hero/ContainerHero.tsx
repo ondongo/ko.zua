@@ -4,7 +4,7 @@ import HeroMobile from "./HeroMobile";
 
 function ContainerHero() {
     return (
-      <div className="w-full">
+      <div className="w-full" id="home">
         {/* Show Hero for large screens (lg and up) */}
         <div className="hidden md:block w-full">
           <Hero />

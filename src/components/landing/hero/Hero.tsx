@@ -17,7 +17,7 @@ function Hero() {
     router.push("/vehicles");
   }
   return (
-    <section className="lg:h-[90vh] relative" id="home">
+    <section className="lg:h-[90vh] relative">
       <CustomSwiper />
 
       <div className="container mx-auto h-full lg:pt-10 lg:absolute lg:top-0 lg:left-0 right-0 z-30">

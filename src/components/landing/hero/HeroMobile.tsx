@@ -21,7 +21,7 @@ function HeroMobile() {
     router.push("/estates");
   }
   return (
-    <section className="flex flex-col gap-4" id="home">
+    <section className="flex flex-col gap-4" >
       <div className="h-[55vh] mb-20">
         {" "}
         <div
