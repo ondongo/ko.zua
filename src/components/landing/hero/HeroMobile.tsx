@@ -75,13 +75,7 @@ function HeroMobile() {
               vous correspond. Des solutions adaptées à tous vos besoins de
               mobilité et d’habitat.
             </motion.p>
-            <motion.div
-              variants={fadeIn("down", 0.6)}
-              initial="hidden"
-              whileInView={"show"}
-              viewport={{ once: false, amount: 0.8 }}
-              className="flex flex-col gap-x-3 justify-center my-4 "
-            >
+            <motion.div className="flex flex-col gap-x-3 justify-center my-4 ">
               <button
                 className="btn btn-sm   mt-4  bg-[#111828] hover:bg-[#111828]/10"
                 onClick={handleSearchEstates}
