@@ -36,15 +36,14 @@ function About() {
           </motion.div>
 
           <div className="flex-1 flex items-center xl:justify-between">
-            <div className="xl:max-w-[580px]">
+            <div className="xl:max-w-[580px] text-center lg:text-start">
               <h2 className="h2">A propos</h2>
               <p className="text-lg text-gray-600 mb-[30px]">
-                Chez <strong>Ko.Zua</strong>, nous facilitons l&apos;accès aux{" "}
-                véhicules et biens immobiliers en Afrique. Louez une voiture,
-                achetez un logement, en toute sécurité et avec des partenaires
-                de confiance. <br /> 
-                Ko.Zua, votre allié pour une mobilité sans limites et un
-                logement sur mesure !
+                <strong>Ko.Zua</strong>, votre plateforme de confiance pour
+                louer un véhicule ou acquérir un bien immobilier en Afrique.
+                Simplicité, sécurité et partenaires fiables pour vous
+                accompagner.
+                <strong>Ko.Zua, votre allié mobilité & logement !</strong>
               </p>
 
               <div className="flex items-center gap-x-6 mb-10">

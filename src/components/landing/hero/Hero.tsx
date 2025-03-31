@@ -21,7 +21,7 @@ function Hero() {
     router.push("/estates");
   }
   return (
-    <section className="lg:h-[90vh] relative">
+    <section className="md:h-[90vh] relative">
       <CustomSwiper />
 
       <div className="container mx-auto h-full lg:pt-10 lg:absolute lg:top-0 lg:left-0 right-0 z-30">
@@ -32,7 +32,7 @@ function Hero() {
               initial="hidden"
               whileInView={"show"}
               viewport={{ once: false, amount: 0.6 }}
-              className="text-3xl lg:text-[54px]  text-primary lg:leading-[62px] font-extrabold mb-[18px]"
+              className="text-xl md:text-3xl lg:text-3xl xl:text-[44px] text-primary lg:leading-[50px] xl:leading-[62px] font-extrabold my-4"
             >
               Trouvez , Réservez ou Achetez !
               <span className="text-yellowkouzua ">
@@ -62,14 +62,14 @@ function Hero() {
                 className="btn btn-sm  lg:max-w-[50%] lg:mr-4 mt-4  bg-[#111828] hover:bg-[#111828]/10"
                 onClick={handleSearchEstates}
               >
-                Je réserve un appart
+                Je recherche un appart
               </button>
 
               <button
                 className="btn btn-sm bg-yellowkouzua  hover:bg-yellowkouzua-dark lg:max-w-[50%] lg:mr-4 mt-4"
                 onClick={handleSearch}
               >
-                Je réserve une voiture
+                 Je recherche une voiture
               </button>
             </motion.div>
           </div>

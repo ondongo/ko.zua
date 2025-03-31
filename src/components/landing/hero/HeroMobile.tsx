@@ -22,7 +22,7 @@ function HeroMobile() {
   }
   return (
     <section className="flex flex-col gap-4">
-      <div className="h-[55vh] mb-20">
+      <div className="h-[55vh] sm:h-[75vh] mb-20">
         {" "}
         <div
           className="h-full bg-no-repeat bg-contain bg-right"
@@ -80,7 +80,7 @@ function HeroMobile() {
                 className="btn btn-sm   mt-4  bg-[#111828] hover:bg-[#111828]/10"
                 onClick={handleSearchEstates}
               >
-                Je réserve un appart
+                Je recherche un appart
               </button>
 
               <button

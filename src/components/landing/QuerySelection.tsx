@@ -18,7 +18,7 @@ function QuerySelection({ query, setQuery }: { query: string, setQuery: React.Di
         <input
           type="text"
           className="w-full h-[40px] ml-6 pl-3 rounded-lg placeholder-black placeholder-opacity-50 font-medium focus:outline-none focus:ring-1 focus:ring-yellowkouzua focus:border-yellowkouzua"
-          placeholder="Rechercher un vehicule ou un appart ..."
+          placeholder="Tapez pour rechercher  ..."
           value={query}
           onChange={handleInputChange}
         />

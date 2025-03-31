@@ -14,14 +14,13 @@ function TypeServiceSelection({
   const typeServiceList = ["Voiture", "Immobilier"];
 
   return (
-    <Popover as="div" className="w-full h-full flex xl:flex-row">
+    <Popover as="div" className="w-full h-full flex flex-row">
       {({ close }) => (
         <>
           <div className="relative flex-1">
-            <Popover.Button className="dropdown-btn w-full h-full flex flex-col justify-center items-center xl:items-start xl:pl-8">
+            <Popover.Button className="dropdown-btn w-full h-full flex flex-col justify-center items-center xl:items-start pl-8">
               <div className="flex flex-col xl:flex-row items-center xl:gap-x-2 gap-y-2 xl:gap-y-0">
-                <FaThList className="text-yellowkouzua" />
-                <div className="text-[15px] uppercase font-bold text-[#111828]">
+                <div className="text-[13px] lg:text-[15px] uppercase font-bold text-[#111828]">
                   Sélectionner un service
                 </div>
               </div>

@@ -46,8 +46,8 @@ function CarSlider() {
           spaceBetween: 8,
         },
         640: {
-          slidesPerView: 2,
-          spaceBetween: 20,
+          slidesPerView: 3,
+          spaceBetween: 10,
         },
         1260: {
           slidesPerView: 3,
