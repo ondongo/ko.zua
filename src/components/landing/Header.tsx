@@ -263,7 +263,7 @@ function Header() {
                             {quartiersPointeNoire.map((quartier) => (
                               <a
                                 key={quartier}
-                                href="#"
+                                href={`/estates?city=Pointe-Noire&neighborhood=${quartier}`}
                                 className="flex items-center gap-3 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                               >
                                 <FaMapMarkerAlt className="text-blue-500 text-xl" />
@@ -284,7 +284,7 @@ function Header() {
                             {quartiersBrazzaville.map((quartier) => (
                               <a
                                 key={quartier}
-                                href="#"
+                                href={`/estates?city=Brazzaville&neighborhood=${quartier}`}
                                 className="flex items-center gap-3 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                               >
                                 <FaMapMarkerAlt className="text-green-500 text-xl" />

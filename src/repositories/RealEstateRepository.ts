@@ -45,17 +45,24 @@ export class RealEstateRepository
           ...(filters.maxPrice !== undefined && {
             price: { lte: filters.maxPrice },
           }),
-          ...(filters.city && {
-            location: {
-              equals: { city: filters.city },
-            },
-          }),
+          ...(filters.city &&
+            filters.neighborhood && {
+              AND: [
+                {
+                  location: {
+                    path: ["city"],
+                    equals: filters.city,
+                  },
+                },
+                {
+                  location: {
+                    path: ["neighborhood"],
+                    equals: filters.neighborhood,
+                  },
+                },
+              ],
+            }),
 
-          ...(filters.neighborhood && {
-            location: {
-              equals: { neighborhood: filters.neighborhood },
-            },
-          }),
           ...(filters.category && { category: filters.category }),
           ...(filters.searchQuery && {
             OR: [

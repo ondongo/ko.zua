@@ -46,7 +46,7 @@ function ContainerRealEstate() {
     setFilters((prev: any) => ({ ...prev, category: value }));
   };
 
-  const selectLocationHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const selectCityHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setFilters((prev: any) => ({ ...prev, location: value }));
   };
@@ -84,7 +84,8 @@ function ContainerRealEstate() {
         : null;
 
     const filters: any = {
-      location: params.get("location") || "",
+      city: params.get("city") || "",
+      neighborhood: params.get("neighborhood") || "",
       category: params.get("category") || "",
       saleStatus: params.get("saleStatus") || "",
       searchQuery: params.get("searchQuery") || "",
@@ -110,7 +111,8 @@ function ContainerRealEstate() {
       !filters.minPrice &&
       !filters.maxPrice &&
       !filters.brand &&
-      !filters.location &&
+      !filters.city &&
+      !filters.neighborhood &&
       !filters.category &&
       !filters.saleStatus &&
       availability === null
@@ -129,7 +131,8 @@ function ContainerRealEstate() {
       newParams.set("minPrice", filters.minPrice.toString());
     if (filters.maxPrice)
       newParams.set("maxPrice", filters.maxPrice.toString());
-    if (filters.location) newParams.set("location", filters.location);
+    if (filters.city) newParams.set("city", filters.city);
+    if (filters.neighborhood) newParams.set("neighborhood", filters.neighborhood);
     if (filters.saleStatus) newParams.set("saleStatus", filters.saleStatus);
     if (filters.searchQuery) newParams.set("searchQuery", filters.searchQuery);
     if (filters.availability !== null && filters.availability !== undefined) {
@@ -225,7 +228,7 @@ function ContainerRealEstate() {
               selectCategoryHandler={selectCategoryHandler}
               priceRange={priceRange}
               priceRangeHandler={priceRangeHandler}
-              selectLocationHandler={selectLocationHandler}
+              selectLocationHandler={selectCityHandler}
               selectAvailabilityHandler={selectAvailabilityHandler}
               selectSaleOrRentHandler={selectSaleOrRentHandler}
             />
@@ -307,7 +310,7 @@ function ContainerRealEstate() {
                       selectCategoryHandler={selectCategoryHandler}
                       priceRange={priceRange}
                       priceRangeHandler={priceRangeHandler}
-                      selectLocationHandler={selectLocationHandler}
+                      selectLocationHandler={selectCityHandler}
                       selectAvailabilityHandler={selectAvailabilityHandler}
                       selectSaleOrRentHandler={selectSaleOrRentHandler}
                     />
