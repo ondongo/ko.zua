@@ -16,6 +16,10 @@ function Hero() {
   function handleSearch() {
     router.push("/vehicles");
   }
+
+  function handleSearchEstates() {
+    router.push("/estates");
+  }
   return (
     <section className="lg:h-[90vh] relative">
       <CustomSwiper />
@@ -54,7 +58,10 @@ function Hero() {
               viewport={{ once: false, amount: 0.8 }}
               className="flex flex-col lg:flex-row gap-x-3 justify-center lg:justify-start "
             >
-              <button className="btn btn-sm  lg:max-w-[50%] lg:mr-4 mt-4  bg-[#111828] hover:bg-[#111828]/10">
+              <button
+                className="btn btn-sm  lg:max-w-[50%] lg:mr-4 mt-4  bg-[#111828] hover:bg-[#111828]/10"
+                onClick={handleSearchEstates}
+              >
                 Je réserve un appart
               </button>
 

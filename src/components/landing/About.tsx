@@ -40,19 +40,13 @@ function About() {
               <h2 className="h2">A propos</h2>
               <p className="text-lg text-gray-600 mb-[30px]">
                 Chez <strong>Ko.Zua</strong>, nous facilitons l&apos;accès aux{" "}
-                <strong>véhicules et aux biens immobiliers en Afrique</strong>.
-                Que vous souhaitiez louer une voiture pour un déplacement
-                ponctuel, acheter un bien immobilier, notre plateforme vous
-                accompagne à chaque étape. Nous mettons à votre disposition une
-                sélection variée de véhicules fiables et de logements adaptés à
-                vos besoins, tout en collaborant avec des partenaires de
-                confiance pour vous garantir des transactions sécurisées et un
-                service de qualité.{" "}
-                <strong>
-                  Ko.Zua, votre allié pour une mobilité sans limites et un
-                  logement sur mesure !
-                </strong>
+                véhicules et biens immobiliers en Afrique. Louez une voiture,
+                achetez un logement, en toute sécurité et avec des partenaires
+                de confiance. <br /> 
+                Ko.Zua, votre allié pour une mobilité sans limites et un
+                logement sur mesure !
               </p>
+
               <div className="flex items-center gap-x-6 mb-10">
                 {/* Stats here */}
 
