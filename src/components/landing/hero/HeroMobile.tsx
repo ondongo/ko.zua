@@ -8,7 +8,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { fadeIn } from "../../../../variant";
 import { useRouter } from "next/navigation";
-import CustomSwiper from "../CustomSwiper";
 
 function HeroMobile() {
   const { searchActive } = useContext(SearchContext);
@@ -80,14 +79,14 @@ function HeroMobile() {
                 className="btn btn-sm   mt-4  bg-[#111828] hover:bg-[#111828]/10"
                 onClick={handleSearchEstates}
               >
-                Je recherche un appart
+                 Je trouve mon appart
               </button>
 
               <button
                 className="btn btn-sm bg-yellowkouzua  hover:bg-yellowkouzua-dark mt-4"
                 onClick={handleSearchVehicles}
               >
-                Je recherche une voiture
+                 Je trouve ma voiture
               </button>
             </motion.div>
           </div>

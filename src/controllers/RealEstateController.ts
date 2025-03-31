@@ -75,4 +75,7 @@ export const RealEstateController = {
   ): Promise<Immobilier[]> {
     return await realEstateService.findSimilarRealEstate(category, excludeId);
   },
+  async getLatestRealEstates(): Promise<Immobilier[]> {
+    return await realEstateService.getLatestRealEstates();
+  },
 };

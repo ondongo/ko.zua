@@ -54,4 +54,7 @@ export class RealEstateService {
   ): Promise<Immobilier[]> {
     return this.repository.findSimilarImmobilier(category, excludeId);
   }
+  async getLatestRealEstates(): Promise<Immobilier[]> {
+    return this.repository.getLatestImmobilier();
+  }
 }

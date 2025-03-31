@@ -59,17 +59,17 @@ function Hero() {
               className="flex flex-col lg:flex-row gap-x-3 justify-center lg:justify-start "
             >
               <button
-                className="btn btn-sm  lg:max-w-[50%] lg:mr-4 mt-4  bg-[#111828] hover:bg-[#111828]/10"
+                className="btn btn-sm  lg:max-w-[60%] lg:mr-4 mt-4   bg-[#111828] hover:bg-[#111828]/10"
                 onClick={handleSearchEstates}
               >
-                Je recherche un appart
+                 Je trouve mon appart
               </button>
 
               <button
-                className="btn btn-sm bg-yellowkouzua  hover:bg-yellowkouzua-dark lg:max-w-[50%] lg:mr-4 mt-4"
+                className="btn btn-sm bg-yellowkouzua  hover:bg-yellowkouzua-dark lg:max-w-[60%] lg:mr-4 mt-4"
                 onClick={handleSearch}
               >
-                 Je recherche une voiture
+                 Je trouve ma voiture
               </button>
             </motion.div>
           </div>

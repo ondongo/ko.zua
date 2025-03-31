@@ -21,4 +21,5 @@ export interface IRealEstateRepository extends IRepository<Immobilier> {
       }): Promise<PaginatedResult<Immobilier>>;
     
       findSimilarImmobilier(category: string, excludeId: string): Promise<Immobilier[]>;
+      getLatestImmobilier(): Promise<Immobilier[]>;
 }

@@ -163,4 +163,11 @@ export class RealEstateRepository
       take: 4,
     });
   }
+
+  async getLatestImmobilier(): Promise<Immobilier[]> {
+    return await prisma.immobilier.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 3,
+    });
+  }
 }

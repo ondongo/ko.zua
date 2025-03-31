@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { Link } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 import SearchMobile from "./SearchMobile";
 import { useMediaQuery } from "react-responsive";
 import { BiMenuAltRight, BiX } from "react-icons/bi";
@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { quartiers } from "@/utils/records";
+import Link from "next/link";
 
 function NavBarStatic() {
   const [nav, setNav] = useState(false);
@@ -64,15 +65,7 @@ function NavBarStatic() {
            xl:w-max xl:gap-x-8 xl:h-max xl:bg-transparent xl:pb-0 transition-all duration-150 text-center 
            xl:text-left uppercase text-sm xl:text-[15px] xl:normal-case`}
         >
-          <Link
-            className="cursor-pointer"
-            to="home"
-            activeClass="active"
-            smooth={desktopMode}
-            spy={true}
-          >
-            Accueil
-          </Link>
+          <Link href="/">Accueil</Link>
 
           <Popover>
             {({ open }) => (
@@ -277,90 +270,13 @@ function NavBarStatic() {
             )}
           </Popover>
 
-          <Popover>
-            {({ open }) => (
-              <>
-                <Popover.Button
-                  className={`
-          ${open ? "text-yellowkouzua" : "text-black"}
-        cursor-pointer`}
-                >
-                  <span>Offre spéciale</span>
-                </Popover.Button>
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-200"
-                  enterFrom="opacity-0 translate-y-1"
-                  enterTo="opacity-100 translate-y-0"
-                  leave="transition ease-in duration-150"
-                  leaveFrom="opacity-100 translate-y-0"
-                  leaveTo="opacity-0 translate-y-1"
-                >
-                  <Popover.Panel className="absolute  z-10 mt-3 w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0">
-                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
-                      <div className="flex p-7 gap-8">
-                        {/* Meilleur prix */}
-                        <div className="flex-1">
-                          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            Meilleur prix
-                          </h3>
-                          <div className="flex flex-col gap-4">
-                            <a
-                              href="#"
-                              className="flex items-center gap-3 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
-                            >
-                              <FaDollarSign className="text-blue-500 text-xl" />
-                              <span className="text-sm font-medium text-gray-900">
-                                Profitez des prix les plus bas sur nos produits.
-                              </span>
-                            </a>
-                          </div>
-                        </div>
-                        {/* Offre spéciale */}
-                        <div className="flex-1">
-                          <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            Offre spéciale
-                          </h3>
-                          <div className="flex flex-col gap-4">
-                            <a
-                              href="#"
-                              className="flex items-center gap-3 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
-                            >
-                              <FaTag className="text-green-500 text-xl" />
-                              <span className="text-sm font-medium text-gray-900">
-                                Découvrez des offres limitées à ne pas manquer !
-                              </span>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Popover.Panel>
-                </Transition>
-              </>
-            )}
-          </Popover>
           <a href="/#about" className="cursor-pointer">
             A propos
           </a>
-          <Link
-            className="cursor-pointer"
-            to="contact"
-            smooth={desktopMode}
-            activeClass="active"
-            spy={true}
-          >
+          <Link href="https://api.whatsapp.com/send/?phone=242056977474&text&type=phone_number&app_absent=0">
             Contact
           </Link>
-          <Link
-            className="xl:hidden btn btn-primary btn-sm max-w-[164px] mx-auto"
-            to="/"
-            smooth={desktopMode}
-            activeClass="active"
-            spy={true}
-          >
-            Réserver
-          </Link>
+
           <SearchMobile />
         </nav>
       </div>

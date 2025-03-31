@@ -196,3 +196,34 @@ export async function getSimilarRealEstate(
       : new Date(),
   }));
 }
+
+export async function getLatestRealEstates(){
+  const real_estates = await RealEstateController.getLatestRealEstates(
+  );
+  return real_estates.map((realEstate) => ({
+    id: realEstate.id,
+    name: realEstate.name,
+    description: realEstate.description ?? "",
+    category: realEstate.category,
+    type: realEstate.type,
+    price: realEstate.price,
+    availability: realEstate.availability,
+    saleStatus: realEstate.saleStatus,
+    features: {
+      bedrooms: (realEstate.features as any).bedrooms,
+      bathrooms: (realEstate.features as any).bathrooms,
+      surface: (realEstate.features as any).surface,
+      furnished: (realEstate.features as any).furnished,
+    },
+    location: {
+      city: (realEstate.location as any).city ?? "",
+      neighborhood: (realEstate.location as any).neighborhood ?? "",
+    },
+    images: realEstate.images ?? [],
+    starCount: realEstate.starCount,
+
+    createdAt: realEstate.createdAt
+      ? new Date(realEstate.createdAt)
+      : new Date(),
+  }));
+}
