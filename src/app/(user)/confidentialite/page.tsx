@@ -67,9 +67,7 @@ export default function Confidentialite() {
           </Link>
         </div>
       </div>
-      <p className="absolute text-sm text-center text-gray-500 -translate-x-1/2 bottom-6 left-1/2">
-        &copy; {new Date().getFullYear()} - Ko.Zua
-      </p>
+      
     </div>
   );
 }
