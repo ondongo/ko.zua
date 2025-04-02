@@ -331,16 +331,23 @@ export default function VehicleDetails({
               </h2>
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4">
                 {[
-                  { text: `${vehicle.fuel}`, icon: "/icons/carSlider/gas.svg" },
                   {
+                    titre: "Carburant",
+                    text: `${vehicle.fuel}`,
+                    icon: "/icons/carSlider/gas.svg",
+                  },
+                  {
+                    titre: "Boite de vitesse",
                     text: `${vehicle.gearBox}`,
                     icon: "/icons/carSlider/gearshift.svg",
                   },
                   {
+                    titre: "Places",
                     text: `${vehicle.seats} places`,
                     icon: "/icons/carSlider/seat.svg",
                   },
                   {
+                    titre: "Kilométrage",
                     text: `${vehicle.distance}`,
                     icon: "/icons/carSlider/wheel.svg",
                   },
@@ -362,7 +369,7 @@ export default function VehicleDetails({
                       />
                     </div>
                     <p className="text-md lg:text-lg font-bold text-black ">
-                      {item.text}
+                      {item.titre}
                     </p>
                     <p className="text-xs lg:text-sm text-gray-500">
                       {item.text}
