@@ -24,7 +24,8 @@ import { createReservation } from "@/actions/reservations";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import { AiOutlineCheckCircle } from "react-icons/ai";
-
+import Invoice from "../Invoice";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export default function VehicleDetails({
   vehicle,
@@ -47,7 +48,7 @@ export default function VehicleDetails({
     },
   ]);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loadingReservation, setLoadingReservation] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [phone, setPhone] = useState("");
   const [reservationType, setReservationType] = useState<
@@ -56,6 +57,8 @@ export default function VehicleDetails({
   const [success, setSuccess] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [invoiceData, setInvoiceData] = useState<any | null>(null);
+
   /* Functions */
   const openModal = (type: "sale" | "simple" | "eclair") => {
     setReservationType(type);
@@ -94,23 +97,23 @@ export default function VehicleDetails({
     }
   };
   const handleReservation = async () => {
-    setLoading(true);
+    setLoadingReservation(true);
     if (!vehicle.availability) {
       toast.error("Ce véhicule est indisponible");
-      setLoading(false);
+      setLoadingReservation(false);
       return;
     }
 
     if (phone === "" || name === "") {
       toast.error("Veuillez renseigner les champs obligatoires");
-      setLoading(false);
+      setLoadingReservation(false);
       return;
     }
     if (reservationType === "eclair") {
       const paymentSuccess = await handlePayment(vehicle.price);
 
       if (!paymentSuccess) {
-        setLoading(false);
+        setLoadingReservation(false);
         return;
       }
     }
@@ -128,8 +131,22 @@ export default function VehicleDetails({
       createdAt: new Date(),
     });
 
+    const invoice = {
+      id: uuid(),
+      createdAt: new Date(),
+      customerName: name,
+      customerEmail: email,
+      customerPhone: phone,
+      name: vehicle.name,
+      reservationType: reservationType,
+      category: "Véhicule",
+      price: vehicle.price,
+      startDate: reservationType === "sale" ? null : date[0].startDate,
+      endDate: reservationType === "sale" ? null : date[0].endDate,
+    };
     setSuccess(true);
-    setLoading(false);
+    setLoadingReservation(false);
+    setInvoiceData(invoice);
   };
 
   const router = useRouter();
@@ -253,7 +270,7 @@ export default function VehicleDetails({
                       </p>
 
                       <p className="text-md text-secondary">
-                        Etat {" "}
+                        Etat{" "}
                         <span className="font-semibold">
                           {" "}
                           : {vehicle.condition || "non précisé"}
@@ -289,20 +306,22 @@ export default function VehicleDetails({
 
                   <button
                     onClick={() => openModal("eclair")}
-                    disabled={loading}
+                    disabled={loadingReservation}
                     className="btn btn-sm bg-yellowkouzua hover:bg-yellowkouzua-dark xl:max-w-[50%]  mt-4"
                   >
-                    {loading ? "Chargement..." : "Réservation  éclair"}
+                    {loadingReservation
+                      ? "Chargement..."
+                      : "Réservation  éclair"}
                   </button>
                 </motion.div>
               ) : (
                 <motion.div className="flex flex-col xl:flex-row gap-x-3 justify-center xl:justify-start  mb-10">
                   <button
                     onClick={handleReservation}
-                    disabled={loading}
+                    disabled={loadingReservation}
                     className="btn btn-sm bg-yellowkouzua hover:bg-yellowkouzua-dark  w-full  mt-4"
                   >
-                    {loading ? "Chargement..." : "Acheter"}
+                    {loadingReservation ? "Chargement..." : "Acheter"}
                   </button>
                 </motion.div>
               )}
@@ -699,11 +718,15 @@ export default function VehicleDetails({
               </button>
 
               <button
-                disabled={loading}
+                disabled={loadingReservation}
                 onClick={handleReservation}
                 className="bg-yellowkouzua hover:bg-yellowkouzua-dark text-white mt-4 p-3 px-10 rounded-full"
               >
-                {loading ? <div className="spinner"></div> : <>Réserver</>}
+                {loadingReservation ? (
+                  <div className="spinner"></div>
+                ) : (
+                  <>Réserver</>
+                )}
               </button>
             </div>
           </div>
@@ -728,10 +751,30 @@ export default function VehicleDetails({
               <h2 className="text-xl font-semibold text-center text-[#1C486F] mt-3">
                 Confirmation de votre réservation
               </h2>
-              <p className="text-sm text-center text-gray-600 mt-2">
+              <p className="text-sm text-center text-gray-600 my-2">
                 Votre réservation a bien été enregistrée. Nous vous contacterons
                 dans les plus brefs délais pour finaliser les détails.
               </p>
+
+              {success && invoiceData && (
+                <PDFDownloadLink
+                  document={<Invoice invoice={invoiceData} />}
+                  fileName="facture.pdf"
+                >
+                  {({ loading }) => (
+                    <button
+                      className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark px-4"
+                      disabled={loading} // Désactiver le bouton pendant le téléchargement
+                    >
+                      {loading ? (
+                        <div className="spinner"></div>
+                      ) : (
+                        "Générer la facture"
+                      )}
+                    </button>
+                  )}
+                </PDFDownloadLink>
+              )}
             </motion.div>
           </AnimatePresence>
         </Modal>

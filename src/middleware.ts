@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import authConfig from "@/configs/auth.config";
 import { getToken } from "next-auth/jwt";
-import { signOut } from "next-auth/react";
 const { auth } = NextAuth(authConfig);
 
 export default auth(async function middleware(req: NextRequest) {
