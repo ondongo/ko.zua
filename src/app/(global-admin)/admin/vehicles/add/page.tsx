@@ -4,7 +4,7 @@ import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import DropzoneComponent from "@/components/ui/form/DropZone";
 import Label from "@/components/ui/form/Label";
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   categoryOptions,
@@ -23,6 +23,7 @@ import Image from "next/image";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { uploadImagesToFirebase } from "@/utils/functions";
 
 export default function AddVehicle() {
   const {
@@ -32,6 +33,7 @@ export default function AddVehicle() {
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<VehicleFormData>({
     resolver: zodResolver(vehicleSchema),
     defaultValues: {
@@ -65,6 +67,8 @@ export default function AddVehicle() {
   const [message, setMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<AlertType>("success");
+  /* ***** DropZone Manage ***** */
+  const [files, setFiles] = useState<any[]>([]);
 
   const onSubmit = async () => {
     const data = getValues();
@@ -82,25 +86,44 @@ export default function AddVehicle() {
       return;
     }
 
-    const imageUrls =
-      data.images?.map((file: any) => file.path || file.url) || [];
+    const vehicleId = uuid();
+    let imageUrls: string[] = [];
     setLoading(true);
+    try {
+      imageUrls = await uploadImagesToFirebase(
+        data.images as File[],
+        vehicleId,
+        "vehicles"
+      );
+    } catch (error) {
+      toast.error("Erreur lors du téléversement des images.");
+      console.error("Image upload error:", error);
+      setLoading(false);
+      return;
+    }
     setMessage("");
     try {
       const formattedData = {
         ...data,
+        brand: data.brand ?? "",
+        model: data.model ?? "",
         condition: data.condition ?? "",
         global: false,
         description: data.description ?? "",
-        distance: data.distance ?? "",
+        distance: data.distance ? data.distance + "km" : "",
         discountedPrice: null,
         seats: data.seats ?? 0,
         doors: data.doors ?? 0,
         type: "Car",
-        features: {},
+        features: {
+          abs: true,
+          airBags: true,
+          cruiseControl: true,
+          airConditioner: true,
+        },
         location: { city: data.location, country: "Congo" },
         images: imageUrls,
-        id: uuid(),
+        id: vehicleId,
         starCount: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -113,17 +136,16 @@ export default function AddVehicle() {
 
       setModalOpen(true);
       setMessage("Véhicule ajouté avec succès !");
+      reset();
+      setCurrentStep(0);
     } catch (error) {
       setMessage("Erreur lors de l'ajout du véhicule.");
       setModalType("error");
+      setFiles([]);
     } finally {
       setLoading(false);
     }
   };
-
-
-  /* ***** DropZone Manage ***** */
-  const [files, setFiles] = useState<any[]>([]);
 
   return (
     <div className="lg:mx-10">
@@ -312,9 +334,7 @@ export default function AddVehicle() {
 
         {currentStep === 1 && (
           <Section title="Détails du véhicule">
-            <Label>
-              Marque <span className="text-red-500">*</span>
-            </Label>
+            <Label>Marque</Label>
             <input
               {...register("brand")}
               type="text"
@@ -322,31 +342,13 @@ export default function AddVehicle() {
               placeholder="Marque"
             />
 
-            {errors.brand && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.brand?.message}</p>
-              </div>
-            )}
-            <Label>
-              Modèle <span className="text-red-500">*</span>{" "}
-            </Label>
+            <Label>Modèle</Label>
             <input
               {...register("model")}
               type="text"
               className="w-full p-2 border rounded"
               placeholder="Modèle"
             />
-            {errors.model && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.model?.message}</p>
-              </div>
-            )}
 
             <Label>
               Année <span className="text-red-500">*</span>{" "}
@@ -532,7 +534,11 @@ export default function AddVehicle() {
                 >
                   Statut de vente :
                 </strong>{" "}
-                {watch("saleStatus") || "non spécifiée"}
+                {watch("saleStatus") === "RENT"
+                  ? "Location"
+                  : watch("saleStatus") === "SALE"
+                  ? "Vente"
+                  : "Non spécifiée"}
               </p>
 
               <div className="flex items-center my-4">
@@ -545,20 +551,10 @@ export default function AddVehicle() {
                 <strong>État :</strong> {watch("condition") || "Non spécifié"}
               </p>
               <p>
-                <strong
-                  className={watch("brand") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Marque :
-                </strong>{" "}
-                {watch("brand") || "non spécifiée"}
+                <strong>Marque :</strong> {watch("brand") || "non spécifiée"}
               </p>
               <p>
-                <strong
-                  className={watch("model") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Modèle :
-                </strong>{" "}
-                {watch("model") || "non spécifiée"}
+                <strong>Modèle :</strong> {watch("model") || "non spécifiée"}
               </p>
               <p>
                 <strong
@@ -675,7 +671,7 @@ export default function AddVehicle() {
               className="px-4 py-2 bg-green-500 text-white rounded-md"
               disabled={loading}
             >
-              {loading ? "En cours..." : "Soumettre"}
+              {loading ? <div className="spinner"></div> : <>Soumettre</>}
             </button>
           )}
         </div>
