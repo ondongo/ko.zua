@@ -26,6 +26,7 @@ import { toast } from "react-toastify";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import Invoice from "../Invoice";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { createSale } from "@/actions/sales";
 
 export default function VehicleDetails({
   vehicle,
@@ -117,20 +118,34 @@ export default function VehicleDetails({
         return;
       }
     }
-    await createReservation({
-      customerName: name,
-      customerEmail: email,
-      customerPhone: phone,
-      startDate: date[0].startDate,
-      endDate: date[0].endDate,
-      status: "PENDING",
-      price: vehicle.price,
-      id: uuid(),
-      vehicleId: vehicle.id,
-      immobilierId: null,
-      createdAt: new Date(),
-    });
 
+    if (reservationType === "sale") {
+      await createSale({
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone,
+        price: vehicle.price,
+        id: uuid(),
+        vehicleId: vehicle.id,
+        immobilierId: null,
+        createdAt: new Date(),
+        saleDate: new Date(),
+      });
+    } else {
+      await createReservation({
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone,
+        startDate: date[0].startDate,
+        endDate: date[0].endDate,
+        status: "PENDING",
+        price: vehicle.price,
+        id: uuid(),
+        vehicleId: vehicle.id,
+        immobilierId: null,
+        createdAt: new Date(),
+      });
+    }
     const invoice = {
       id: uuid(),
       createdAt: new Date(),
@@ -317,7 +332,7 @@ export default function VehicleDetails({
               ) : (
                 <motion.div className="flex flex-col xl:flex-row gap-x-3 justify-center xl:justify-start  mb-10">
                   <button
-                    onClick={handleReservation}
+                    onClick={() => openModal("sale")}
                     disabled={loadingReservation}
                     className="btn btn-sm bg-yellowkouzua hover:bg-yellowkouzua-dark  w-full  mt-4"
                   >
