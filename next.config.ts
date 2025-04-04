@@ -1,17 +1,13 @@
-import withPWA from "next-pwa";
-import type { NextConfig } from "next";
+// @ts-check
 
-const baseConfig: NextConfig = {
+import type { NextConfig } from "next";
+const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
   images: {
-    domains: ["images.unsplash.com", "example.com", "localhost"],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-    ],
+    domains: ["images.unsplash.com", "example.com", "localhost:3000"],
   },
-  webpack(config) {
+  webpack(config: any) {
     config.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],
@@ -20,12 +16,11 @@ const baseConfig: NextConfig = {
   },
 };
 
-const nextConfig = withPWA({
-  ...baseConfig,
-  dest: "public", // Assure-toi que tu utilises la bonne option pour next-pwa
+const withPWA = require("next-pwa")({
+  dest: "public",
   register: true,
   skipWaiting: true,
   disable: process.env.NODE_ENV === "development",
 });
 
-export default nextConfig;
+module.exports = withPWA(nextConfig);
