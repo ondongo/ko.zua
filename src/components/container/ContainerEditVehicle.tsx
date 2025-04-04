@@ -20,15 +20,14 @@ import { useState } from "react";
 import { AlertType } from "@/types/allType";
 import AlertModal from "@/components/ui/modals/AlertModal";
 import Image from "next/image";
-import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
-import { z } from "zod";
 import { Vehicle } from "@/types/vehicle";
 import {
   deleteImageFromFirebase,
   uploadImagesToFirebase,
 } from "@/utils/functions";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
 
 function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
   const {
@@ -58,7 +57,7 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
       saleStatus: vehicleData.saleStatus || "RENT",
       location: vehicleData.location.city || "",
       images: vehicleData.images.map((imgUrl: string, index: number) => ({
-        file: { name: `image_${index + 1}.jpg`, type: "image/jpeg" },
+        file: new File([""], `image_${index + 1}.jpg`, { type: "image/jpeg" }),
         preview: imgUrl,
       })),
     },
@@ -78,50 +77,26 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
   const [files, setFiles] = useState<any[]>(() => {
     // Initialiser les fichiers avec les images par défaut
     return vehicleData.images.map((imgUrl: string, index: number) => ({
-      file: { name: `image_${index + 1}.jpg`, type: "image/jpeg" },
+      file: new File([""], `image_${index + 1}.jpg`, { type: "image/jpeg" }),
       preview: imgUrl,
     }));
   });
+
   const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
 
   const onSubmit = async () => {
     const data = getValues();
     console.log("Form data submitted:", data);
 
-    if (
-      !data.name ||
-      !data.category ||
-      !data.fuel ||
-      !data.gearBox ||
-      data.availability === undefined ||
-      !data.saleStatus
-    ) {
-      toast.error("Veuillez remplir tous les champs obligatoires.");
-      return;
-    }
-
-    // Si des erreurs sont présentes dans le formulaire, afficher un message d'erreur
-    if (Object.keys(errors).length > 0) {
-      toast.error("Veuillez corriger les erreurs dans le formulaire.");
-      return;
-    }
-
-    if (imagesToDelete.length > 0) {
-      try {
-        // Suppression des images depuis Firebase
-        await Promise.all(
-          imagesToDelete.map(async (url) => {
-            await deleteImageFromFirebase(url);
-            console.log(`✅ Image supprimée de Firebase: ${url}`);
-          })
-        );
-        setImagesToDelete([]);
-      } catch (error) {
-        console.error(
-          `❌ Erreur lors de la suppression des images sur Firebase:`,
-          error
+    try {
+      vehicleSchema.parse(data);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast.error(
+          "Veuillez remplir tous les champs obligatoires surlignés en rouge"
         );
       }
+      return;
     }
 
     const vehicleId = vehicleData.id;
@@ -132,17 +107,35 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
 
     let imageUrls: string[] = [];
     setLoading(true);
-    // Filtrer les images existantes pour ne pas les uploader à nouveau
-    const existingImageUrls = vehicleData.images || [];
-    const newImages = data.images.filter((img: any) => {
-      // Vérifie si l'image n'existe pas déjà (en comparant l'URL)
-      return img.file && !existingImageUrls.includes(img.preview);
-    });
+    const existingImageUrls: string[] = vehicleData.images || [];
 
-    // Si des nouvelles images existent, on les télécharge
+    if (imagesToDelete.length > 0) {
+      try {
+        await Promise.all(
+          imagesToDelete.map(async (url) => {
+            await deleteImageFromFirebase(url);
+            console.log(`✅ Image supprimée de Firebase: ${url}`);
+          })
+        );
+        console.log("Images supprimées de Firebase :", imagesToDelete);
+      } catch (error) {
+        console.error(
+          `❌ Erreur lors de la suppression des images sur Firebase:`,
+          error
+        );
+        setLoading(false);
+        return;
+      }
+    }
+
+    const newImages = data.images.filter(
+      (img): img is { file: File; preview: string } =>
+        img.file instanceof File && !existingImageUrls.includes(img.preview)
+    );
+
     if (newImages.length > 0) {
       try {
-        const newImageFiles = newImages.map((img: any) => img.file);
+        const newImageFiles: File[] = newImages.map((img) => img.file);
         imageUrls = await uploadImagesToFirebase(
           newImageFiles,
           vehicleId,
@@ -158,6 +151,19 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
       console.log("Aucune nouvelle image à télécharger.");
     }
 
+    console.log(
+      "Images existantes avant ajout des nouvelles :",
+      existingImageUrls
+    );
+
+
+    const keptExistingImages = existingImageUrls.filter(
+      (url) => !imagesToDelete.includes(url)
+    );
+
+    const finalImageUrls = [...keptExistingImages, ...imageUrls];
+    console.log("Images finales à sauvegarder :", finalImageUrls);
+    setImagesToDelete([]);
     setMessage("");
     try {
       const formattedData = {
@@ -174,7 +180,7 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
         type: "Car",
         features: {},
         location: { city: data.location, country: "Congo" },
-        images: [...existingImageUrls, ...imageUrls],
+        images: finalImageUrls,
         id: vehicleId,
         starCount: vehicleData.starCount ?? 0,
         createdAt: vehicleData.createdAt,

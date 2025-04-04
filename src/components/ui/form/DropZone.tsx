@@ -26,20 +26,16 @@ const DropzoneComponent = ({
       return;
     }
 
-    const newFiles = acceptedFiles.map((file, index) => ({
+    // Créer une nouvelle entrée pour chaque fichier avec 'file' et 'preview'
+    const newFiles = acceptedFiles.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
     }));
 
     setFiles((prevFiles: any[]) => {
       const updatedFiles = [...prevFiles, ...newFiles];
-      // Mettre à jour le champ 'images' du formulaire
-
       console.log(updatedFiles, "updated ici>>>>>");
-      setValue(
-        "images",
-        updatedFiles.map((f) => f.file)
-      );
+      setValue("images", updatedFiles);
       return updatedFiles;
     });
   };
@@ -56,13 +52,9 @@ const DropzoneComponent = ({
     const updatedFiles = files.filter((_: any, i: any) => i !== index);
 
     setFiles(updatedFiles);
-    setValue(
-      "images",
-      updatedFiles.map((f: any) => f.file)
-    );
+    setValue("images", updatedFiles);
   };
 
-  // Configuration de react-dropzone
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: handleDrop,
     accept: {
@@ -74,12 +66,17 @@ const DropzoneComponent = ({
     maxFiles: 4,
   });
 
-  // Nettoyage des URLs des fichiers après usage
-  useEffect(() => {
+/*   useEffect(() => {
+    // Nettoyer les URLs des fichiers au démontage du composant
     return () => {
-      files.forEach((fileObj: any) => URL.revokeObjectURL(fileObj.preview));
+      files.forEach((fileObj: any) => {
+        if (fileObj.preview) {
+          URL.revokeObjectURL(fileObj.preview);
+        }
+      });
     };
-  }, [files]);
+  }, []); */ // Effect s'exécute une seule fois lors du démontage
+  
 
   return (
     <div>

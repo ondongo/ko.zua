@@ -53,7 +53,7 @@ export default function AddVehicle() {
       availability: true,
       saleStatus: "RENT",
       location: "",
-      images: [],
+      images: [] as { file: File; preview: string }[],
     },
     mode: "all",
   });
@@ -89,9 +89,13 @@ export default function AddVehicle() {
     const vehicleId = uuid();
     let imageUrls: string[] = [];
     setLoading(true);
+    const newImages = data.images.filter(
+      (img): img is { file: File; preview: string } => img.file instanceof File
+    );
     try {
+      const newImageFiles: File[] = newImages.map((img) => img.file);
       imageUrls = await uploadImagesToFirebase(
-        data.images as File[],
+        newImageFiles,
         vehicleId,
         "vehicles"
       );
@@ -627,15 +631,17 @@ export default function AddVehicle() {
                 </strong>
               </p>
               <div className="flex flex-wrap gap-2">
-                {watch("images").map((img: File, index) => (
-                  <Image
-                    width={40}
-                    height={40}
-                    key={index}
-                    src={URL.createObjectURL(img)}
-                    alt={`Image ${index + 1}`}
-                    className="object-cover"
-                  />
+                {files.map((img: any, index) => (
+                  <div className="w-10 h-10 overflow-hidden rounded-full">
+                    <Image
+                      width={40}
+                      height={20}
+                      key={index}
+                      src={img.preview}
+                      alt={`Image ${index + 1}`}
+                      className="object-cover"
+                    />{" "}
+                  </div>
                 ))}
               </div>
             </div>
