@@ -9,7 +9,10 @@ const { auth } = NextAuth(authConfig);
 export default auth(async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
   const { pathname , origin } = req.nextUrl;
- 
+  console.log("Request Origin:", origin);  // Ajoute ce log pour voir l'origin
+  console.log("Request Pathname:", pathname);  // Ajoute ce log pour voir le pathname
+
+
   // Si un token existe et que l'utilisateur tente d'accéder à /signin, redirigez vers /admin
   if (token && pathname === "/signin") {
     return NextResponse.redirect(`${origin}/admin`);
@@ -30,5 +33,7 @@ export default auth(async function middleware(req: NextRequest) {
 });
 
 export const config = {
-  matcher: ["/signin", "/admin/:path*", "/access-denied"],
+  matcher: [
+    "/((?!api/auth|_next/static|_next/image|favicon.ico).*)",
+  ],
 };
