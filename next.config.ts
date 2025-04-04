@@ -5,8 +5,16 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    loader: 'custom',
-    path: '',
+    domains: [
+      "images.unsplash.com",
+      "example.com",
+      "localhost:3000",
+      "firebasestorage.googleapis.com",
+      "ko-zua.vercel.app",
+      "upload.wikimedia.org",
+      "cdnwp.dealerk.com",
+      "i.gaw.to"
+    ],
   },
   webpack(config: any) {
     config.module.rules.push({

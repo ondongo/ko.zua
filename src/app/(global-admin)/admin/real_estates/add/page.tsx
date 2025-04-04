@@ -35,6 +35,8 @@ export const metadata :Metadata = {
       },
     ],
   },
+  manifest: "/manifest.json",
+  themeColor: "#0F172A",
 };
 
 export default function FormElements() {
