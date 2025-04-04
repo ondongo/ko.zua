@@ -29,11 +29,12 @@ const Pagination: React.FC<PaginationProps> = ({
           <button
             key={page}
             onClick={() => onPageChange(page)}
+            disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded ${
               currentPage === page
                 ? "bg-yellowkouzua text-white"
                 : "text-gray-700"
-            } flex w-10 items-center justify-center h-10 rounded-lg text-sm font-medium hover:bg-yellowkouzua-dark hover:text-white`}
+            } flex w-10 items-center justify-center h-10 rounded-lg text-sm font-medium hover:bg-yellowkouzua-dark hover:text-white disabled:opacity-50`}
           >
             {page}
           </button>

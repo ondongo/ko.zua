@@ -111,7 +111,7 @@ export default function TableReservations({
                       {reservation.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="px-5 py-3 text-theme-sm text-gray-700">
+                  <TableCell className="px-5 py-3 text-theme-sm text-white">
                     <PDFDownloadLink
                       document={
                         <Invoice
@@ -129,8 +129,7 @@ export default function TableReservations({
                             price: reservation.price,
                             startDate: reservation.startDate,
                             endDate: reservation.endDate,
-                            name:
-                              reservation.vehicleId || reservation.immobilierId,
+                          
                           }}
                         />
                       }

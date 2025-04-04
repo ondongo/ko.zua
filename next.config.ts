@@ -13,7 +13,8 @@ const nextConfig: NextConfig = {
       "ko-zua.vercel.app",
       "upload.wikimedia.org",
       "cdnwp.dealerk.com",
-      "i.gaw.to"
+      "i.gaw.to",
+      "googleusercontent.com"
     ],
   },
   webpack(config: any) {

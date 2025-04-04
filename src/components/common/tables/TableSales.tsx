@@ -61,7 +61,7 @@ export default function TableSales({ sales }: { sales: Vente[] }) {
                   <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
                     {sale.price} CFA
                   </TableCell>
-                  <TableCell className="px-4 py-3 text-gray-500 text-theme-sm">
+                  <TableCell className="px-4 py-3 text-white text-theme-sm">
                     <div className="flex gap-2">
                      
                         <PDFDownloadLink
@@ -74,7 +74,7 @@ export default function TableSales({ sales }: { sales: Vente[] }) {
                             reservationType: "sale",
                             category: sale.vehicleId != null ? "Véhicule" : "Immobilier",
                             price: sale.price,
-                            name: sale.vehicleId || sale.immobilierId,
+                          
                           }} />}
                           fileName="facture.pdf"
                         >

@@ -122,7 +122,7 @@ const Invoice = ({ invoice }: { invoice: any }) => {
           </View>
           {/* Ligne de données */}
           <View style={styles.row}>
-            <Text style={styles.cell}>{invoice.name}</Text>
+            <Text style={styles.cell}>{invoice.name ?? "-"}</Text>
             <Text style={styles.cell}>
               {invoice.startDate ? new Date(invoice.startDate).toLocaleDateString() : "-"}
             </Text>
