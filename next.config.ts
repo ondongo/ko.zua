@@ -5,13 +5,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [
-      "images.unsplash.com",
-      "example.com",
-      "localhost:3000",
-      "firebasestorage.googleapis.com",
-      "ko-zua.vercel.app",
-    ],
+    loader: 'custom',
+    path: '',
   },
   webpack(config: any) {
     config.module.rules.push({
