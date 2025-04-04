@@ -12,4 +12,6 @@ export interface Reservation {
   customerPhone?: string | null;
   customerEmail?: string | null;
   createdAt: Date;
+  vehicle?:any;
+  immobilier?:any;
 }

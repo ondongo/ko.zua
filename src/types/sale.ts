@@ -8,4 +8,6 @@ export interface Vente {
   customerPhone?: string | null;
   customerEmail?: string | null;
   createdAt: Date;
+  vehicle?:any;
+  immobilier?:any;
 }

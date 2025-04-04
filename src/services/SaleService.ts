@@ -15,7 +15,7 @@ export class SaleService {
   async deleteSale(id: string): Promise<void> {
     return this.repository.delete(id);
   }
-  async getAllReservations(
+  async getAllSales(
     page: number,
     pageSize: number
   ): Promise<PaginatedResult<Vente>> {

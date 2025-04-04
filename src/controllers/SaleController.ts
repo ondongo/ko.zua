@@ -14,7 +14,7 @@ export const SaleController = {
     totalPages: number;
     totalItems: number;
   }> {
-    const result = await saleService.getAllReservations(page, pageSize);
+    const result = await saleService.getAllSales(page, pageSize);
 
     return {
       sales: result.data,
