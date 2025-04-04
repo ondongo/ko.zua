@@ -178,7 +178,12 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
         seats: data.seats ?? 0,
         doors: data.doors ?? 0,
         type: "Car",
-        features: {},
+        features: {
+          abs: true,
+          airBags: true,
+          cruiseControl: true,
+          airConditioner: true,
+        },
         location: { city: data.location, country: "Congo" },
         images: finalImageUrls,
         id: vehicleId,
