@@ -14,8 +14,8 @@ interface Session {
 export default {
   providers: [
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
   ],
 
@@ -23,7 +23,10 @@ export default {
     async jwt({ token, user }) {
       if (user) {
         (token as Token).role =
-          user.email === "prince.ondongo@ism.edu.sn" ? "admin" : "user";
+          user.email === "prince.ondongo@ism.edu.sn" ||
+          user.email === "Nathankolime2@gmail.com"
+            ? "admin"
+            : "user";
       }
       return token;
     },
@@ -32,6 +35,4 @@ export default {
       return session;
     },
   },
-
-  
 } satisfies NextAuthConfig;
