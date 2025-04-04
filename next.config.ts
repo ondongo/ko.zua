@@ -1,7 +1,7 @@
+import withPWA from "next-pwa";
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const baseConfig: NextConfig = {
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -10,18 +10,21 @@ const nextConfig: NextConfig = {
     return config;
   },
   images: {
-    domains: ["images.unsplash.com", "example.com", "localhost:3000"],
+    domains: ["images.unsplash.com", "example.com", "localhost"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '**',
+        protocol: "https",
+        hostname: "**",
       },
     ],
   },
-
-  
-
-  
 };
+const nextConfig = withPWA({
+  ...baseConfig,
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === "development",
+});
 
 export default nextConfig;

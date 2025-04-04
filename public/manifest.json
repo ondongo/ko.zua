@@ -1,0 +1,29 @@
+{
+    "name": "Ko.Zua - Location de véhicules et biens immobiliers en Afrique",
+    "short_name": "Ko.Zua",
+    "description": "Ko.Zua vous permet de louer des voitures et d'acheter des biens immobiliers en toute sécurité. Trouvez le véhicule ou le logement idéal avec des partenaires de confiance.",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+      {
+        "src": "/Kozua v3.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/Kozua v3.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      },
+      {
+        "src": "/Kozua v3.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+      }
+    ]
+  }
+  
