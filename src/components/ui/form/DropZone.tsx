@@ -2,8 +2,23 @@ import { useDropzone } from "react-dropzone";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa";
+import { deleteImageFromFirebase } from "@/utils/functions";
 
-const DropzoneComponent = ({ setValue, files, setFiles }: any) => {
+interface DropzoneComponentProps {
+  setValue: any;
+  files: any;
+  setFiles: any;
+  editMode?: boolean;
+  setImagesToDelete?: React.Dispatch<React.SetStateAction<string[]>>; // Rendre setImagesToDelete facultatif
+}
+
+const DropzoneComponent = ({
+  setValue,
+  files,
+  setFiles,
+  editMode,
+  setImagesToDelete,
+}: DropzoneComponentProps) => {
   // Fonction pour gérer les fichiers déposés
   const handleDrop = (acceptedFiles: File[]) => {
     if (files.length + acceptedFiles.length > 4) {
@@ -20,7 +35,7 @@ const DropzoneComponent = ({ setValue, files, setFiles }: any) => {
       const updatedFiles = [...prevFiles, ...newFiles];
       // Mettre à jour le champ 'images' du formulaire
 
-      console.log(updatedFiles, "updated ici>>>>>")
+      console.log(updatedFiles, "updated ici>>>>>");
       setValue(
         "images",
         updatedFiles.map((f) => f.file)
@@ -31,7 +46,15 @@ const DropzoneComponent = ({ setValue, files, setFiles }: any) => {
 
   // Fonction pour supprimer un fichier
   const handleRemoveFile = (index: number) => {
+    const imageUrl = files[index].preview;
+    console.log(imageUrl, "Ici les gars");
+
+    if (editMode && setImagesToDelete) {
+      setImagesToDelete((prevImages) => [...prevImages, imageUrl]);
+    }
+
     const updatedFiles = files.filter((_: any, i: any) => i !== index);
+
     setFiles(updatedFiles);
     setValue(
       "images",

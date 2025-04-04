@@ -34,4 +34,5 @@ export interface Vehicle {
   fuel: string; // Corrigé en string au lieu de 'String'
   condition?: string; // Ajout de condition comme optionnel (Neuf ou Occasion)
   saleStatus: "RENT" | "SALE"; // Ajout du statut de vente avec valeurs possibles
+  views?: number;
 }

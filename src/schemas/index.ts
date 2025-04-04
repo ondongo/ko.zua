@@ -28,7 +28,12 @@ export const vehicleSchema = z.object({
   availability: z.boolean(),
   saleStatus: z.enum(["RENT", "SALE"]),
   location: z.string().optional(),
-  images: z.array(z.instanceof(File)).refine(files => files.length > 0, {
+  images: z.array(
+    z.object({
+      file: z.instanceof(File).optional(),  
+      preview: z.string().url("L'URL de l'image est invalide"),
+    })
+  ).refine((files) => files.length > 0, {
     message: "Au moins une image est requise",
   }),
 });

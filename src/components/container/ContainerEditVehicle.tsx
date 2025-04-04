@@ -16,7 +16,7 @@ import {
   locationOptions,
 } from "@/utils/records";
 import { VehicleFormData, vehicleSchema } from "@/schemas";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AlertType } from "@/types/allType";
 import AlertModal from "@/components/ui/modals/AlertModal";
 import Image from "next/image";
@@ -24,6 +24,11 @@ import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { Vehicle } from "@/types/vehicle";
+import {
+  deleteImageFromFirebase,
+  uploadImagesToFirebase,
+} from "@/utils/functions";
+import { useRouter } from "next/navigation";
 
 function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
   const {
@@ -52,7 +57,10 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
       availability: vehicleData.availability || true,
       saleStatus: vehicleData.saleStatus || "RENT",
       location: vehicleData.location.city || "",
-      images: vehicleData.images || [],
+      images: vehicleData.images.map((imgUrl: string, index: number) => ({
+        file: { name: `image_${index + 1}.jpg`, type: "image/jpeg" },
+        preview: imgUrl,
+      })),
     },
     mode: "all",
   });
@@ -66,30 +74,96 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
   const [message, setMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<AlertType>("success");
+  /* ***** DropZone Manage ***** */
+  const [files, setFiles] = useState<any[]>(() => {
+    // Initialiser les fichiers avec les images par défaut
+    return vehicleData.images.map((imgUrl: string, index: number) => ({
+      file: { name: `image_${index + 1}.jpg`, type: "image/jpeg" },
+      preview: imgUrl,
+    }));
+  });
+  const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
 
   const onSubmit = async () => {
     const data = getValues();
     console.log("Form data submitted:", data);
-    console.log("Form data:", data);
-    console.log("Form errors:", errors);
-    try {
-      vehicleSchema.parse(data);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        toast.error(
-          "Veuillez remplir tous les champs obligatoires surlignés en rouge"
-        );
-      }
+
+    if (
+      !data.name ||
+      !data.category ||
+      !data.fuel ||
+      !data.gearBox ||
+      data.availability === undefined ||
+      !data.saleStatus
+    ) {
+      toast.error("Veuillez remplir tous les champs obligatoires.");
       return;
     }
 
-    const imageUrls =
-      data.images?.map((file: any) => file.path || file.url) || [];
+    // Si des erreurs sont présentes dans le formulaire, afficher un message d'erreur
+    if (Object.keys(errors).length > 0) {
+      toast.error("Veuillez corriger les erreurs dans le formulaire.");
+      return;
+    }
+
+    if (imagesToDelete.length > 0) {
+      try {
+        // Suppression des images depuis Firebase
+        await Promise.all(
+          imagesToDelete.map(async (url) => {
+            await deleteImageFromFirebase(url);
+            console.log(`✅ Image supprimée de Firebase: ${url}`);
+          })
+        );
+        setImagesToDelete([]);
+      } catch (error) {
+        console.error(
+          `❌ Erreur lors de la suppression des images sur Firebase:`,
+          error
+        );
+      }
+    }
+
+    const vehicleId = vehicleData.id;
+    if (!vehicleId) {
+      toast.error("ID du véhicule introuvable.");
+      return;
+    }
+
+    let imageUrls: string[] = [];
     setLoading(true);
+    // Filtrer les images existantes pour ne pas les uploader à nouveau
+    const existingImageUrls = vehicleData.images || [];
+    const newImages = data.images.filter((img: any) => {
+      // Vérifie si l'image n'existe pas déjà (en comparant l'URL)
+      return img.file && !existingImageUrls.includes(img.preview);
+    });
+
+    // Si des nouvelles images existent, on les télécharge
+    if (newImages.length > 0) {
+      try {
+        const newImageFiles = newImages.map((img: any) => img.file);
+        imageUrls = await uploadImagesToFirebase(
+          newImageFiles,
+          vehicleId,
+          "vehicles"
+        );
+      } catch (error) {
+        toast.error("Erreur lors du téléversement des images.");
+        console.error("Image upload error:", error);
+        setLoading(false);
+        return;
+      }
+    } else {
+      console.log("Aucune nouvelle image à télécharger.");
+    }
+
     setMessage("");
     try {
       const formattedData = {
         ...data,
+        brand: data.brand ?? "",
+        model: data.model ?? "",
         condition: data.condition ?? "",
         global: false,
         description: data.description ?? "",
@@ -100,18 +174,17 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
         type: "Car",
         features: {},
         location: { city: data.location, country: "Congo" },
-        images: imageUrls,
-        id: uuid(),
-        starCount: 0,
-        createdAt: new Date(),
+        images: [...existingImageUrls, ...imageUrls],
+        id: vehicleId,
+        starCount: vehicleData.starCount ?? 0,
+        createdAt: vehicleData.createdAt,
         updatedAt: new Date(),
-        views: 0,
+        views: vehicleData.views ?? 0,
       };
 
-      //await createVehicle(formattedData);
+      await createVehicle(formattedData);
 
       setModalType("success");
-
       setModalOpen(true);
       setMessage("Véhicule modifier avec succès !");
     } catch (error) {
@@ -122,19 +195,12 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
     }
   };
 
-  /* ***** DropZone Manage ***** */
-  const [files, setFiles] = useState<any[]>(() => {
-    // Initialiser les fichiers avec les images par défaut
-    return vehicleData.images.map((imgUrl: string, index: number) => ({
-      file: { name: `image_${index + 1}.jpg`, type: "image/jpeg" },
-      preview: imgUrl,
-    }));
-  });
-  const images = watch("images");
-  useEffect(() => {
-    console.log(">>>>>>>>files", files);
-    console.log("===========******==============", images);
-  }, [images]);
+  const router = useRouter();
+
+  const handleClose = () => {
+    setModalOpen(false);
+    router.push("/admin/vehicles/list");
+  };
   return (
     <div className="lg:mx-10">
       <PageBreadcrumb pageTitle={`Modifier le Véhicule / ${vehicleData.id}`} />
@@ -322,9 +388,7 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
 
         {currentStep === 1 && (
           <Section title="Détails du véhicule">
-            <Label>
-              Marque <span className="text-red-500">*</span>
-            </Label>
+            <Label>Marque</Label>
             <input
               {...register("brand")}
               type="text"
@@ -332,31 +396,13 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
               placeholder="Marque"
             />
 
-            {errors.brand && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.brand?.message}</p>
-              </div>
-            )}
-            <Label>
-              Modèle <span className="text-red-500">*</span>{" "}
-            </Label>
+            <Label>Modèle</Label>
             <input
               {...register("model")}
               type="text"
               className="w-full p-2 border rounded"
               placeholder="Modèle"
             />
-            {errors.model && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.model?.message}</p>
-              </div>
-            )}
 
             <Label>
               Année <span className="text-red-500">*</span>{" "}
@@ -491,6 +537,8 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
               setValue={setValue}
               files={files}
               setFiles={setFiles}
+              editMode={true}
+              setImagesToDelete={setImagesToDelete}
             />
 
             {errors.images && (
@@ -542,7 +590,11 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
                 >
                   Statut de vente :
                 </strong>{" "}
-                {watch("saleStatus") || "non spécifiée"}
+                {watch("saleStatus") === "RENT"
+                  ? "Location"
+                  : watch("saleStatus") === "SALE"
+                  ? "Vente"
+                  : "Non spécifiée"}
               </p>
 
               <div className="flex items-center my-4">
@@ -555,20 +607,10 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
                 <strong>État :</strong> {watch("condition") || "Non spécifié"}
               </p>
               <p>
-                <strong
-                  className={watch("brand") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Marque :
-                </strong>{" "}
-                {watch("brand") || "non spécifiée"}
+                <strong>Marque :</strong> {watch("brand") || "non spécifiée"}
               </p>
               <p>
-                <strong
-                  className={watch("model") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Modèle :
-                </strong>{" "}
-                {watch("model") || "non spécifiée"}
+                <strong>Modèle :</strong> {watch("model") || "non spécifiée"}
               </p>
               <p>
                 <strong
@@ -687,16 +729,12 @@ function ContainerEditVehicle({ vehicleData }: { vehicleData: Vehicle }) {
               className="px-4 py-2 bg-green-500 text-white rounded-md"
               disabled={loading}
             >
-              {loading ? "En cours..." : "Soumettre"}
+              {loading ? <div className="spinner"></div> : <>Soumettre</>}
             </button>
           )}
         </div>
 
-        <AlertModal
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
-          type={modalType}
-        />
+        <AlertModal isOpen={modalOpen} onClose={handleClose} type={modalType} />
       </form>
       {message && <p>{message}</p>}
     </div>
