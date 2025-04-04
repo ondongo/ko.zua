@@ -7,11 +7,20 @@ import { getToken } from "next-auth/jwt";
 const { auth } = NextAuth(authConfig);
 
 export default auth(async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
-  const { pathname , origin } = req.nextUrl;
-  console.log("Request Origin:", origin);  // Ajoute ce log pour voir l'origin
-  console.log("Request Pathname:", pathname);  // Ajoute ce log pour voir le pathname
+  const cookieName =
+    process.env.NODE_ENV === "production"
+      ? "__Secure-next-auth.session-token"
+      : "next-auth.session-token";
 
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET,
+    cookieName: cookieName,
+  });
+
+  const { pathname, origin } = req.nextUrl;
+  console.log("Request Origin:", origin); // Ajoute ce log pour voir l'origin
+  console.log("Request Pathname:", pathname); // Ajoute ce log pour voir le pathname
 
   // Si un token existe et que l'utilisateur tente d'accéder à /signin, redirigez vers /admin
   if (token && pathname === "/signin") {
@@ -33,9 +42,5 @@ export default auth(async function middleware(req: NextRequest) {
 });
 
 export const config = {
-  matcher: [
-    "/signin",
-    "/admin/:path*",
-    "/access-denied"
-  ],
+  matcher: ["/signin", "/admin/:path*", "/access-denied"],
 };
