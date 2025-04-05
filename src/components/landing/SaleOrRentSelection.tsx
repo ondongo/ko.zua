@@ -51,7 +51,7 @@ function SaleOrRentSelection({
             </Popover.Button>
 
             <Popover.Panel
-              className="dropdown-menu shadow-lg left-1/2 xl:left-0 z-10
+              className=" dropdown-menu shadow-lg left-1/2 xl:left-0 z-[999999]
               transform -translate-x-1/2 xl:-translate-x-0 text-sm text-center xl:text-left w-full bg-white max-w-[332px] py-6 rounded-[10px] max-h-80 overflow-y-auto"
             >
               {SaleOrRentList.map((item) => (

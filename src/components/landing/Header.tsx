@@ -126,8 +126,8 @@ function Header() {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0 max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
-                    <div className="overflow-hidden z-50 rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
+                  <Popover.Panel className="absolute z-[999999] left-1/2  mt-3 w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0 max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
+                    <div className="overflow-hidden  rounded-lg shadow-lg ring-1 ring-black/5 bg-white border  max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
                       <div className="flex flex-col lg:flex-row p-7 gap-8">
                         {/* Vente et achat */}
                         <div className="flex-1">
@@ -253,9 +253,9 @@ function Header() {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-3xl -translate-x-1/2 transform px-4 sm:px-0">
-                    <div className="overflow-hidden  z-50 rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
-                      <div className="flex p-7 gap-8">
+                  <Popover.Panel className="absolute z-[999999] left-1/2  mt-3 w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0">
+                  <div className="overflow-hidden  rounded-lg shadow-lg ring-1 ring-black/5 bg-white border  max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
+                      <div className="flex flex-col lg:flex-row p-7 gap-8">
                         {/* Immobilier à Pointe-Noire */}
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold text-gray-900 mb-4">
