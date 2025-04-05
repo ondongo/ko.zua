@@ -25,7 +25,7 @@ function NavBarStatic() {
   const desktopMode = useMediaQuery({ query: "max-width: 1300px" });
   const router = useRouter();
 
-  const redirectToCategory = (category: string) => {
+  const redirectToCategoryVehicle = (category: string) => {
     router.push(`/vehicles?category=${category}`);
   };
   return (
@@ -61,10 +61,10 @@ function NavBarStatic() {
 
         <nav
           className={`${
-            nav ? "max-h-max py-8 px-4 xl:py-0 xl:px-0" : "max-h-0 xl:max-h-max"
+            nav ? "min-h-[70vh] py-8 px-4 xl:py-0 xl:px-0" : "max-h-0 xl:max-h-max"
           } flex flex-col w-full bg-white gap-y-6 overflow-hidden font-bold xl:font-medium xl:flex-row
            xl:w-max xl:gap-x-8 xl:h-max xl:bg-transparent xl:pb-0 transition-all duration-150 text-center 
-           xl:text-left uppercase text-sm xl:text-[15px] xl:normal-case`}
+           xl:text-left text-sm xl:text-[15px]normal-case`}
         >
           <Link href="/">Accueil</Link>
 
@@ -87,9 +87,9 @@ function NavBarStatic() {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0">
-                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
-                      <div className="flex p-7 gap-8">
+                  <Popover.Panel className="absolute z-[999999]  -mt-4 xl:mt-3 left-1/2  w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0 mb-10 xl:mb-0 ">
+                    <div className="overflow-hidden  rounded-lg shadow-lg ring-1 ring-black/5 bg-white border  max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
+                      <div className="flex flex-col lg:flex-row p-7 gap-8">
                         {/* Vente et achat */}
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -98,7 +98,7 @@ function NavBarStatic() {
                           <div className="flex flex-col gap-4">
                             <a
                               href="/vehicles?condition=Neuf"
-                              className="flex flex-col gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
+                              className="flex flex-col gap-1 text-start rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                             >
                               <span className="text-sm font-medium text-gray-900">
                                 Neuf
@@ -109,7 +109,7 @@ function NavBarStatic() {
                             </a>
                             <a
                               href="/vehicles?condition=Occasion"
-                              className="flex flex-col gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
+                              className="flex flex-col gap-1 text-start rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                             >
                               <span className="text-sm font-medium text-gray-900">
                                 Occasion
@@ -172,11 +172,11 @@ function NavBarStatic() {
                                 key={type}
                                 onClick={(e) => {
                                   e.preventDefault(); // Empêche le comportement par défaut du lien
-                                  redirectToCategory(type); // Redirige vers la catégorie
+                                  redirectToCategoryVehicle(type); // Redirige vers la catégorie
                                 }}
-                                className="flex flex-col items-start gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
+                                className="flex flex-col gap-1 rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50"
                               >
-                                <div className="flex  gap-2">
+                                <div className="flex items-center gap-2">
                                   <span className="text-sm font-medium text-gray-900">
                                     {type}
                                   </span>
@@ -195,7 +195,6 @@ function NavBarStatic() {
               </>
             )}
           </Popover>
-
           <Popover>
             {({ open }) => (
               <>
@@ -215,9 +214,9 @@ function NavBarStatic() {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-3xl -translate-x-1/2 transform px-4 sm:px-0">
-                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5 bg-white">
-                      <div className="flex p-7 gap-8">
+                  <Popover.Panel className="absolute z-[999999]  left-1/2 -mt-4 xl:mt-3  w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0 pb-10 xl:pb-0">
+                  <div className="overflow-hidden  rounded-lg shadow-lg ring-1 ring-black/5 bg-white border  max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
+                      <div className="flex flex-col lg:flex-row p-7 gap-8">
                         {/* Immobilier à Pointe-Noire */}
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold text-gray-900 mb-4">

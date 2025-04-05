@@ -8,20 +8,19 @@ type SaleOrRent = "RENT" | "SALE";
 
 function SearchMobile() {
   const router = useRouter();
-  const [type, setType] = useState<SaleOrRent>("RENT");
+
   const [query, setQuery] = useState("");
   const [serviceType, setServiceType] = useState("Voiture");
 
   function handleSearch() {
     const baseUrl = serviceType === "Immobilier" ? "/estates" : "/vehicles";
-    router.push(`${baseUrl}?searchQuery=${query}&saleStatus=${type}`);
+    router.push(`${baseUrl}?searchQuery=${query}`);
   }
   return (
     <div className="xl:hidden font-medium">
       <div className="container mx-auto">
         <div className="flex flex-col gap-y-4">
           <QuerySelection query={query} setQuery={setQuery} />
-          <SaleOrRentSelection type={type} setType={setType} />
           {/* <HourSelection /> */}
           <TypeServiceSelection
             serviceType={serviceType}

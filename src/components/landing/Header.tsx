@@ -91,7 +91,7 @@ function Header() {
 
         <nav
           className={`${
-            nav ? "min-h-[80vh] py-8 px-4 xl:py-0 xl:px-0" : "max-h-0 xl:max-h-max"
+            nav ? "min-h-[70vh] py-8 px-4 xl:py-0 xl:px-0" : "max-h-0 xl:max-h-max"
           } flex flex-col w-full bg-white gap-y-6 overflow-hidden font-bold xl:font-medium xl:flex-row
            xl:w-max xl:gap-x-8 xl:h-max xl:bg-transparent xl:pb-0 transition-all duration-150 text-center 
            xl:text-left text-sm xl:text-[15px] normal-case`}
@@ -124,7 +124,7 @@ function Header() {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="absolute z-[999999]  -mt-4 xl:mt-3 left-1/2  w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0 pb-10 xl:pb-0 ">
+                  <Popover.Panel className="absolute z-[999999]  -mt-4 xl:mt-3 left-1/2  w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0 mb-10 xl:mb-0 ">
                     <div className="overflow-hidden  rounded-lg shadow-lg ring-1 ring-black/5 bg-white border  max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
                       <div className="flex flex-col lg:flex-row p-7 gap-8">
                         {/* Vente et achat */}
