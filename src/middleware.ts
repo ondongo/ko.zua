@@ -13,9 +13,10 @@ export default auth(async function middleware(req: NextRequest) {
   });
 
   const { pathname, origin } = req.nextUrl;
+  console.log("AUTH_SECRET", process.env.AUTH_SECRET);
   console.log("Request Origin:", origin); // Ajoute ce log pour voir l'origin
   console.log("Request Pathname:", pathname); // Ajoute ce log pour voir le pathname
-
+  console.log("Token>>>>>>", token);
   // Si un token existe et que l'utilisateur tente d'accéder à /signin, redirigez vers /admin
   if (token && pathname === "/signin") {
     return NextResponse.redirect(`${origin}/admin`);

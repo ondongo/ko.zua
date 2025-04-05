@@ -688,7 +688,7 @@ export default function AddVehicle() {
           type={modalType}
         />
       </form>
-      {message && <p>{message}</p>}
+      {message && <>{message}</>}
     </div>
   );
 }

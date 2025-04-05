@@ -32,7 +32,7 @@ export default function UserDropdown({ session, signOut }: any) {
           <Image
             width={44}
             height={44}
-            src={session?.user.image ?? "/images/user/owner.jp"}
+            src={session?.user.image ?? "/images/user/owner.jpg"}
             alt="User"
           />
         </span>

@@ -747,7 +747,7 @@ function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
 
         <AlertModal isOpen={modalOpen} onClose={handleClose} type={modalType} />
       </form>
-      {message && <p>{message}</p>}
+      {message && <>{message}</>}
     </div>
   );
 }
