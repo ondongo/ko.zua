@@ -14,8 +14,9 @@ export default auth(async function middleware(req: NextRequest) {
 
 
   const { pathname, origin } = req.nextUrl;
-  console.log("AUTH_SECRET", process.env.AUTH_SECRET);
-  console.log("Request:", req); // Ajoute ce log pour voir l'origin
+  console.log("AUTH_GOOGLE_SECRET", process.env.AUTH_GOOGLE_SECRET);
+  console.log("TRUST:", process.env.AUTH_TRUST_HOST);
+  console.log("AUTH_GOOGLE_ID:", process.env.AUTH_GOOGLE_ID); // Ajoute ce log pour voir l'origin
   console.log("Request Pathname:", pathname); // Ajoute ce log pour voir le pathname
   console.log("Token>>>>>>", token);
   // Si un token existe et que l'utilisateur tente d'accéder à /signin, redirigez vers /admin
