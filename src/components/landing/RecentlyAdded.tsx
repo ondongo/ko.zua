@@ -9,7 +9,7 @@ import ImmoSlider from "./ImmoSlider";
 
 function RecentlyAdded() {
   return (
-    <section className="lg:h-screen flex items-center my-10 lg:my-20 " id="cars">
+    <section className="lg:h-screen flex items-center my-10 lg:my-10 " id="cars">
       {/*   <Brands /> */}
       <div className="container mx-auto px-4 lg:mt-16">
         <h2 className="text-xl lg:text-2xl font-bold text-gray-800 my-6">
