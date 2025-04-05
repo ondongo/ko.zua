@@ -10,10 +10,12 @@ export default auth(async function middleware(req: NextRequest) {
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
-    cookieName: "__Secure-authjs.session-token",
+    cookieName:
+      process.env.NODE_ENV === "production"
+        ? "__Secure-authjs.session-token"
+        : "authjs.session-token",
     secureCookie: true,
   });
-
 
   const { pathname, origin } = req.nextUrl;
   console.log("AUTH_GOOGLE_SECRET", process.env.AUTH_GOOGLE_SECRET);
