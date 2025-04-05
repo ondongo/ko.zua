@@ -10,7 +10,6 @@ import { Popover, Transition } from "@headlessui/react";
 import {
   FaCar,
   FaMapMarkerAlt,
-  FaTag,
   FaTruck,
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
