@@ -5,10 +5,33 @@ export const AuthSchema = z.object({
   password: z.string().min(8, "zodPasswordError"),
 });
 
-
 export type AuthType = z.infer<typeof AuthSchema>;
 
-
+export const immobilierSchema = z.object({
+  name: z.string().min(1, "Le nom est requis"),
+  description: z.string().optional(),
+  category: z.string().min(1, "La catégorie est requise"),
+  price: z.number().positive("Le prix doit être positif"),
+  type: z.string().optional(),
+  availability: z.boolean(),
+  saleStatus: z.enum(["RENT", "SALE"]),
+  city: z.string().optional(),
+  neighborhood: z.string().optional(),
+  bedrooms: z.number().optional(),
+  bathrooms:z.number().optional(),
+  surface: z.string().optional(),
+  furnished: z.boolean(),
+  images: z
+    .array(
+      z.object({
+        file: z.instanceof(File).optional(),
+        preview: z.string().url("L'URL de l'image est invalide"),
+      })
+    )
+    .refine((files) => files.length > 0, {
+      message: "Au moins une image est requise",
+    }),
+});
 
 export const vehicleSchema = z.object({
   name: z.string().min(1, "Le nom est requis"),
@@ -28,14 +51,17 @@ export const vehicleSchema = z.object({
   availability: z.boolean(),
   saleStatus: z.enum(["RENT", "SALE"]),
   location: z.string().optional(),
-  images: z.array(
-    z.object({
-      file: z.instanceof(File).optional(),  
-      preview: z.string().url("L'URL de l'image est invalide"),
-    })
-  ).refine((files) => files.length > 0, {
-    message: "Au moins une image est requise",
-  }),
+  images: z
+    .array(
+      z.object({
+        file: z.instanceof(File).optional(),
+        preview: z.string().url("L'URL de l'image est invalide"),
+      })
+    )
+    .refine((files) => files.length > 0, {
+      message: "Au moins une image est requise",
+    }),
 });
 
 export type VehicleFormData = z.infer<typeof vehicleSchema>;
+export type ImmobilierFormData = z.infer<typeof immobilierSchema>;

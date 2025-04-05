@@ -59,8 +59,6 @@ model Immobilier {
   description     String?
   category        String // Catégorie pour spécifier si c'est une maison, un terrain, etc.
   type            String // Type (ex : terrain, maison, appartement)
-  brand           String?
-  model           String?
   price           Float
   discountedPrice Float?
   availability    Boolean        @default(true)
