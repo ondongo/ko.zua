@@ -14,7 +14,8 @@ const nextConfig: NextConfig = {
       "upload.wikimedia.org",
       "cdnwp.dealerk.com",
       "i.gaw.to",
-      "googleusercontent.com"
+      "googleusercontent.com",
+      "lh3.googleusercontent.com"
     ],
   },
   webpack(config: any) {
