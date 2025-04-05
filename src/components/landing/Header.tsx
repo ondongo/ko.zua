@@ -9,7 +9,6 @@ import { SearchContext } from "../../context/SearchContext";
 import { Popover, Transition } from "@headlessui/react";
 import {
   FaCar,
-  FaDollarSign,
   FaMapMarkerAlt,
   FaTag,
   FaTruck,
