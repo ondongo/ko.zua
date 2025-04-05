@@ -1,14 +1,10 @@
-"use client";
-
-
+"use client"
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 
 export default function SignInForm() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   return (
     <div className="flex flex-col flex-1 lg:w-1/2 w-full">
       <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
@@ -33,7 +29,7 @@ export default function SignInForm() {
           <div>
             <div className="w-full gap-3 sm:gap-5">
               <button
-                onClick={() => signIn("google", { redirectTo: "/admin" })}
+                onClick={() => signIn("google")}
                 className="w-full inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800"
               >
                 <svg
@@ -62,10 +58,7 @@ export default function SignInForm() {
                 </svg>
                 Se connecter avec Google
               </button>
-             
             </div>
-          
-          
           </div>
         </div>
       </div>
