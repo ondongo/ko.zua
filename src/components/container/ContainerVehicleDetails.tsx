@@ -159,6 +159,30 @@ export default function VehicleDetails({
       startDate: reservationType === "sale" ? null : date[0].startDate,
       endDate: reservationType === "sale" ? null : date[0].endDate,
     };
+
+    const reservationData = {
+      phone,
+      name,
+      email,
+      reservationName: vehicle.name,
+      date:
+        reservationType === "sale"
+          ? new Date().toLocaleDateString()
+          : `${date[0].startDate.toLocaleDateString()} au ${date[0].endDate.toLocaleDateString()}`,
+      reservationType,
+      startDate: reservationType === "sale" ? null : date[0].startDate,
+      endDate: reservationType === "sale" ? null : date[0].endDate,
+      createdAt: new Date(),
+    };
+
+    await fetch("/api/sendMail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reservationData),
+    });
+
     setSuccess(true);
     setLoadingReservation(false);
     setInvoiceData(invoice);
@@ -651,7 +675,9 @@ export default function VehicleDetails({
 
                   <div>
                     <h4 className="text-sm font-semibold text-warning-500">
-                      Pour réserver en éclair, il faut payer 50% du prix.
+                      Une fois la réservation éclair prise, nous vous
+                      contacterons immédiatement. Vous devrez ensuite payer 50%
+                      du prix pour obtenir le véhicule.
                     </h4>
                   </div>
                 </div>
