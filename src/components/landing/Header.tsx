@@ -126,7 +126,7 @@ function Header() {
                   leaveFrom="opacity-100 translate-y-0"
                   leaveTo="opacity-0 translate-y-1"
                 >
-                  <Popover.Panel className="absolute z-[999999] left-1/2  mt-3 w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0 max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
+                  <Popover.Panel className="absolute z-[999999] left-1/2  mt-3 w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0  ">
                     <div className="overflow-hidden  rounded-lg shadow-lg ring-1 ring-black/5 bg-white border  max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
                       <div className="flex flex-col lg:flex-row p-7 gap-8">
                         {/* Vente et achat */}
