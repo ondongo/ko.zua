@@ -10,6 +10,8 @@ export default auth(async function middleware(req: NextRequest) {
   const token = await getToken({
     req,
     secret: process.env.AUTH_SECRET,
+    secureCookie: true,
+    cookieName: "next-auth.session-token"
   });
 
 
