@@ -37,7 +37,7 @@ function About() {
 
           <div className="flex-1 flex items-center xl:justify-between">
             <div className="xl:max-w-[580px] text-center lg:text-start">
-              <h2 className="h2">A propos</h2>
+              <h2 className="text-xl lg:text-2xl font-bold text-gray-800 my-4">A propos</h2>
               <p className="text-lg text-gray-600 mb-[30px]">
                 <strong>Ko.Zua</strong>, votre plateforme de confiance pour
                 louer un véhicule ou acquérir un bien immobilier en Afrique.
