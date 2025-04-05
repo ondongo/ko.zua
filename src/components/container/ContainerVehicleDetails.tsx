@@ -785,7 +785,7 @@ export default function VehicleDetails({
                 >
                   {({ loading }) => (
                     <button
-                      className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark px-4"
+                      className="btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark px-4"
                       disabled={loading} // Désactiver le bouton pendant le téléchargement
                     >
                       {loading ? (
