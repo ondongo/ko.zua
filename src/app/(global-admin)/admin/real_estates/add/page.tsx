@@ -11,6 +11,9 @@ import {
   typesRealEstate,
   stepsRealEstate,
   saleStatusOptions,
+  locationOptions,
+  quartiersPointeNoire,
+  quartiersBrazzaville,
 } from "@/utils/records";
 import Image from "next/image";
 import { immobilierSchema } from "@/schemas";
@@ -117,6 +120,7 @@ export default function AddImmobilier() {
         location: {
           city: data.city || "",
           neighborhood: data.neighborhood || "",
+          country: "Congo",
         },
 
         // Prix
@@ -282,6 +286,35 @@ export default function AddImmobilier() {
 
         {currentStep === 1 && (
           <Section title="Détails de la propriété">
+            <Label>Ville</Label>
+            <select {...register("city")} className="w-full p-2 border rounded">
+              {locationOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <Label>Quartier</Label>
+            <select
+              {...register("neighborhood")}
+              className="w-full p-2 border rounded"
+            >
+              {watch("city") === "Pointe-Noire" &&
+                quartiersPointeNoire.map((quartier) => (
+                  <option key={quartier} value={quartier}>
+                    {quartier}
+                  </option>
+                ))}
+
+              {watch("city") === "Brazzaville" &&
+                quartiersBrazzaville.map((quartier) => (
+                  <option key={quartier} value={quartier}>
+                    {quartier}
+                  </option>
+                ))}
+            </select>
+
             {category === "Land" && (
               <>
                 <Label>Surface</Label>
@@ -361,6 +394,13 @@ export default function AddImmobilier() {
               <Separator label="Étape 1 : Informations générales" />
 
               <DisplayItem label="Nom" value={watch("name")} />
+
+              <DisplayItem
+                label="Prix"
+                value={
+                  watch("price") ? `${watch("price")} FCFA` : "Non spécifié"
+                }
+              />
               <DisplayItem
                 label="Description"
                 value={
@@ -394,10 +434,13 @@ export default function AddImmobilier() {
               <Separator label="Étape 2 : Détails de la propriété" />
 
               <DisplayItem
-                label="Prix"
-                value={
-                  watch("price") ? `${watch("price")} FCFA` : "Non spécifié"
-                }
+                label="Ville"
+                value={watch("city") || "Non spécifiée"}
+              />
+
+              <DisplayItem
+                label="Quartier"
+                value={watch("neighborhood") || "Non spécifié"}
               />
               <DisplayItem
                 label="Disponibilité"
