@@ -15,7 +15,8 @@ const nextConfig: NextConfig = {
       "cdnwp.dealerk.com",
       "i.gaw.to",
       "googleusercontent.com",
-      "lh3.googleusercontent.com"
+      "lh3.googleusercontent.com",
+      "static.wixstatic.com"
     ],
   },
   webpack(config: any) {

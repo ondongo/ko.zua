@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 type ErrorProps = {
   message?: string;
@@ -6,12 +6,15 @@ type ErrorProps = {
 
 const Error: React.FC<ErrorProps> = ({ message }) => {
   if (!message) {
-    return null; 
+    return null;
   }
 
   return (
-    <div className="error-message">
-      {message}
+    <div
+      className={`rounded-md 
+ p-4  bg-error-400 text-white`}
+    >
+      <p> {message}</p>
     </div>
   );
 };

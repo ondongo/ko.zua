@@ -17,9 +17,10 @@ export const immobilierSchema = z.object({
   saleStatus: z.enum(["RENT", "SALE"]),
   city: z.string().optional(),
   neighborhood: z.string().optional(),
+  parcelSize: z.number().optional(),
+  rooms: z.number().optional(),
   bedrooms: z.number().optional(),
-  bathrooms:z.number().optional(),
-  surface: z.string().optional(),
+  bathrooms: z.number().optional(),
   furnished: z.boolean(),
   images: z
     .array(

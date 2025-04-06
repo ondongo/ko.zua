@@ -55,28 +55,37 @@ model Vehicle {
 
 model Immobilier {
   id              String         @id @default(uuid())
-  name            String
-  description     String?
-  category        String // Catégorie pour spécifier si c'est une maison, un terrain, etc.
-  type            String // Type (ex : terrain, maison, appartement)
-  price           Float
-  discountedPrice Float?
-  availability    Boolean        @default(true)
-  features        Json
-  location        Json
-  images          Json
-  rooms           Int?
-  starCount       Int            @default(0)
-  parcelSize      Float? // Taille de la parcelle en m² (facultatif)
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
-  saleStatus      SaleStatus     @default(RENT)
-  reservations    Reservation[]
-  ratings         Rating[]
-  sales           Vente[]
-  specialOffers   SpecialOffer[] // Offres spéciales liées
-  views           Int            @default(0) // Nombre de vues
+  name            String         // Nom ou titre du bien (ex: "Villa moderne à Dakar")
+  description     String?        // Description facultative du bien
+  category        String         // Ex: "Maison", "Terrain", "Appartement"
+  type            String         // Type plus précis, ex: "Studio", "Terrain résidentiel", etc.
+  price           Float          // Prix total du bien
+  discountedPrice Float?         // Prix remisé s’il y a une promotion
+  availability    Boolean        @default(true) // Est-ce disponible actuellement ?
+  
+  images          Json           // Liste d’URL ou objets image (photos du bien)
+  location        Json           // Structure avec ville, quartier, coordonnées...
+  
+  bedrooms        Int?           // Nombre de chambres (facultatif pour un terrain)
+  bathrooms       Int?           // Nombre de salles de bain (facultatif)
+  furnished       Boolean?       // Le bien est-il meublé ? (facultatif)
+  rooms           Int?           // Total des pièces (chambres + salon + cuisine...)
+  parcelSize      Float?         // Superficie de la parcelle en m², utile surtout pour les terrains
+
+  starCount       Int?            @default(0)     // Note moyenne donnée par les utilisateurs
+  views           Int?            @default(0)     // Nombre de vues de l’annonce
+  
+  createdAt       DateTime       @default(now()) // Date de création
+  updatedAt       DateTime       @updatedAt      // Date de dernière modification
+  
+  saleStatus      SaleStatus     @default(RENT)  // À louer ou à vendre
+  
+  reservations    Reservation[]  // Réservations faites
+  ratings         Rating[]       // Notes/commentaires des utilisateurs
+  sales           Vente[]        // Historique des ventes
+  specialOffers   SpecialOffer[] // Promotions ou remises temporaires
 }
+
 
 model Reservation {
   id            String            @id @default(uuid())

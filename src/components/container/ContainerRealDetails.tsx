@@ -324,29 +324,14 @@ export default function RealEstateDetails({
                 </motion.div>
               )}
 
-
               {/* Équipement */}
               <div className="mt-6 mb-10">
-                <h2 className="text-2xl font-semibold mb-4">r Equipment</h2>
+                <h2 className="text-2xl font-semibold mb-4">Caractéristiques</h2>
                 <div className="grid grid-cols-2 gap-4">
-                  {Object.entries(realEstate.features).map(
-                    ([key, value], index) => (
-                      <div
-                        key={index}
-                        className="flex items-center space-x-2 text-yellowkouzua"
-                      >
-                        <FaCheckCircle />
-                        <span className="text-gray-700">
-                          {featureLabels[key] || key} :{" "}
-                          {typeof value === "boolean"
-                            ? value
-                              ? "Oui"
-                              : "Non"
-                            : value}
-                        </span>
-                      </div>
-                    )
-                  )}
+                  <div className="flex items-center space-x-2 text-yellowkouzua">
+                    <FaCheckCircle />
+                    <span className="text-gray-700"></span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -509,8 +494,8 @@ export default function RealEstateDetails({
         </div>
       </div>
 
-       {/* Modal Réservation */}
-       {!success ? (
+      {/* Modal Réservation */}
+      {!success ? (
         <Modal
           isOpen={modalOpen}
           onClose={closeModal}

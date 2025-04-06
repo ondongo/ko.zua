@@ -21,30 +21,32 @@ export async function getAllRealEstates(page: number, pageSize: number) {
     id: realEstate.id,
     name: realEstate.name,
     description: realEstate.description ?? "",
-
     category: realEstate.category,
-
     type: realEstate.type,
-
     price: realEstate.price,
+    discountedPrice: realEstate.discountedPrice ?? 0,
     availability: realEstate.availability,
     saleStatus: realEstate.saleStatus,
-    features: {
-      bedrooms: (realEstate.features as any).bedrooms,
-      bathrooms: (realEstate.features as any).bathrooms,
-      surface: (realEstate.features as any).surface,
-      furnished: (realEstate.features as any).furnished,
-    },
+  
+    bedrooms: realEstate.bedrooms ?? 0,
+    bathrooms: realEstate.bathrooms ?? 0,
+    furnished: realEstate.furnished ?? false,
+    rooms: realEstate.rooms ?? 0,
+    parcelSize: realEstate.parcelSize ?? 0,
+  
     location: {
-      city: (realEstate.location as any).city ?? "",
-      neighborhood: (realEstate.location as any).neighborhood ?? "",
+      city: (realEstate.location as any)?.city ?? "",
+      neighborhood: (realEstate.location as any)?.neighborhood ?? "",
     },
+  
     images: realEstate.images ?? [],
-    starCount: realEstate.starCount,
-
+    starCount: realEstate.starCount ?? 0,
+    views: realEstate.views ?? 0,
+  
     createdAt: realEstate.createdAt
       ? new Date(realEstate.createdAt)
       : new Date(),
+    updatedAt: realEstate.updatedAt ?? new Date(),
   }));
 
   return {
@@ -68,30 +70,32 @@ export async function getRealEstateById(
     id: realEstate.id,
     name: realEstate.name,
     description: realEstate.description ?? "",
-
     category: realEstate.category,
-
     type: realEstate.type,
-
     price: realEstate.price,
+    discountedPrice: realEstate.discountedPrice ?? 0,
     availability: realEstate.availability,
     saleStatus: realEstate.saleStatus,
-    features: {
-      bedrooms: (realEstate.features as any).bedrooms,
-      bathrooms: (realEstate.features as any).bathrooms,
-      surface: (realEstate.features as any).surface,
-      furnished: (realEstate.features as any).furnished,
-    },
+  
+    bedrooms: realEstate.bedrooms ?? 0,
+    bathrooms: realEstate.bathrooms ?? 0,
+    furnished: realEstate.furnished ?? false,
+    rooms: realEstate.rooms ?? 0,
+    parcelSize: realEstate.parcelSize ?? 0,
+  
     location: {
-      city: (realEstate.location as any).city ?? "",
-      neighborhood: (realEstate.location as any).neighborhood ?? "",
+      city: (realEstate.location as any)?.city ?? "",
+      neighborhood: (realEstate.location as any)?.neighborhood ?? "",
     },
+  
     images: realEstate.images ?? [],
-    starCount: realEstate.starCount,
-
+    starCount: realEstate.starCount ?? 0,
+    views: realEstate.views ?? 0,
+  
     createdAt: realEstate.createdAt
       ? new Date(realEstate.createdAt)
       : new Date(),
+    updatedAt: realEstate.updatedAt ?? new Date(),
   };
 }
 
@@ -128,24 +132,29 @@ export async function getFilteredRealEstates(
       category: realEstate.category,
       type: realEstate.type,
       price: realEstate.price,
+      discountedPrice: realEstate.discountedPrice ?? 0,
       availability: realEstate.availability,
       saleStatus: realEstate.saleStatus,
-      features: {
-        bedrooms: (realEstate.features as any).bedrooms,
-        bathrooms: (realEstate.features as any).bathrooms,
-        surface: (realEstate.features as any).surface,
-        furnished: (realEstate.features as any).furnished,
-      },
+    
+      bedrooms: realEstate.bedrooms ?? 0,
+      bathrooms: realEstate.bathrooms ?? 0,
+      furnished: realEstate.furnished ?? false,
+      rooms: realEstate.rooms ?? 0,
+      parcelSize: realEstate.parcelSize ?? 0,
+    
       location: {
-        city: (realEstate.location as any).city ?? "",
-        neighborhood: (realEstate.location as any).neighborhood ?? "",
+        city: (realEstate.location as any)?.city ?? "",
+        neighborhood: (realEstate.location as any)?.neighborhood ?? "",
       },
+    
       images: realEstate.images ?? [],
-      starCount: realEstate.starCount,
-
+      starCount: realEstate.starCount ?? 0,
+      views: realEstate.views ?? 0,
+    
       createdAt: realEstate.createdAt
         ? new Date(realEstate.createdAt)
         : new Date(),
+      updatedAt: realEstate.updatedAt ?? new Date(),
     }));
 
     return {
@@ -176,30 +185,34 @@ export async function getSimilarRealEstate(
     category: realEstate.category,
     type: realEstate.type,
     price: realEstate.price,
+    discountedPrice: realEstate.discountedPrice ?? 0,
     availability: realEstate.availability,
     saleStatus: realEstate.saleStatus,
-    features: {
-      bedrooms: (realEstate.features as any).bedrooms,
-      bathrooms: (realEstate.features as any).bathrooms,
-      surface: (realEstate.features as any).surface,
-      furnished: (realEstate.features as any).furnished,
-    },
+  
+    bedrooms: realEstate.bedrooms ?? 0,
+    bathrooms: realEstate.bathrooms ?? 0,
+    furnished: realEstate.furnished ?? false,
+    rooms: realEstate.rooms ?? 0,
+    parcelSize: realEstate.parcelSize ?? 0,
+  
     location: {
-      city: (realEstate.location as any).city ?? "",
-      neighborhood: (realEstate.location as any).neighborhood ?? "",
+      city: (realEstate.location as any)?.city ?? "",
+      neighborhood: (realEstate.location as any)?.neighborhood ?? "",
     },
+  
     images: realEstate.images ?? [],
-    starCount: realEstate.starCount,
-
+    starCount: realEstate.starCount ?? 0,
+    views: realEstate.views ?? 0,
+  
     createdAt: realEstate.createdAt
       ? new Date(realEstate.createdAt)
       : new Date(),
+    updatedAt: realEstate.updatedAt ?? new Date(),
   }));
 }
 
-export async function getLatestRealEstates(){
-  const real_estates = await RealEstateController.getLatestRealEstates(
-  );
+export async function getLatestRealEstates() {
+  const real_estates = await RealEstateController.getLatestRealEstates();
   return real_estates.map((realEstate) => ({
     id: realEstate.id,
     name: realEstate.name,
@@ -207,23 +220,28 @@ export async function getLatestRealEstates(){
     category: realEstate.category,
     type: realEstate.type,
     price: realEstate.price,
+    discountedPrice: realEstate.discountedPrice ?? 0,
     availability: realEstate.availability,
     saleStatus: realEstate.saleStatus,
-    features: {
-      bedrooms: (realEstate.features as any).bedrooms,
-      bathrooms: (realEstate.features as any).bathrooms,
-      surface: (realEstate.features as any).surface,
-      furnished: (realEstate.features as any).furnished,
-    },
+  
+    bedrooms: realEstate.bedrooms ?? 0,
+    bathrooms: realEstate.bathrooms ?? 0,
+    furnished: realEstate.furnished ?? false,
+    rooms: realEstate.rooms ?? 0,
+    parcelSize: realEstate.parcelSize ?? 0,
+  
     location: {
-      city: (realEstate.location as any).city ?? "",
-      neighborhood: (realEstate.location as any).neighborhood ?? "",
+      city: (realEstate.location as any)?.city ?? "",
+      neighborhood: (realEstate.location as any)?.neighborhood ?? "",
     },
+  
     images: realEstate.images ?? [],
-    starCount: realEstate.starCount,
-
+    starCount: realEstate.starCount ?? 0,
+    views: realEstate.views ?? 0,
+  
     createdAt: realEstate.createdAt
       ? new Date(realEstate.createdAt)
       : new Date(),
+    updatedAt: realEstate.updatedAt ?? new Date(),
   }));
 }

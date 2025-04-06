@@ -99,7 +99,7 @@ export async function POST(req: Request) {
       },
       to: [
         {
-          email: "Nathankolime2@gmail.com",
+          email: "Kozuaautomobile@gmail.com",
           name: "Service Réservations",
         },
 

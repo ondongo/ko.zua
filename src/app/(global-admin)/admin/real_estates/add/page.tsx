@@ -1,5 +1,4 @@
 "use client";
-import { createVehicle } from "@/actions/vehicles";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import DropzoneComponent from "@/components/ui/form/DropZone";
 import Label from "@/components/ui/form/Label";
@@ -7,25 +6,23 @@ import Label from "@/components/ui/form/Label";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  categoryOptions,
-  saleStatusOptions,
-  conditionOptions,
-  fuelOptions,
   steps,
-  gearBoxOptions,
-  locationOptions,
+  categoriesRealEstate,
+  typesRealEstate,
+  stepsRealEstate,
+  saleStatusOptions,
 } from "@/utils/records";
-import { ImmobilierFormData, immobilierSchema } from "@/schemas";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { immobilierSchema } from "@/schemas";
+import { useState } from "react";
 import { AlertType } from "@/types/allType";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { uploadImagesToFirebase } from "@/utils/functions";
 import Error from "@/components/Error";
-import { createOrUpdateRealEstate } from "@/actions/realEstates";
-import { Modal } from "@/components/ui/modals";
 import AlertModal from "@/components/ui/modals/AlertModal";
+import { createOrUpdateRealEstate } from "@/actions/realEstates";
 export default function AddImmobilier() {
   const {
     register,
@@ -34,6 +31,7 @@ export default function AddImmobilier() {
     formState: { errors },
     setValue,
     reset,
+    watch,
   } = useForm({
     resolver: zodResolver(immobilierSchema),
     defaultValues: {
@@ -48,7 +46,7 @@ export default function AddImmobilier() {
       neighborhood: "",
       bedrooms: undefined,
       bathrooms: undefined,
-      surface: "",
+      parcelSize: 0,
       furnished: false,
       images: [] as { file: File; preview: string }[],
     },
@@ -104,34 +102,46 @@ export default function AddImmobilier() {
     try {
       const formattedData = {
         id: immobilierId,
+
+        // Informations principales
         name: data.name,
-        category: data.category, // Type (ex : terrain, maison, appartement)
         description: data.description || "",
-        type: data.type || "", // Type (ex : terrain, maison, appartement)
-        createdAt: new Date(),
+        category: data.category,
+        type: data.type || "",
+
+        // Statut
         saleStatus: data.saleStatus,
+        availability: data.availability,
+
+        // Localisation
         location: {
           city: data.city || "",
           neighborhood: data.neighborhood || "",
         },
+
+        // Prix
         price: data.price,
-        features: {
-          ...(data.bedrooms !== null &&
-            data.bedrooms !== undefined && { bedrooms: data.bedrooms }),
-          ...(data.bathrooms !== null &&
-            data.bathrooms !== undefined && { bathrooms: data.bathrooms }),
-          ...(data.surface !== null &&
-            data.surface !== undefined && { surface: data.surface }),
-          ...(data.furnished !== null &&
-            data.furnished !== undefined && { furnished: data.furnished }),
-        },
-        images: imageUrls,
-        availability: data.availability,
+        discountedPrice: 0,
+
+        // Détails du bien
+        bedrooms: data.bedrooms ?? 0,
+        bathrooms: data.bathrooms ?? 0,
+        furnished: data.furnished ?? false,
+        rooms: data.bedrooms ?? 0, // Tu peux ajuster selon ta logique de calcul de rooms
+        parcelSize: data.parcelSize ?? 0,
+
+        // Visuels
+        images: imageUrls || [],
+
+        // Métriques
         starCount: 0,
-        rooms: data.bedrooms || 0,
-        parcelSize: data.surface || 0,
+        views: 0,
+
+        // Dates
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
-      //await createOrUpdateRealEstate(formattedData);
+      await createOrUpdateRealEstate(formattedData);
       setModalType("success");
       setModalOpen(true);
       setMessage("Propriété ajoutée avec succès !");
@@ -145,12 +155,14 @@ export default function AddImmobilier() {
     }
   };
 
+  const category = watch("category");
+
   return (
     <div className="lg:mx-10">
       <PageBreadcrumb pageTitle="Ajouter une propriété" />
 
       <div className="flex items-center justify-center w-full py-6">
-        {steps.map((step, index) => (
+        {stepsRealEstate.map((step, index) => (
           <div key={index} className="relative flex flex-1 items-center">
             {index !== 0 && (
               <div
@@ -183,7 +195,7 @@ export default function AddImmobilier() {
         ))}
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form>
         {currentStep === 0 && (
           <Section title="Informations générales">
             <Label>
@@ -227,55 +239,96 @@ export default function AddImmobilier() {
               {...register("category")}
               className="w-full p-2 border rounded"
             >
-              {categoryOptions.map((option) => (
+              {categoriesRealEstate.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
               ))}
             </select>
             {errors.category && <Error message={errors.category?.message} />}
+
+            <Label>Type</Label>
+            <select {...register("type")} className="w-full p-2 border rounded">
+              {typesRealEstate.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+
+            <Label>
+              Vente ou Location <span className="text-red-500">*</span>
+            </Label>
+            <select
+              {...register("saleStatus")}
+              className="w-full p-2 border rounded"
+            >
+              {saleStatusOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            {errors.saleStatus && (
+              <div
+                className={`rounded-md 
+                 p-4  bg-error-400 text-white`}
+              >
+                <p>{errors.saleStatus?.message}</p>
+              </div>
+            )}
           </Section>
         )}
 
         {currentStep === 1 && (
           <Section title="Détails de la propriété">
-            <Label>
-              Surface <span className="text-red-500">*</span>
-            </Label>
-            <input
-              {...register("surface")}
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="Surface"
-            />
-            {errors.surface && <Error message={errors.surface?.message} />}
+            {category === "Land" && (
+              <>
+                <Label>Surface</Label>
+                <input
+                  {...register("parcelSize", { valueAsNumber: true })}
+                  type="number"
+                  className="w-full p-2 border rounded"
+                  placeholder="Surface en m²"
+                />
+              </>
+            )}
 
-            <Label>
-              Nombre de chambres <span className="text-red-500">*</span>
-            </Label>
-            <input
-              {...register("bedrooms", { valueAsNumber: true })}
-              type="number"
-              className="w-full p-2 border rounded"
-              placeholder="Nombre de chambres"
-            />
-            {errors.bedrooms && <Error message={errors.bedrooms?.message} />}
+            {category === "House" && (
+              <>
+                <Label>Nombre de pièces</Label>
+                <input
+                  {...register("rooms", { valueAsNumber: true })}
+                  type="number"
+                  className="w-full p-2 border rounded"
+                  placeholder="Nombre de pièces"
+                />
 
-            <Label>
-              Nombre de salles de bain <span className="text-red-500">*</span>
-            </Label>
-            <input
-              {...register("bathrooms", { valueAsNumber: true })}
-              type="number"
-              className="w-full p-2 border rounded"
-              placeholder="Nombre de salles de bain"
-            />
-            {errors.bathrooms && <Error message={errors.bathrooms?.message} />}
-          </Section>
-        )}
+                <Label>Nombre de chambres</Label>
+                <input
+                  {...register("bedrooms", { valueAsNumber: true })}
+                  type="number"
+                  className="w-full p-2 border rounded"
+                  placeholder="Nombre de chambres"
+                />
 
-        {currentStep === 2 && (
-          <Section title="Caractéristiques & Images">
+                <Label>Nombre de salles de bain</Label>
+                <input
+                  {...register("bathrooms", { valueAsNumber: true })}
+                  type="number"
+                  className="w-full p-2 border rounded"
+                  placeholder="Nombre de salles de bain"
+                />
+
+                <Label>Fournie meublée ?</Label>
+                <input
+                  {...register("furnished")}
+                  type="checkbox"
+                  className="w-4 h-4"
+                />
+              </>
+            )}
+
             <Label>Disponibilité</Label>
             <input
               {...register("availability")}
@@ -285,14 +338,11 @@ export default function AddImmobilier() {
             {errors.availability && (
               <Error message={errors.availability?.message} />
             )}
+          </Section>
+        )}
 
-            <Label>Fournie meublée ?</Label>
-            <input
-              {...register("furnished")}
-              type="checkbox"
-              className="w-4 h-4"
-            />
-
+        {currentStep === 2 && (
+          <Section title="Caractéristiques & Images">
             <Label>Images</Label>
             <DropzoneComponent
               setFiles={setFiles}
@@ -304,20 +354,149 @@ export default function AddImmobilier() {
           </Section>
         )}
 
-        <div className="flex justify-between">
-          <button type="button" onClick={prevStep} disabled={currentStep === 0}>
-            Précédent
-          </button>
-          <button
-            type="button"
-            onClick={nextStep}
-            disabled={currentStep === steps.length - 1}
-          >
-            Suivant
-          </button>
-          {currentStep === steps.length - 1 && (
-            <button type="submit" disabled={loading}>
-              {loading ? "Chargement..." : "Soumettre"}
+        {currentStep === 3 && (
+          <Section title="Validation des informations">
+            <div className="flex flex-col gap-4">
+              {/* Étape 1 */}
+              <Separator label="Étape 1 : Informations générales" />
+
+              <DisplayItem label="Nom" value={watch("name")} />
+              <DisplayItem
+                label="Description"
+                value={
+                  watch("description")
+                    ? watch("description")!.slice(0, 150) +
+                      (watch("description")!.length > 150 ? "..." : "")
+                    : "Non spécifiée"
+                }
+              />
+
+              <DisplayItem
+                label="Catégorie"
+                value={watch("category") || "Non spécifiée"}
+              />
+              <DisplayItem
+                label="Statut de vente"
+                value={
+                  watch("saleStatus") === "RENT"
+                    ? "Location"
+                    : watch("saleStatus") === "SALE"
+                    ? "Vente"
+                    : "Non spécifié"
+                }
+              />
+              <DisplayItem
+                label="Type"
+                value={watch("type") || "Non spécifié"}
+              />
+
+              {/* Étape 2 */}
+              <Separator label="Étape 2 : Détails de la propriété" />
+
+              <DisplayItem
+                label="Prix"
+                value={
+                  watch("price") ? `${watch("price")} FCFA` : "Non spécifié"
+                }
+              />
+              <DisplayItem
+                label="Disponibilité"
+                value={watch("availability") ? "Disponible" : "Indisponible"}
+              />
+
+              {watch("category") === "Land" && (
+                <DisplayItem
+                  label="Surface"
+                  value={
+                    watch("parcelSize")
+                      ? `${watch("parcelSize")} m²`
+                      : "Non spécifiée"
+                  }
+                />
+              )}
+
+              {watch("category") === "House" && (
+                <>
+                  <DisplayItem
+                    label="Nombre de pièces"
+                    value={watch("rooms") || "Non spécifié"}
+                  />
+                  <DisplayItem
+                    label="Chambres"
+                    value={watch("bedrooms") || "Non spécifié"}
+                  />
+                  <DisplayItem
+                    label="Salles de bain"
+                    value={watch("bathrooms") || "Non spécifié"}
+                  />
+                  <DisplayItem
+                    label="Meublé"
+                    value={watch("furnished") ? "Oui" : "Non"}
+                  />
+                </>
+              )}
+
+              {/* Étape 3 */}
+              <Separator label="Étape 3 : Images" />
+              <div>
+                <p className="font-semibold">Images :</p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {files.length > 0 ? (
+                    files.map((img: any, index) => (
+                      <div
+                        key={index}
+                        className="w-16 h-16 rounded overflow-hidden"
+                      >
+                        <Image
+                          src={img.preview}
+                          width={64}
+                          height={64}
+                          alt={`Image ${index + 1}`}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-red-500">Aucune image sélectionnée</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Section>
+        )}
+
+        <div className="flex justify-center mt-6 space-x-4 gap-4">
+          {currentStep > 0 && (
+            <button
+              type="button"
+              onClick={prevStep}
+              disabled={currentStep === 0}
+              className="px-4 py-2 bg-yellowkouzua text-white rounded-md"
+            >
+              Etape précédente
+            </button>
+          )}
+
+          {currentStep < steps.length - 1 ? (
+            <button
+              type="button"
+              onClick={nextStep}
+              disabled={currentStep === steps.length - 1}
+              className="px-4 py-2 bg-yellowkouzua text-white rounded-md"
+            >
+              Etape suivante
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                onSubmit();
+              }}
+              className="px-4 py-2 bg-green-500 text-white rounded-md"
+              disabled={loading}
+            >
+              {loading ? <div className="spinner"></div> : <>Soumettre</>}
             </button>
           )}
         </div>
@@ -336,5 +515,22 @@ const Section = ({ title, children }: any) => (
   <div className="space-y-4 bg-white p-6 rounded-xl shadow">
     <h2 className="text-lg font-semibold">{title}</h2>
     {children}
+  </div>
+);
+
+const DisplayItem = ({ label, value }: { label: string; value: any }) => (
+  <p>
+    <strong className={!value ? "bg-red-200 px-1 rounded" : ""}>
+      {label} :
+    </strong>{" "}
+    {value || "Non spécifié"}
+  </p>
+);
+
+const Separator = ({ label }: { label: string }) => (
+  <div className="flex items-center my-4">
+    <div className="flex-grow border-t border-gray-300"></div>
+    <span className="mx-4 text-gray-500">{label}</span>
+    <div className="flex-grow border-t border-gray-300"></div>
   </div>
 );

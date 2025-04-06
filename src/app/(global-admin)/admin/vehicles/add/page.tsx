@@ -665,7 +665,7 @@ export default function AddVehicle() {
               onClick={nextStep}
               className="px-4 py-2 bg-yellowkouzua text-white rounded-md"
             >
-              Etape suivant
+              Etape suivante
             </button>
           ) : (
             <button
@@ -688,7 +688,7 @@ export default function AddVehicle() {
           type={modalType}
         />
       </form>
-      {message && <>{message}</>}
+     
     </div>
   );
 }

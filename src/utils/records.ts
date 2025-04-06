@@ -1,10 +1,31 @@
+export const categoriesRealEstate = [
+  { value: "", label: "Faire le choix d'une catégorie." },
+  { value: "Land", label: "Parcelle / Terrain" },
+  { value: "House", label: "Maison / Bâtiment" },
+];
+
+export const typesRealEstate = [
+  { value: "", label: "Faire le choix d'un type de bien" },
+  { value: "villa", label: "Villa" },
+  { value: "studio", label: "Studio" },
+  { value: "appartement", label: "Appartement" },
+  { value: "immeuble", label: "Immeuble" },
+  { value: "chambre", label: "Chambre" },
+  { value: "duplex", label: "Duplex" },
+  { value: "triplex", label: "Triplex" },
+  { value: "maison plain-pied", label: "Maison plain-pied" },
+  { value: "maison à étage", label: "Maison à étage" },
+  { value: "terrain constructible", label: "Terrain constructible" },
+  { value: "terrain agricole", label: "Terrain agricole" },
+];
+
 export const quartiersPointeNoire = [
   "Loandjili",
   "Fond Tié-Tié",
   "Ngoyo",
   "Mpaka",
   "Siafoumou",
-  "Vonvon"
+  "Vonvon",
 ];
 
 export const quartiersBrazzaville = [
@@ -13,7 +34,7 @@ export const quartiersBrazzaville = [
   "Makélékélé",
   "Talangaï",
   "Ouenze",
-  "Kinkala"
+  "Kinkala",
 ];
 
 export const featureLabels: Record<string, string> = {
@@ -25,7 +46,7 @@ export const featureLabels: Record<string, string> = {
 
 export const categoryOptions = [
   { value: "", label: "Faire le choix de la catégorie" },
-  { value: "Citadine", label: 'Citadine' },
+  { value: "Citadine", label: "Citadine" },
   { value: "Suv", label: "Suv" },
   { value: "4x4", label: "4x4" },
   { value: "Berline", label: "Berline" },
@@ -63,13 +84,19 @@ export const locationOptions = [
   { value: "Pointe-Noire", label: "Pointe-Noire" },
   { value: "Brazzaville", label: "Brazzaville" },
 ];
+
+export const stepsRealEstate = [
+  "Informations générales",
+  "Détails de la propriété",
+  "Caractéristiques & Images",
+  "Validation des informations",
+];
 export const steps = [
   "Informations générales",
   "Détails du véhicule",
   "Caractéristiques & Images",
   "Validation des informations",
 ];
-
 
 export const countryFormats: Record<string, string> = {
   sn: "+221 77 777 77 77", // Sénégal 🇸🇳
