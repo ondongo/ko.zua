@@ -66,18 +66,8 @@ export class RealEstateRepository
           ...(filters.category && { category: filters.category }),
           ...(filters.searchQuery && {
             OR: [
-              {
-                brand: {
-                  contains: filters.searchQuery,
-                  mode: "insensitive",
-                } as Prisma.StringFilter,
-              },
-              {
-                model: {
-                  contains: filters.searchQuery,
-                  mode: "insensitive",
-                } as Prisma.StringFilter,
-              },
+         
+            
               {
                 name: {
                   contains: filters.searchQuery,
@@ -123,18 +113,8 @@ export class RealEstateRepository
           ...(filters.category && { category: filters.category }),
           ...(filters.searchQuery && {
             OR: [
-              {
-                brand: {
-                  contains: filters.searchQuery,
-                  mode: "insensitive",
-                } as Prisma.StringFilter,
-              },
-              {
-                model: {
-                  contains: filters.searchQuery,
-                  mode: "insensitive",
-                } as Prisma.StringFilter,
-              },
+           
+            
               {
                 name: {
                   contains: filters.searchQuery,
