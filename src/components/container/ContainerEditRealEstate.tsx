@@ -55,8 +55,8 @@ export default function ContainerEditImmobilier({
       saleStatus: immobilierData.saleStatus || "RENT",
       city: immobilierData.location.city || "",
       neighborhood: immobilierData.location.neighborhood || "",
-      bedrooms: immobilierData.bedrooms || undefined,
-      bathrooms: immobilierData.bathrooms || undefined,
+      bedrooms: immobilierData.bedrooms || 0,
+      bathrooms: immobilierData.bathrooms || 0,
       parcelSize: immobilierData.parcelSize || 0,
       furnished: immobilierData.furnished || false,
       images: [] as { file: File; preview: string }[],
@@ -95,8 +95,12 @@ export default function ContainerEditImmobilier({
       }
       return;
     }
+    const immobilierId = immobilierData.id;
+    if (!immobilierId) {
+      toast.error("ID de la propriété introuvable.");
+      return;
+    }
 
-    const immobilierId = uuid();
     let imageUrls: string[] = [];
     setLoading(true);
     const existingImageUrls: string[] = immobilierData.images || [];

@@ -36,8 +36,8 @@ const ProductsImmobiliersFilter: React.FC<ProductsFilterProps> = ({
           onChange={(e: any) => selectCategoryHandler(e)}
         >
           <option value="">Choisir une catégorie</option>
-          <option value="Appartement">Appartement</option>
-          <option value="Terrain">Terrain</option>
+          <option value="House">Maison / Appartemnt</option>
+          <option value="Land">Terrain / Parcelle</option>
 
         </select>
       </div>

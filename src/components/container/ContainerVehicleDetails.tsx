@@ -18,7 +18,6 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { Vehicle } from "@/types/vehicle";
 import { featureLabels, getPlaceholder } from "@/utils/records";
 import { useRouter } from "next/navigation";
-import Reviews from "../review/Reviews";
 import { Modal } from "../ui/modals";
 import { createReservation } from "@/actions/reservations";
 import { v4 as uuid } from "uuid";
@@ -27,6 +26,7 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import Invoice from "../Invoice";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { createSale } from "@/actions/sales";
+import ReviewsVehicle from "../review/ReviewsVehicle";
 
 export default function VehicleDetails({
   vehicle,
@@ -283,7 +283,7 @@ export default function VehicleDetails({
               <div className="mb-4">
                 <div className="flex flex-row justify-between w-[100%]">
                   <div>
-                    <h1 className="text-2xl lg:text-3xl  font-bold text-start">
+                    <h1 className="text-2xl lg:text-2xl  font-bold text-start">
                       {vehicle.name}
                     </h1>
                     <div className="flex flex-col gap-2 justify-start mt-2">
@@ -473,14 +473,17 @@ export default function VehicleDetails({
 
             {/* Contenu de l'onglet actif */}
             {activeTab === "description" && (
-              <div className="text-gray-700 space-y-4">
+              <div
+                className="text-gray-700 space-y-4"
+                style={{ whiteSpace: "pre-line" }}
+              >
                 <p>{vehicle.description}</p>
               </div>
             )}
 
             {activeTab === "reviews" && (
               <div className="text-center text-gray-500 py-6">
-                <Reviews vehicleId={vehicle.id} />
+                <ReviewsVehicle vehicleId={vehicle.id} />
               </div>
             )}
           </div>

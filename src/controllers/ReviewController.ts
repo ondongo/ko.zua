@@ -3,29 +3,29 @@ import { ReviewService } from "@/services/ReviewService";
 import { Rating } from "@prisma/client";
 
 const repository = new ReviewRepository();
-const vehicleService = new ReviewService(repository);
+const reviewService = new ReviewService(repository);
 
 export const ReviewController = {
   async createReview(reviewData: Rating): Promise<void> {
-    return await vehicleService.createReview(reviewData);
+    return await reviewService.createReview(reviewData);
   },
 
   async deleteReview(id: string): Promise<void> {
-    return await vehicleService.deleteReview(id);
+    return await reviewService.deleteReview(id);
   },
   async getLastFiveRatingsForVehicle(vehicleId: string) {
-    return await vehicleService.getLastFiveRatingsForVehicle(vehicleId);
+    return await reviewService.getLastFiveRatingsForVehicle(vehicleId);
   },
 
   async getLastFiveRatingsForImmobilier(immobilierId: string) {
-    return await vehicleService.getLastFiveRatingsForVehicle(immobilierId);
+    return await reviewService.getLastFiveRatingsForImmobilier(immobilierId);
   },
 
-  async getAverageRatingForVehicle(immobilierId: string): Promise<number> {
-    return await vehicleService.getAverageRatingForVehicle(immobilierId);
+  async getAverageRatingForVehicle(vehicleId: string): Promise<number> {
+    return await reviewService.getAverageRatingForVehicle(vehicleId);
   },
 
-  async getAverageRatingForImmobilier(vehicleId: string): Promise<number> {
-    return await vehicleService.getAverageRatingForImmobilier(vehicleId);
+  async getAverageRatingForImmobilier(immobilierId: string): Promise<number> {
+    return await reviewService.getAverageRatingForImmobilier(immobilierId);
   },
 };

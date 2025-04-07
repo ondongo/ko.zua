@@ -126,16 +126,23 @@ function ImmoSlider() {
                 </div>
                 <div className="flex justify-between items-start mb-2">
                   <div>
-                    <div className="text-sm text-gray-500">
-                      {estate.category}
-                    </div>
+                    <div className="text-sm text-gray-500">{estate.type}</div>
                     <h3 className="w-full sm:max-w-[250px] text-sm lg:text-md font-semibold uppercase text-gray-800 mt-2 line-clamp-1">
                       {estate.name}
                     </h3>
 
                     <h3 className="text-accent text-sm lg:text-lg font-bold uppercase mt-2">
                       {estate.price.toLocaleString()} FCFA{" "}
-                      {estate.saleStatus === "RENT" ? "/ jour" : ""}
+                      {estate.saleStatus === "RENT"
+                        ? [
+                            "studio",
+                            "villa",
+                            "maison à étage",
+                            "maison plain-pied",
+                          ].includes(estate.category)
+                          ? "/ mois"
+                          : "/ jour"
+                        : ""}
                     </h3>
                   </div>
                 </div>
@@ -144,7 +151,9 @@ function ImmoSlider() {
                 <div className=" text-gray-700 font-medium mb-3">
                   {estate.location.city}
                 </div>
-
+                <div className=" text-gray-700 font-medium mb-3">
+                  {estate.location.neighborhood}
+                </div>
                 <button
                   className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
                   onClick={() => handleDetail(estate.id)}

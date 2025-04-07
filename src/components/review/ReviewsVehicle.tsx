@@ -12,7 +12,7 @@ import { renderStars } from "./Stars";
 import { Modal } from "../ui/modals";
 import { v4 as uuid } from "uuid";
 
-export default function Reviews({ vehicleId }: { vehicleId: string }) {
+export default function ReviewsVehicle({ vehicleId }: { vehicleId: string }) {
   const [reviewData, setReviewData] = useState({
     stars: 0,
     content: "",

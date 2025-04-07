@@ -93,23 +93,34 @@ const ProductCardRealEstate: React.FC<ProductCardProps> = ({ datas }) => {
         </div>
         <div className="flex justify-between items-start mb-2">
           <div>
-            <div className="text-sm text-gray-500">{datas.category}</div>
+            <div className="text-sm text-gray-500">{datas.type}</div>
             <h3 className="w-full sm:max-w-[250px] text-sm lg:text-md font-semibold uppercase text-gray-800 mt-2 line-clamp-1">
               {datas.name}
             </h3>
 
             <h3 className="text-accent text-sm lg:text-lg font-bold uppercase mt-2">
               {datas.price.toLocaleString()} FCFA{" "}
-              {datas.saleStatus === "RENT" ? "/ jour" : ""}
+              {datas.saleStatus === "RENT"
+                ? [
+                    "studio",
+                    "villa",
+                    "maison à étage",
+                    "maison plain-pied",
+                  ].includes(datas.category)
+                  ? "/ mois"
+                  : "/ jour"
+                : ""}
             </h3>
           </div>
         </div>
 
         {/* Lieu et spécifications */}
-        <div className=" text-gray-700 font-medium mb-3">
+        <div className=" text-gray-700 font-medium mb-1">
           {datas.location.city}
         </div>
-
+        <div className=" text-gray-700 font-medium mb-3">
+          {datas.location.neighborhood}
+        </div>
         <button
           className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
           onClick={handleDetail}

@@ -23,6 +23,7 @@ import { createReservation } from "@/actions/reservations";
 import { v4 as uuid } from "uuid";
 import { Modal } from "../ui/modals";
 import { AiOutlineCheckCircle } from "react-icons/ai";
+import ReviewsImmobilier from "../review/ReviewsImmobilier";
 export default function RealEstateDetails({
   realEstate,
   similarRealEstates,
@@ -135,6 +136,34 @@ export default function RealEstateDetails({
     router.push(`/estates/${id}`);
   }
 
+  const { category, bedrooms, bathrooms, furnished, rooms, parcelSize } =
+    realEstate;
+
+  // Liste pour stocker les caractéristiques à afficher
+  const caracteristiques = [];
+
+  // Vérification de la catégorie et ajout des caractéristiques correspondantes
+  if (category === "Land" && parcelSize) {
+    caracteristiques.push(`Superficie du terrain : ${parcelSize} m²`);
+  } else if (category !== "Land") {
+    if (bedrooms) {
+      caracteristiques.push(`Chambres : ${bedrooms}`);
+    }
+    if (bathrooms) {
+      caracteristiques.push(`Salles de bains : ${bathrooms}`);
+    }
+    if (rooms) {
+      caracteristiques.push(`Pièces : ${rooms}`);
+    }
+    if (furnished !== undefined) {
+      caracteristiques.push(furnished ? "Meublé" : "Non meublé");
+    }
+  }
+
+  // Si aucune caractéristique n'est disponible, ne rien afficher
+  if (caracteristiques.length === 0) {
+    return null;
+  }
   return (
     <>
       <div className="container mx-auto py-10 px-4 mt-12">
@@ -225,23 +254,42 @@ export default function RealEstateDetails({
               <div className="mb-10">
                 <div className="flex flex-row justify-between w-[100%]">
                   <div>
-                    <h1 className="text-3xl font-bold text-start">
+                    <h1 className="text-2xl font-bold text-start">
                       {realEstate.name}
                     </h1>
                     <div className="flex flex-col gap-2 justify-start mt-2">
                       <p className="text-md text-secondary">
-                        Categorie{" "}
+                        Catégorie{" "}
                         <span className="font-semibold">
                           {" "}
-                          : {realEstate.category}
+                          :{" "}
+                          {realEstate.category === "Land"
+                            ? "Parcelle"
+                            : "Maison"}
                         </span>
                       </p>
 
                       <p className="text-md text-secondary">
-                        Localisation{" "}
+                        Type de propriété{" "}
+                        <span className="font-semibold">
+                          {" "}
+                          : {realEstate.type}
+                        </span>
+                      </p>
+
+                      <p className="text-md text-secondary">
+                        Ville{" "}
                         <span className="font-semibold">
                           {" "}
                           : {realEstate.location.city}
+                        </span>
+                      </p>
+
+                      <p className="text-md text-secondary">
+                        Quartier{" "}
+                        <span className="font-semibold">
+                          {" "}
+                          : {realEstate.location.neighborhood}
                         </span>
                       </p>
                     </div>
@@ -259,7 +307,16 @@ export default function RealEstateDetails({
 
                 <p className="text-3xl text-yellowkouzua font-bold mt-4">
                   {realEstate.price} FCFA{" "}
-                  {realEstate.saleStatus === "RENT" ? "/ jour" : ""}
+                  {realEstate.saleStatus === "RENT"
+                    ? [
+                        "studio",
+                        "villa",
+                        "maison à étage",
+                        "maison plain-pied",
+                      ].includes(realEstate.category)
+                      ? "/ mois"
+                      : "/ jour"
+                    : ""}
                 </p>
               </div>
 
@@ -326,12 +383,19 @@ export default function RealEstateDetails({
 
               {/* Équipement */}
               <div className="mt-6 mb-10">
-                <h2 className="text-2xl font-semibold mb-4">Caractéristiques</h2>
+                <h2 className="text-2xl font-semibold mb-4">
+                  Caractéristiques
+                </h2>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-2 text-yellowkouzua">
-                    <FaCheckCircle />
-                    <span className="text-gray-700"></span>
-                  </div>
+                  {caracteristiques.map((caracteristique, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center space-x-2 text-yellowkouzua"
+                    >
+                      <FaCheckCircle />
+                      <span className="text-gray-700">{caracteristique}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -358,29 +422,28 @@ export default function RealEstateDetails({
                     : "text-gray-500"
                 }`}
               >
-                Avis (0)
+                Avis
               </button>
             </div>
 
             {/* Contenu de l'onglet actif */}
             {activeTab === "description" && (
-              <div className="text-gray-700 space-y-4">
+              <div
+                className="text-gray-700 space-y-4"
+                style={{ whiteSpace: "pre-line" }}
+              >
                 <p>{realEstate.description}</p>
               </div>
             )}
 
             {activeTab === "reviews" && (
               <div className="text-center text-gray-500 py-6">
-                <p>
-                  Aucun avis pour le moment. Soyez le premier à laisser un avis
-                  !
-                </p>
+                <ReviewsImmobilier immobilierId={realEstate.id} />
               </div>
             )}
           </div>
         </div>
 
-        {/* Autres voitures */}
         <div>
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-3xl font-semibold">Autres immobiliers</h2>
@@ -467,11 +530,20 @@ export default function RealEstateDetails({
                   </div>
                   <div className="flex justify-between items-start mb-2">
                     <div>
-                      <div className="text-sm text-gray-500">{r.category}</div>
+                      <div className="text-sm text-gray-500">{r.type}</div>
 
                       <h3 className="text-accent text-lg font-bold uppercase mt-2">
                         {r.price.toLocaleString()} FCFA{" "}
-                        {r.saleStatus === "RENT" ? "/ jour" : ""}
+                        {r.saleStatus === "RENT"
+                          ? [
+                              "studio",
+                              "villa",
+                              "maison à étage",
+                              "maison plain-pied",
+                            ].includes(r.category)
+                            ? "/ mois"
+                            : "/ jour"
+                          : ""}
                       </h3>
                     </div>
                   </div>
@@ -479,6 +551,9 @@ export default function RealEstateDetails({
                   {/* Lieu et spécifications */}
                   <div className=" text-gray-700 font-medium mb-3">
                     {r.location.city}
+                  </div>
+                  <div className=" text-gray-700 font-medium mb-3">
+                    {r.location.neighborhood}
                   </div>
 
                   <button

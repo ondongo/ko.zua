@@ -20,14 +20,14 @@ export class ReviewService {
   }
 
   async getLastFiveRatingsForImmobilier(immobilierId: string){
-    return this.repository.getLastFiveRatingsForVehicle(immobilierId);
+    return this.repository.getLastFiveRatingsForImmobilier(immobilierId);
   }
 
-  async getAverageRatingForVehicle(immobilierId: string){
-    return this.repository.getAverageRatingForVehicle(immobilierId);
+  async getAverageRatingForVehicle(vehicleId: string){
+    return this.repository.getAverageRatingForVehicle(vehicleId);
   }
 
-  async getAverageRatingForImmobilier(vehicleId: string){
-    return this.repository.getAverageRatingForImmobilier(vehicleId);
+  async getAverageRatingForImmobilier(immobilierId: string){
+    return this.repository.getAverageRatingForImmobilier(immobilierId);
   }
 }
