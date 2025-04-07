@@ -11,7 +11,17 @@ import {
 import Badge from "@/components/ui/badge/Badge";
 import { RealEstate } from "@/types/real_estate";
 
-export default function TableRealEstates({ real_estates }: { real_estates: RealEstate[] }) {
+export default function TableRealEstates({
+  real_estates,
+  toggleAvailability,
+  handleDeleteImmobilier,
+  handleEditLink,
+}: {
+  real_estates: RealEstate[];
+  toggleAvailability: (id: string, availability: boolean) => Promise<void>;
+  handleDeleteImmobilier: (immobilierId: string) => Promise<void>;
+  handleEditLink: (immobilierId: string) => void;
+}) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white  ">
       <div className="max-w-full overflow-x-auto">
@@ -86,7 +96,6 @@ export default function TableRealEstates({ real_estates }: { real_estates: RealE
                               src={srcImage || "/placeholder.jpg"}
                               alt={`Photo principale ${index + 1}`}
                               className="w-full h-full object-cover"
-                              
                             />
                           </div>
                         ))}
@@ -115,14 +124,32 @@ export default function TableRealEstates({ real_estates }: { real_estates: RealE
                   <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm">
                     {r.location.city}
                   </TableCell>
-
                   <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm">
                     <div className="flex gap-2">
-                      <button className="px-4 py-2 bg-blue-500 text-white rounded-lg">
+                      <button
+                        className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                        onClick={() => handleEditLink(r.id)}
+                      >
                         Modifier
                       </button>
-                      <button className="px-4 py-2 bg-red-500 text-white rounded-lg">
+                      <button
+                        className="px-4 py-2 bg-red-500 text-white rounded-lg"
+                        onClick={() => handleDeleteImmobilier(r.id)}
+                      >
                         Supprimer
+                      </button>
+
+                      <button
+                        className={`px-4 py-2 rounded-lg ${
+                          r.availability ? "bg-yellow-500" : "bg-green-500"
+                        } text-white`}
+                        onClick={() =>
+                          toggleAvailability(r.id, !r.availability)
+                        }
+                      >
+                        {r.availability
+                          ? "Rendre indisponible"
+                          : "Rendre disponible"}
                       </button>
                     </div>
                   </TableCell>

@@ -1,5 +1,4 @@
 "use client";
-import { createVehicle } from "@/actions/vehicles";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import DropzoneComponent from "@/components/ui/form/DropZone";
 import Label from "@/components/ui/form/Label";
@@ -7,59 +6,53 @@ import Label from "@/components/ui/form/Label";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  categoryOptions,
-  saleStatusOptions,
-  conditionOptions,
-  fuelOptions,
   steps,
-  gearBoxOptions,
+  categoriesRealEstate,
+  typesRealEstate,
+  stepsRealEstate,
+  saleStatusOptions,
   locationOptions,
+  quartiersPointeNoire,
+  quartiersBrazzaville,
 } from "@/utils/records";
-import { VehicleFormData, vehicleSchema } from "@/schemas";
+import Image from "next/image";
+import { immobilierSchema } from "@/schemas";
 import { useState } from "react";
 import { AlertType } from "@/types/allType";
-import AlertModal from "@/components/ui/modals/AlertModal";
-import Image from "next/image";
+import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
-import { Vehicle } from "@/types/vehicle";
-import {
-  deleteImageFromFirebase,
-  uploadImagesToFirebase,
-} from "@/utils/functions";
-import { useRouter } from "next/navigation";
 import { z } from "zod";
-
-function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
+import { uploadImagesToFirebase } from "@/utils/functions";
+import Error from "@/components/Error";
+import AlertModal from "@/components/ui/modals/AlertModal";
+import { createOrUpdateRealEstate } from "@/actions/realEstates";
+import { RealEstate } from "@/types/real_estate";
+export default function ContainerEditImmobilier({ immobilierData }: { immobilierData: RealEstate })  {
   const {
     register,
     handleSubmit,
-    formState: { errors },
     getValues,
+    formState: { errors },
     setValue,
+    reset,
     watch,
-  } = useForm<VehicleFormData>({
-    resolver: zodResolver(vehicleSchema),
+  } = useForm({
+    resolver: zodResolver(immobilierSchema),
     defaultValues: {
-      name: vehicleData.name || "",
-      description: vehicleData.description || "",
-      category: vehicleData.category || "",
-      condition: vehicleData.condition || "",
-      brand: vehicleData.brand || "",
-      model: vehicleData.model || "",
-      year: vehicleData.year || 0,
-      price: vehicleData.price || 0,
-      fuel: vehicleData.fuel || "",
-      gearBox: vehicleData.gearBox || "",
-      seats: vehicleData.seats || 0,
-      doors: vehicleData.doors || 0,
-      distance: vehicleData.distance || "",
-      availability: vehicleData.availability || true,
-      saleStatus: vehicleData.saleStatus || "RENT",
-      location: vehicleData.location.city || "",
-      images: vehicleData.images.map((imgUrl: string, index: number) => ({
-        file: new File([""], `image_${index + 1}.jpg`, { type: "image/jpeg" }),
-        preview: imgUrl,
-      })),
+      name: "",
+      description: "",
+      category: "",
+      type: "",
+      price: 0,
+      availability: true,
+      saleStatus: "RENT",
+      city: "",
+      neighborhood: "",
+      bedrooms: undefined,
+      bathrooms: undefined,
+      parcelSize: 0,
+      furnished: false,
+      images: [] as { file: File; preview: string }[],
     },
     mode: "all",
   });
@@ -73,23 +66,13 @@ function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
   const [message, setMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<AlertType>("success");
-  /* ***** DropZone Manage ***** */
-  const [files, setFiles] = useState<any[]>(() => {
-    // Initialiser les fichiers avec les images par défaut
-    return vehicleData.images.map((imgUrl: string, index: number) => ({
-      file: new File([""], `image_${index + 1}.jpg`, { type: "image/jpeg" }),
-      preview: imgUrl,
-    }));
-  });
-
-  const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
+  const [files, setFiles] = useState<any[]>([]);
 
   const onSubmit = async () => {
     const data = getValues();
     console.log("Form data submitted:", data);
-
     try {
-      vehicleSchema.parse(data);
+      immobilierSchema.parse(data);
     } catch (error) {
       if (error instanceof z.ZodError) {
         toast.error(
@@ -99,134 +82,100 @@ function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
       return;
     }
 
-    const vehicleId = vehicleData.id;
-    if (!vehicleId) {
-      toast.error("ID du véhicule introuvable.");
+    const immobilierId = uuid();
+    let imageUrls: string[] = [];
+    setLoading(true);
+
+    const newImages = data.images.filter(
+      (img): img is { file: File; preview: string } => img.file instanceof File
+    );
+    try {
+      const newImageFiles: File[] = newImages.map((img) => img.file);
+      imageUrls = await uploadImagesToFirebase(
+        newImageFiles,
+        immobilierId,
+        "properties"
+      );
+    } catch (error) {
+      toast.error("Erreur lors du téléversement des images.");
+      setLoading(false);
       return;
     }
 
-    let imageUrls: string[] = [];
-    setLoading(true);
-    const existingImageUrls: string[] = vehicleData.images || [];
-
-    if (imagesToDelete.length > 0) {
-      try {
-        await Promise.all(
-          imagesToDelete.map(async (url) => {
-            await deleteImageFromFirebase(url);
-            console.log(`✅ Image supprimée de Firebase: ${url}`);
-          })
-        );
-        console.log("Images supprimées de Firebase :", imagesToDelete);
-      } catch (error) {
-        console.error(
-          `❌ Erreur lors de la suppression des images sur Firebase:`,
-          error
-        );
-        setLoading(false);
-        return;
-      }
-    }
-
-    const newImages = data.images.filter(
-      (img): img is { file: File; preview: string } =>
-        img.file instanceof File && !existingImageUrls.includes(img.preview)
-    );
-
-    if (newImages.length > 0) {
-      try {
-        const newImageFiles: File[] = newImages.map((img) => img.file);
-        imageUrls = await uploadImagesToFirebase(
-          newImageFiles,
-          vehicleId,
-          "vehicles"
-        );
-      } catch (error) {
-        toast.error("Erreur lors du téléversement des images.");
-        console.error("Image upload error:", error);
-        setLoading(false);
-        return;
-      }
-    } else {
-      console.log("Aucune nouvelle image à télécharger.");
-    }
-
-    console.log(
-      "Images existantes avant ajout des nouvelles :",
-      existingImageUrls
-    );
-
-
-    const keptExistingImages = existingImageUrls.filter(
-      (url) => !imagesToDelete.includes(url)
-    );
-
-    const finalImageUrls = [...keptExistingImages, ...imageUrls];
-    console.log("Images finales à sauvegarder :", finalImageUrls);
-    setImagesToDelete([]);
     setMessage("");
     try {
       const formattedData = {
-        ...data,
-        brand: data.brand ?? "",
-        model: data.model ?? "",
-        condition: data.condition ?? "",
-        global: false,
-        description: data.description ?? "",
-        distance: data.distance ?? "",
-        discountedPrice: null,
-        seats: data.seats ?? 0,
-        doors: data.doors ?? 0,
-        type: "Car",
-        features: {
-          abs: true,
-          airBags: true,
-          cruiseControl: true,
-          airConditioner: true,
+        id: immobilierId,
+
+        // Informations principales
+        name: data.name,
+        description: data.description || "",
+        category: data.category,
+        type: data.type || "",
+
+        // Statut
+        saleStatus: data.saleStatus,
+        availability: data.availability,
+
+        // Localisation
+        location: {
+          city: data.city || "",
+          neighborhood: data.neighborhood || "",
+          country: "Congo",
         },
-        location: { city: data.location, country: "Congo" },
-        images: finalImageUrls,
-        id: vehicleId,
-        starCount: vehicleData.starCount ?? 0,
-        createdAt: vehicleData.createdAt,
+
+        // Prix
+        price: data.price,
+        discountedPrice: 0,
+
+        // Détails du bien
+        bedrooms: data.bedrooms ?? 0,
+        bathrooms: data.bathrooms ?? 0,
+        furnished: data.furnished ?? false,
+        rooms: data.bedrooms ?? 0, // Tu peux ajuster selon ta logique de calcul de rooms
+        parcelSize: data.parcelSize ?? 0,
+
+        // Visuels
+        images: imageUrls || [],
+
+        // Métriques
+        starCount: 0,
+        views: 0,
+
+        // Dates
+        createdAt: new Date(),
         updatedAt: new Date(),
-        views: vehicleData.views ?? 0,
       };
-
-      await createVehicle(formattedData);
-
+      await createOrUpdateRealEstate(formattedData);
       setModalType("success");
       setModalOpen(true);
-      setMessage("Véhicule modifier avec succès !");
+      setMessage("Propriété ajoutée avec succès !");
+      reset();
+      setCurrentStep(0);
     } catch (error) {
-      setMessage("Erreur lors de la modification du véhicule.");
+      setMessage("Erreur lors de l'ajout de la propriété.");
       setModalType("error");
     } finally {
       setLoading(false);
     }
   };
 
-  const router = useRouter();
+  const category = watch("category");
 
-  const handleClose = () => {
-    setModalOpen(false);
-    router.push("/admin/vehicles/list");
-  };
   return (
     <div className="lg:mx-10">
-      <PageBreadcrumb pageTitle={`Modifier le Véhicule / ${vehicleData.id}`} />
+      <PageBreadcrumb pageTitle="Ajouter une propriété" />
 
       <div className="flex items-center justify-center w-full py-6">
-        {steps.map((step, index) => (
+        {stepsRealEstate.map((step, index) => (
           <div key={index} className="relative flex flex-1 items-center">
             {index !== 0 && (
               <div
-                className={`absolute top-[28px] -left-[70%] w-full h-1 z-10  transition-all ${
+                className={`absolute top-[28px] -left-[70%] w-full h-1 z-10 transition-all ${
                   currentStep >= index ? "bg-yellowkouzua" : "bg-gray-300"
                 }`}
               />
             )}
-
             <div className="flex flex-col items-center z-30 px-2">
               <div
                 className={`w-14 h-14 flex items-center justify-center border rounded-full bg-white text-sm font-medium ${
@@ -255,45 +204,29 @@ function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
         {currentStep === 0 && (
           <Section title="Informations générales">
             <Label>
-              Nom du véhicule <span className="text-red-500">*</span>
+              Nom de la propriété <span className="text-red-500">*</span>
             </Label>
             <input
               {...register("name")}
               type="text"
               className="w-full p-2 border rounded"
-              placeholder="Nom du véhicule"
+              placeholder="Nom de la propriété"
             />
-            {errors.name && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.name?.message}</p>
-              </div>
-            )}
+            {errors.name && <Error message={errors.name?.message} />}
 
             <Label>
               Prix <span className="text-red-500">*</span>
             </Label>
             <input
-              {...register("price", {
-                valueAsNumber: true,
-              })}
+              {...register("price", { valueAsNumber: true })}
               step={100000}
               type="number"
               className="w-full p-2 border rounded"
               placeholder="Prix"
             />
-            {errors.price && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.price?.message}</p>
-              </div>
-            )}
+            {errors.price && <Error message={errors.price?.message} />}
 
-            <Label>Description </Label>
+            <Label>Description</Label>
             <textarea
               {...register("description")}
               className="w-full p-2 border rounded"
@@ -301,35 +234,32 @@ function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
               rows={4}
             />
             {errors.description && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.description?.message}</p>
-              </div>
+              <Error message={errors.description?.message} />
             )}
 
             <Label>
-              Localisation <span className="text-red-500">*</span>
+              Catégorie <span className="text-red-500">*</span>
             </Label>
             <select
-              {...register("location")}
+              {...register("category")}
               className="w-full p-2 border rounded"
             >
-              {locationOptions.map((option) => (
+              {categoriesRealEstate.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
               ))}
             </select>
-            {errors.location && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.location?.message}</p>
-              </div>
-            )}
+            {errors.category && <Error message={errors.category?.message} />}
+
+            <Label>Type</Label>
+            <select {...register("type")} className="w-full p-2 border rounded">
+              {typesRealEstate.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
 
             <Label>
               Vente ou Location <span className="text-red-500">*</span>
@@ -352,103 +282,85 @@ function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
                 <p>{errors.saleStatus?.message}</p>
               </div>
             )}
-
-            <Label>
-              Catégorie <span className="text-red-500">*</span>
-            </Label>
-            <select
-              {...register("category")}
-              className="w-full p-2 border rounded"
-            >
-              {categoryOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            {errors.category && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.category?.message}</p>
-              </div>
-            )}
-
-            <Label>État</Label>
-            <select
-              {...register("condition")}
-              className="w-full p-2 border rounded"
-            >
-              {conditionOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            {errors.condition && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.condition?.message}</p>
-              </div>
-            )}
           </Section>
         )}
 
         {currentStep === 1 && (
-          <Section title="Détails du véhicule">
-            <Label>Marque</Label>
-            <input
-              {...register("brand")}
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="Marque"
-            />
+          <Section title="Détails de la propriété">
+            <Label>Ville</Label>
+            <select {...register("city")} className="w-full p-2 border rounded">
+              {locationOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
 
-            <Label>Modèle</Label>
-            <input
-              {...register("model")}
-              type="text"
+            <Label>Quartier</Label>
+            <select
+              {...register("neighborhood")}
               className="w-full p-2 border rounded"
-              placeholder="Modèle"
-            />
+            >
+              {watch("city") === "Pointe-Noire" &&
+                quartiersPointeNoire.map((quartier) => (
+                  <option key={quartier} value={quartier}>
+                    {quartier}
+                  </option>
+                ))}
 
-            <Label>
-              Année <span className="text-red-500">*</span>{" "}
-            </Label>
-            <input
-              {...register("year", {
-                valueAsNumber: true,
-              })}
-              type="number"
-              className="w-full p-2 border rounded"
-              placeholder="Année"
-            />
-            {errors.year && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.year?.message}</p>
-              </div>
+              {watch("city") === "Brazzaville" &&
+                quartiersBrazzaville.map((quartier) => (
+                  <option key={quartier} value={quartier}>
+                    {quartier}
+                  </option>
+                ))}
+            </select>
+
+            {category === "Land" && (
+              <>
+                <Label>Surface</Label>
+                <input
+                  {...register("parcelSize", { valueAsNumber: true })}
+                  type="number"
+                  className="w-full p-2 border rounded"
+                  placeholder="Surface en m²"
+                />
+              </>
             )}
 
-            <Label>Kilométrage</Label>
-            <input
-              {...register("distance")}
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="Kilométrage"
-            />
-            {errors.distance && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.distance?.message}</p>
-              </div>
+            {category === "House" && (
+              <>
+                <Label>Nombre de pièces</Label>
+                <input
+                  {...register("rooms", { valueAsNumber: true })}
+                  type="number"
+                  className="w-full p-2 border rounded"
+                  placeholder="Nombre de pièces"
+                />
+
+                <Label>Nombre de chambres</Label>
+                <input
+                  {...register("bedrooms", { valueAsNumber: true })}
+                  type="number"
+                  className="w-full p-2 border rounded"
+                  placeholder="Nombre de chambres"
+                />
+
+                <Label>Nombre de salles de bain</Label>
+                <input
+                  {...register("bathrooms", { valueAsNumber: true })}
+                  type="number"
+                  className="w-full p-2 border rounded"
+                  placeholder="Nombre de salles de bain"
+                />
+
+                <Label>Fournie meublée ?</Label>
+                <input
+                  {...register("furnished")}
+                  type="checkbox"
+                  className="w-4 h-4"
+                />
+              </>
             )}
 
             <Label>Disponibilité</Label>
@@ -458,254 +370,140 @@ function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
               className="w-4 h-4"
             />
             {errors.availability && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.availability?.message}</p>
-              </div>
+              <Error message={errors.availability?.message} />
             )}
           </Section>
         )}
 
         {currentStep === 2 && (
           <Section title="Caractéristiques & Images">
-            <Label>
-              Carburant <span className="text-red-500">*</span>{" "}
-            </Label>
-            <select {...register("fuel")} className="w-full p-2 border rounded">
-              {fuelOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <p>{errors.fuel?.message}</p>
-
-            <Label>
-              Boite de vitesse <span className="text-red-500">*</span>
-            </Label>
-            <select
-              {...register("gearBox")}
-              className="w-full p-2 border rounded"
-            >
-              {gearBoxOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-
-            {errors.gearBox && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.gearBox?.message}</p>
-              </div>
-            )}
-
-            <Label>Nombre de sièges</Label>
-            <input
-              {...register("seats", {
-                valueAsNumber: true,
-              })}
-              type="number"
-              className="w-full p-2 border rounded"
-              placeholder="Nombre de sièges"
-            />
-            {errors.seats && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.seats?.message}</p>
-              </div>
-            )}
-
-            <Label>Nombre de portes</Label>
-            <input
-              {...register("doors", {
-                valueAsNumber: true,
-              })}
-              type="number"
-              className="w-full p-2 border rounded"
-              placeholder="Nombre de portes"
-            />
-            {errors.doors && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.doors?.message}</p>
-              </div>
-            )}
-
-            <Label>
-              Images <span className="text-red-500">*</span>
-            </Label>
+            <Label>Images</Label>
             <DropzoneComponent
-              setValue={setValue}
-              files={files}
               setFiles={setFiles}
-              editMode={true}
-              setImagesToDelete={setImagesToDelete}
+              files={files}
+              setValue={setValue}
             />
 
-            {errors.images && (
-              <div
-                className={`rounded-md 
-                 p-4  bg-error-400 text-white`}
-              >
-                <p>{errors.images?.message}</p>
-              </div>
-            )}
+            {errors.images && <Error message={errors.images?.message} />}
           </Section>
         )}
+
         {currentStep === 3 && (
           <Section title="Validation des informations">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center my-4">
-                <div className="flex-grow border-t border-gray-300"></div>
-                <span className="mx-4 text-gray-500">Étape 1</span>
-                <div className="flex-grow border-t border-gray-300"></div>
-              </div>
+            <div className="flex flex-col gap-4">
+              {/* Étape 1 */}
+              <Separator label="Étape 1 : Informations générales" />
 
-              <p>
-                <strong
-                  className={watch("name") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Nom :
-                </strong>{" "}
-                {watch("name")}
-              </p>
-              <p className="text-ellipsis">
-                <strong>Description :</strong>{" "}
-                {(watch("description") || "").length > 150
-                  ? (watch("description") || "").slice(0, 150) + "..."
-                  : watch("description") || ""}
-              </p>
-              <p>
-                <strong
-                  className={watch("category") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Catégorie :
-                </strong>{" "}
-                {watch("category") || "non spécifiée"}
-              </p>
-              <p>
-                <strong
-                  className={
-                    watch("saleStatus") ? "" : "bg-red-200 max-w-auto "
+              <DisplayItem label="Nom" value={watch("name")} />
+
+              <DisplayItem
+                label="Prix"
+                value={
+                  watch("price") ? `${watch("price")} FCFA` : "Non spécifié"
+                }
+              />
+              <DisplayItem
+                label="Description"
+                value={
+                  watch("description")
+                    ? watch("description")!.slice(0, 150) +
+                      (watch("description")!.length > 150 ? "..." : "")
+                    : "Non spécifiée"
+                }
+              />
+
+              <DisplayItem
+                label="Catégorie"
+                value={watch("category") || "Non spécifiée"}
+              />
+              <DisplayItem
+                label="Statut de vente"
+                value={
+                  watch("saleStatus") === "RENT"
+                    ? "Location"
+                    : watch("saleStatus") === "SALE"
+                    ? "Vente"
+                    : "Non spécifié"
+                }
+              />
+              <DisplayItem
+                label="Type"
+                value={watch("type") || "Non spécifié"}
+              />
+
+              {/* Étape 2 */}
+              <Separator label="Étape 2 : Détails de la propriété" />
+
+              <DisplayItem
+                label="Ville"
+                value={watch("city") || "Non spécifiée"}
+              />
+
+              <DisplayItem
+                label="Quartier"
+                value={watch("neighborhood") || "Non spécifié"}
+              />
+              <DisplayItem
+                label="Disponibilité"
+                value={watch("availability") ? "Disponible" : "Indisponible"}
+              />
+
+              {watch("category") === "Land" && (
+                <DisplayItem
+                  label="Surface"
+                  value={
+                    watch("parcelSize")
+                      ? `${watch("parcelSize")} m²`
+                      : "Non spécifiée"
                   }
-                >
-                  Statut de vente :
-                </strong>{" "}
-                {watch("saleStatus") === "RENT"
-                  ? "Location"
-                  : watch("saleStatus") === "SALE"
-                  ? "Vente"
-                  : "Non spécifiée"}
-              </p>
+                />
+              )}
 
-              <div className="flex items-center my-4">
-                <div className="flex-grow border-t border-gray-300"></div>
-                <span className="mx-4 text-gray-500">Étape 2</span>
-                <div className="flex-grow border-t border-gray-300"></div>
-              </div>
+              {watch("category") === "House" && (
+                <>
+                  <DisplayItem
+                    label="Nombre de pièces"
+                    value={watch("rooms") || "Non spécifié"}
+                  />
+                  <DisplayItem
+                    label="Chambres"
+                    value={watch("bedrooms") || "Non spécifié"}
+                  />
+                  <DisplayItem
+                    label="Salles de bain"
+                    value={watch("bathrooms") || "Non spécifié"}
+                  />
+                  <DisplayItem
+                    label="Meublé"
+                    value={watch("furnished") ? "Oui" : "Non"}
+                  />
+                </>
+              )}
 
-              <p>
-                <strong>État :</strong> {watch("condition") || "Non spécifié"}
-              </p>
-              <p>
-                <strong>Marque :</strong> {watch("brand") || "non spécifiée"}
-              </p>
-              <p>
-                <strong>Modèle :</strong> {watch("model") || "non spécifiée"}
-              </p>
-              <p>
-                <strong
-                  className={watch("year") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Année :
-                </strong>{" "}
-                {watch("year") || "non spécifiée"}
-              </p>
-              <p>
-                <strong
-                  className={watch("price") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Prix :
-                </strong>{" "}
-                {watch("price") || "non spécifiée"}
-              </p>
-              <p>
-                <strong>Disponibilité :</strong>{" "}
-                {watch("availability") ? "Disponible" : "Indisponible"}
-              </p>
-
-              <div className="flex items-center my-4">
-                <div className="flex-grow border-t border-gray-300"></div>
-                <span className="mx-4 text-gray-500">Étape 3</span>
-                <div className="flex-grow border-t border-gray-300"></div>
-              </div>
-
-              <p>
-                <strong
-                  className={watch("fuel") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Carburant :
-                </strong>{" "}
-                {watch("fuel") || "non spécifiée"}
-              </p>
-              <p>
-                <strong>Boîte de vitesses :</strong>{" "}
-                {watch("gearBox") || "non spécifiée"}
-              </p>
-              <p>
-                <strong>Sièges: :</strong> {watch("seats") || "non spécifiée"}
-              </p>
-              <p>
-                <strong>Portes :</strong> {watch("doors") || "non spécifiée"}
-              </p>
-              <p>
-                <strong>Distance parcourue :</strong>{" "}
-                {watch("distance") || "Non spécifiée"}
-              </p>
-              <p>
-                <strong
-                  className={watch("fuel") ? "" : "bg-red-200 max-w-auto "}
-                >
-                  Emplacement :
-                </strong>{" "}
-                {watch("location") || "Non spécifié"}
-              </p>
-              <p>
-                <strong>Caractéristiques :</strong>{" "}
-              </p>
-
-              <p>
-                <strong
-                  className={
-                    watch("images")?.length > 0 ? "" : "bg-red-200 max-w-auto "
-                  }
-                >
-                  Images:
-                </strong>
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {files.map((img: any, index) => (
-                  <div className="w-10 h-10 overflow-hidden rounded-full">
-                    <Image
-                      width={40}
-                      height={20}
-                      key={index}
-                      src={img.preview}
-                      alt={`Image ${index + 1}`}
-                      className="object-cover"
-                    />{" "}
-                  </div>
-                ))}
+              {/* Étape 3 */}
+              <Separator label="Étape 3 : Images" />
+              <div>
+                <p className="font-semibold">Images :</p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {files.length > 0 ? (
+                    files.map((img: any, index) => (
+                      <div
+                        key={index}
+                        className="w-16 h-16 rounded overflow-hidden"
+                      >
+                        <Image
+                          src={img.preview}
+                          width={64}
+                          height={64}
+                          alt={`Image ${index + 1}`}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-red-500">Aucune image sélectionnée</p>
+                  )}
+                </div>
               </div>
             </div>
           </Section>
@@ -716,7 +514,8 @@ function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
             <button
               type="button"
               onClick={prevStep}
-              className="px-4 py-2 border border-gray-300 rounded-md"
+              disabled={currentStep === 0}
+              className="px-4 py-2 bg-yellowkouzua text-white rounded-md"
             >
               Etape précédente
             </button>
@@ -726,9 +525,10 @@ function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
             <button
               type="button"
               onClick={nextStep}
+              disabled={currentStep === steps.length - 1}
               className="px-4 py-2 bg-yellowkouzua text-white rounded-md"
             >
-              Etape suivant
+              Etape suivante
             </button>
           ) : (
             <button
@@ -744,10 +544,13 @@ function ContainerEditRealEstate({ vehicleData }: { vehicleData: Vehicle }) {
             </button>
           )}
         </div>
-
-        <AlertModal isOpen={modalOpen} onClose={handleClose} type={modalType} />
       </form>
-      {message && <>{message}</>}
+
+      <AlertModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        type={modalType}
+      />
     </div>
   );
 }
@@ -759,4 +562,19 @@ const Section = ({ title, children }: any) => (
   </div>
 );
 
-export default ContainerEditRealEstate;
+const DisplayItem = ({ label, value }: { label: string; value: any }) => (
+  <p>
+    <strong className={!value ? "bg-red-200 px-1 rounded" : ""}>
+      {label} :
+    </strong>{" "}
+    {value || "Non spécifié"}
+  </p>
+);
+
+const Separator = ({ label }: { label: string }) => (
+  <div className="flex items-center my-4">
+    <div className="flex-grow border-t border-gray-300"></div>
+    <span className="mx-4 text-gray-500">{label}</span>
+    <div className="flex-grow border-t border-gray-300"></div>
+  </div>
+);

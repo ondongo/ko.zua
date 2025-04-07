@@ -6,6 +6,16 @@ const repository = new RealEstateRepository();
 const realEstateService = new RealEstateService(repository);
 
 export const RealEstateController = {
+  async toggleAvailability(
+    immobilierId: string,
+    availability: boolean
+  ): Promise<Immobilier> {
+    return await realEstateService.toggleAvailability(
+      immobilierId,
+      availability
+    );
+  },
+
   async getAllRealEstates(
     page: number,
     pageSize: number

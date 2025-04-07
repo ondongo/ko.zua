@@ -9,6 +9,11 @@ export class RealEstateService {
     this.repository = repository;
   }
 
+
+  async toggleAvailability(immobilierId: string, availability: boolean):Promise<Immobilier> {
+    return this.repository.toggleAvailability(immobilierId, availability);
+  }
+
   async getAllRealEstates(
     page: number,
     pageSize: number

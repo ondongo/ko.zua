@@ -10,6 +10,7 @@ export class RealEstateRepository
   constructor() {
     super(prisma.immobilier);
   }
+
   async getFilteredImmobilier(
     filters: {
       availability?: boolean;
@@ -66,8 +67,6 @@ export class RealEstateRepository
           ...(filters.category && { category: filters.category }),
           ...(filters.searchQuery && {
             OR: [
-         
-            
               {
                 name: {
                   contains: filters.searchQuery,
@@ -113,8 +112,6 @@ export class RealEstateRepository
           ...(filters.category && { category: filters.category }),
           ...(filters.searchQuery && {
             OR: [
-           
-            
               {
                 name: {
                   contains: filters.searchQuery,
@@ -155,6 +152,16 @@ export class RealEstateRepository
     return await prisma.immobilier.findMany({
       orderBy: { createdAt: "desc" },
       take: 3,
+    });
+  }
+
+  async toggleAvailability(
+    immobilierId: string,
+    availability: boolean
+  ): Promise<Immobilier> {
+    return await prisma.immobilier.update({
+      where: { id: immobilierId },
+      data: { availability },
     });
   }
 }
