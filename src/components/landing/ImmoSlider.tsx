@@ -55,7 +55,10 @@ function ImmoSlider() {
       {estates.map((estate, index) => {
         return (
           <SwiperSlide key={index}>
-            <div className="cursor-pointer max-w-[180px] lg:max-w-[340px]  max-h-[470px]  lg:max-h-[600px]  mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300  hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]">
+            <div
+              onClick={() => handleDetail(estate.id)}
+              className="cursor-pointer max-w-[180px] lg:max-w-[340px]  max-h-[470px]  lg:max-h-[600px]  mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300  hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
+            >
               {/* Swiper avec images */}
               <div className="relative">
                 <Swiper
@@ -154,10 +157,7 @@ function ImmoSlider() {
                 <div className=" text-gray-700 font-medium mb-3">
                   {estate.location.neighborhood}
                 </div>
-                <button
-                  className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
-                  onClick={() => handleDetail(estate.id)}
-                >
+                <button className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark">
                   Voir plus
                 </button>
               </div>

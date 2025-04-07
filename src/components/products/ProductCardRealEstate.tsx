@@ -22,7 +22,10 @@ const ProductCardRealEstate: React.FC<ProductCardProps> = ({ datas }) => {
   }
 
   return (
-    <div className="cursor-pointer max-w-[180px] lg:max-w-[385px]  max-h-[470px]  lg:max-h-[600px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]">
+    <div
+      onClick={handleDetail}
+      className="cursor-pointer max-w-[180px] lg:max-w-[385px]  max-h-[470px]  lg:max-h-[600px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
+    >
       {/* Swiper avec images */}
       <div className="relative">
         <Swiper
@@ -121,10 +124,7 @@ const ProductCardRealEstate: React.FC<ProductCardProps> = ({ datas }) => {
         <div className=" text-gray-700 font-medium mb-3">
           {datas.location.neighborhood}
         </div>
-        <button
-          className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
-          onClick={handleDetail}
-        >
+        <button className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark">
           Voir plus
         </button>
       </div>
