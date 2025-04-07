@@ -24,6 +24,9 @@ import { v4 as uuid } from "uuid";
 import { Modal } from "../ui/modals";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import ReviewsImmobilier from "../review/ReviewsImmobilier";
+import { createSale } from "@/actions/sales";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import Invoice from "../Invoice";
 export default function RealEstateDetails({
   realEstate,
   similarRealEstates,
@@ -46,7 +49,7 @@ export default function RealEstateDetails({
   ]);
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const [loading, setLoading] = useState(false);
+  const [loadingReservation, setLoadingReservation] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [phone, setPhone] = useState("");
   const [reservationType, setReservationType] = useState<
@@ -55,6 +58,8 @@ export default function RealEstateDetails({
   const [success, setSuccess] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [invoiceData, setInvoiceData] = useState<any | null>(null);
+
   /* Functions */
   const openModal = (type: "sale" | "simple" | "eclair") => {
     setReservationType(type);
@@ -93,42 +98,87 @@ export default function RealEstateDetails({
     }
   };
   const handleReservation = async () => {
-    setLoading(true);
+    setLoadingReservation(true);
     if (!realEstate.availability) {
-      toast.error("Ce véhicule est indisponible");
-      setLoading(false);
+      toast.error("Cette propriété est indisponible");
+      setLoadingReservation(false);
       return;
     }
 
     if (phone === "" || name === "") {
       toast.error("Veuillez renseigner les champs obligatoires");
-      setLoading(false);
+      setLoadingReservation(false);
       return;
     }
-    if (reservationType === "eclair") {
-      const paymentSuccess = await handlePayment(realEstate.price);
 
-      if (!paymentSuccess) {
-        setLoading(false);
-        return;
-      }
+    if (reservationType === "sale") {
+      await createSale({
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone,
+        price: realEstate.price,
+        id: uuid(),
+        vehicleId: null,
+        immobilierId: realEstate.id,
+        createdAt: new Date(),
+        saleDate: new Date(),
+      });
+    } else {
+      await createReservation({
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone,
+        startDate: date[0].startDate,
+        endDate: date[0].endDate,
+        status: "PENDING",
+        price: realEstate.price,
+        id: uuid(),
+        immobilierId: realEstate.id,
+        vehicleId: null,
+        createdAt: new Date(),
+      });
     }
-    await createReservation({
+
+    const invoice = {
+      id: uuid(),
+      createdAt: new Date(),
       customerName: name,
       customerEmail: email,
       customerPhone: phone,
-      startDate: date[0].startDate,
-      endDate: date[0].endDate,
-      status: "PENDING",
+      name: realEstate.name,
+      reservationType: reservationType,
+      category: "Propriété",
       price: realEstate.price,
-      id: uuid(),
-      immobilierId: realEstate.id,
-      vehicleId: null,
+      startDate: reservationType === "sale" ? null : date[0].startDate,
+      endDate: reservationType === "sale" ? null : date[0].endDate,
+    };
+
+    const reservationData = {
+      phone,
+      name,
+      email,
+      reservationName: realEstate.name,
+      date:
+        reservationType === "sale"
+          ? new Date().toLocaleDateString()
+          : `${date[0].startDate.toLocaleDateString()} au ${date[0].endDate.toLocaleDateString()}`,
+      reservationType,
+      startDate: reservationType === "sale" ? null : date[0].startDate,
+      endDate: reservationType === "sale" ? null : date[0].endDate,
       createdAt: new Date(),
+    };
+
+    await fetch("/api/sendMail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reservationData),
     });
 
     setSuccess(true);
-    setLoading(false);
+    setLoadingReservation(false);
+    setInvoiceData(invoice);
   };
 
   const router = useRouter();
@@ -363,24 +413,25 @@ export default function RealEstateDetails({
 
                   <button
                     onClick={() => openModal("eclair")}
-                    disabled={loading}
+                    disabled={loadingReservation}
                     className="btn btn-sm bg-yellowkouzua hover:bg-yellowkouzua-dark xl:max-w-[50%]  mt-4"
                   >
-                    {loading ? "Chargement..." : "Réservation  éclair"}
+                    {loadingReservation
+                      ? "Chargement..."
+                      : "Réservation  éclair"}
                   </button>
                 </motion.div>
               ) : (
                 <motion.div className="flex flex-col xl:flex-row gap-x-3 justify-center xl:justify-start  mb-10">
                   <button
-                    onClick={handleReservation}
-                    disabled={loading}
+                    onClick={() => openModal("sale")}
+                    disabled={loadingReservation}
                     className="btn btn-sm bg-yellowkouzua hover:bg-yellowkouzua-dark  w-full  mt-4"
                   >
-                    {loading ? "Chargement..." : "Acheter"}
+                    {loadingReservation ? "Chargement..." : "Acheter"}
                   </button>
                 </motion.div>
               )}
-
               {/* Équipement */}
               <div className="mt-6 mb-10">
                 <h2 className="text-2xl font-semibold mb-4">
@@ -570,6 +621,7 @@ export default function RealEstateDetails({
       </div>
 
       {/* Modal Réservation */}
+      {/* Modal Réservation */}
       {!success ? (
         <Modal
           isOpen={modalOpen}
@@ -604,7 +656,9 @@ export default function RealEstateDetails({
 
                   <div>
                     <h4 className="text-sm font-semibold text-warning-500">
-                      Pour réserver en éclair, il faut payer 50% du prix.
+                      Une fois la réservation éclair prise, nous vous
+                      contacterons immédiatement. Vous devrez ensuite payer 50%
+                      du prix pour obtenir le véhicule.
                     </h4>
                   </div>
                 </div>
@@ -693,11 +747,15 @@ export default function RealEstateDetails({
               </button>
 
               <button
-                disabled={loading}
+                disabled={loadingReservation}
                 onClick={handleReservation}
                 className="bg-yellowkouzua hover:bg-yellowkouzua-dark text-white mt-4 p-3 px-10 rounded-full"
               >
-                {loading ? <div className="spinner"></div> : <>Réserver</>}
+                {loadingReservation ? (
+                  <div className="spinner"></div>
+                ) : (
+                  <>Réserver</>
+                )}
               </button>
             </div>
           </div>
@@ -722,10 +780,30 @@ export default function RealEstateDetails({
               <h2 className="text-xl font-semibold text-center text-[#1C486F] mt-3">
                 Confirmation de votre réservation
               </h2>
-              <p className="text-sm text-center text-gray-600 mt-2">
+              <p className="text-sm text-center text-gray-600 my-2">
                 Votre réservation a bien été enregistrée. Nous vous contacterons
                 dans les plus brefs délais pour finaliser les détails.
               </p>
+
+              {success && invoiceData && (
+                <PDFDownloadLink
+                  document={<Invoice invoice={invoiceData} />}
+                  fileName="facture.pdf"
+                >
+                  {({ loading }) => (
+                    <button
+                      className="btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark px-4"
+                      disabled={loading} // Désactiver le bouton pendant le téléchargement
+                    >
+                      {loading ? (
+                        <div className="spinner"></div>
+                      ) : (
+                        "Générer la facture"
+                      )}
+                    </button>
+                  )}
+                </PDFDownloadLink>
+              )}
             </motion.div>
           </AnimatePresence>
         </Modal>
