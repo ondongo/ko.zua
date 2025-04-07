@@ -11,27 +11,28 @@ import Image from "next/image";
 const testimonialData = [
   {
     message:
-      "Ko.Zua m'a permis de trouver rapidement une voiture pour mon séjour à Brazzaville. Le service est impeccable et les prix sont très compétitifs. Je recommande vivement !",
+      "Une application révolutionnaire pour le Congo ! J'ai pu réserver une voiture en quelques clics pour mes déplacements professionnels. Le service client est très réactif.",
     name: "Cyprien KOLIME",
-    avatar: "/images/testimonial/avatar.png",
+    avatar: "/images/user/IMG_4072 (1).jpg",
+  },
+  {
+    message:
+      "Excellent service ! J'ai trouvé un superbe appartement meublé au centre de Brazzaville. La plateforme est intuitive.",
+    name: "Prince ONDONGO",
+    avatar: "/images/user/Design-sans-titre-9.webp",
+  },
+  {
+    message:
+      "Ko.Zua m'a permis de trouver rapidement une voiture pour mon séjour à Brazzaville. Le service est impeccable et les prix sont très compétitifs. Je recommande vivement !",
+    name: "Maurel",
+    avatar:
+      "/images/user/434385792_3501280143517426_4328921087063226604_n.webp",
   },
   {
     message:
       "J'ai loué un appartement via Ko.Zua pour une semaine à Pointe-Noire. Tout était conforme à la description et le processus de réservation était simple et rapide.",
-    name: "Eldy NGANGA",
-    avatar: "/images/testimonial/avatar.png",
-  },
-  {
-    message:
-      "Une application révolutionnaire pour le Congo ! J'ai pu réserver une voiture en quelques clics pour mes déplacements professionnels. Le service client est très réactif.",
-    name: "Nash MOULEBE",
-    avatar: "/images/testimonial/avatar.png",
-  },
-  {
-    message:
-      "Excellent service ! J'ai trouvé un superbe appartement meublé au centre de Brazzaville. La plateforme est intuitive et les options de paiement sont flexibles.",
-    name: "Prince ONDONGO",
-    avatar: "/images/testimonial/avatar.png",
+    name: "Ben",
+    avatar: "/images/user/person.jpg",
   },
 ];
 
