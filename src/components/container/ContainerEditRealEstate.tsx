@@ -22,12 +22,19 @@ import { AlertType } from "@/types/allType";
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { uploadImagesToFirebase } from "@/utils/functions";
+import {
+  deleteImageFromFirebase,
+  uploadImagesToFirebase,
+} from "@/utils/functions";
 import Error from "@/components/Error";
 import AlertModal from "@/components/ui/modals/AlertModal";
 import { createOrUpdateRealEstate } from "@/actions/realEstates";
 import { RealEstate } from "@/types/real_estate";
-export default function ContainerEditImmobilier({ immobilierData }: { immobilierData: RealEstate })  {
+export default function ContainerEditImmobilier({
+  immobilierData,
+}: {
+  immobilierData: RealEstate;
+}) {
   const {
     register,
     handleSubmit,
@@ -39,19 +46,19 @@ export default function ContainerEditImmobilier({ immobilierData }: { immobilier
   } = useForm({
     resolver: zodResolver(immobilierSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      category: "",
-      type: "",
-      price: 0,
-      availability: true,
-      saleStatus: "RENT",
-      city: "",
-      neighborhood: "",
-      bedrooms: undefined,
-      bathrooms: undefined,
-      parcelSize: 0,
-      furnished: false,
+      name: immobilierData.name || "",
+      description: immobilierData.description || "",
+      category: immobilierData.category || "",
+      type: immobilierData.type || "",
+      price: immobilierData.price || 0,
+      availability: immobilierData.availability || true,
+      saleStatus: immobilierData.saleStatus || "RENT",
+      city: immobilierData.location.city || "",
+      neighborhood: immobilierData.location.neighborhood || "",
+      bedrooms: immobilierData.bedrooms || undefined,
+      bathrooms: immobilierData.bathrooms || undefined,
+      parcelSize: immobilierData.parcelSize || 0,
+      furnished: immobilierData.furnished || false,
       images: [] as { file: File; preview: string }[],
     },
     mode: "all",
@@ -66,7 +73,14 @@ export default function ContainerEditImmobilier({ immobilierData }: { immobilier
   const [message, setMessage] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState<AlertType>("success");
-  const [files, setFiles] = useState<any[]>([]);
+  const [files, setFiles] = useState<any[]>(() => {
+    return immobilierData.images.map((imgUrl: string, index: number) => ({
+      file: new File([""], `image_${index + 1}.jpg`, { type: "image/jpeg" }),
+      preview: imgUrl,
+    }));
+  });
+
+  const [imagesToDelete, setImagesToDelete] = useState<string[]>([]);
 
   const onSubmit = async () => {
     const data = getValues();
@@ -85,23 +99,62 @@ export default function ContainerEditImmobilier({ immobilierData }: { immobilier
     const immobilierId = uuid();
     let imageUrls: string[] = [];
     setLoading(true);
+    const existingImageUrls: string[] = immobilierData.images || [];
 
-    const newImages = data.images.filter(
-      (img): img is { file: File; preview: string } => img.file instanceof File
-    );
-    try {
-      const newImageFiles: File[] = newImages.map((img) => img.file);
-      imageUrls = await uploadImagesToFirebase(
-        newImageFiles,
-        immobilierId,
-        "properties"
-      );
-    } catch (error) {
-      toast.error("Erreur lors du téléversement des images.");
-      setLoading(false);
-      return;
+    if (imagesToDelete.length > 0) {
+      try {
+        await Promise.all(
+          imagesToDelete.map(async (url) => {
+            await deleteImageFromFirebase(url);
+            console.log(`Image supprimée de Firebase: ${url}`);
+          })
+        );
+        console.log("Images supprimées de Firebase :", imagesToDelete);
+      } catch (error) {
+        console.error(
+          `Erreur lors de la suppression des images sur Firebase:`,
+          error
+        );
+        setLoading(false);
+        return;
+      }
     }
 
+    const newImages = data.images.filter(
+      (img): img is { file: File; preview: string } =>
+        img.file instanceof File && !existingImageUrls.includes(img.preview)
+    );
+
+    if (newImages.length > 0) {
+      try {
+        const newImageFiles: File[] = newImages.map((img) => img.file);
+        imageUrls = await uploadImagesToFirebase(
+          newImageFiles,
+          immobilierId,
+          "properties"
+        );
+      } catch (error) {
+        toast.error("Erreur lors du téléversement des images.");
+        console.error("Image upload error:", error);
+        setLoading(false);
+        return;
+      }
+    } else {
+      console.log("Aucune nouvelle image à télécharger.");
+    }
+
+    console.log(
+      "Images existantes avant ajout des nouvelles :",
+      existingImageUrls
+    );
+
+    const keptExistingImages = existingImageUrls.filter(
+      (url) => !imagesToDelete.includes(url)
+    );
+
+    const finalImageUrls = [...keptExistingImages, ...imageUrls];
+    console.log("Images finales à sauvegarder :", finalImageUrls);
+    setImagesToDelete([]);
     setMessage("");
     try {
       const formattedData = {
@@ -379,9 +432,11 @@ export default function ContainerEditImmobilier({ immobilierData }: { immobilier
           <Section title="Caractéristiques & Images">
             <Label>Images</Label>
             <DropzoneComponent
-              setFiles={setFiles}
-              files={files}
               setValue={setValue}
+              files={files}
+              setFiles={setFiles}
+              editMode={true}
+              setImagesToDelete={setImagesToDelete}
             />
 
             {errors.images && <Error message={errors.images?.message} />}
