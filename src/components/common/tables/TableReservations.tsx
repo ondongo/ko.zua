@@ -60,12 +60,7 @@ export default function TableReservations({
                 >
                   Prix
                 </TableCell>
-                <TableCell
-                  isHeader
-                  className="px-5 py-3 text-start text-theme-xs text-gray-500 font-medium"
-                >
-                  Statut
-                </TableCell>
+             
                 <TableCell
                   isHeader
                   className="px-5 py-3 text-start text-theme-xs text-gray-500 font-medium"
@@ -97,20 +92,7 @@ export default function TableReservations({
                   <TableCell className="px-5 py-3 text-theme-sm text-gray-700">
                     {reservation.price.toLocaleString()} CFA
                   </TableCell>
-                  <TableCell className="px-5 py-3 text-theme-sm text-gray-700">
-                    <Badge
-                      size="sm"
-                      color={
-                        reservation.status === "CONFIRMED"
-                          ? "success"
-                          : reservation.status === "PENDING"
-                          ? "warning"
-                          : "error"
-                      }
-                    >
-                      {reservation.status}
-                    </Badge>
-                  </TableCell>
+              
                   <TableCell className="px-5 py-3 text-theme-sm text-white">
                     <PDFDownloadLink
                       document={
