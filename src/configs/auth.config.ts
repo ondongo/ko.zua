@@ -22,12 +22,15 @@ export default {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        (token as Token).role =
-          user.email === "prince.ondongo@ism.edu.sn" ||
-          user.email === "Nathankolime2@gmail.com"
-            ? "admin"
-            : "user";
-      }
+        console.log("XXXXXX", user);
+        if (user.email === "Nathankolime2@gmail.com") {
+          (token as Token).role = "admin";
+        } else if (user.email === "prince.ondongo@ism.edu.sn") {
+          (token as Token).role = "admin";
+        } else {
+          (token as Token).role = "user";
+        }
+      } 
       return token;
     },
     async session({ session, token }) {
