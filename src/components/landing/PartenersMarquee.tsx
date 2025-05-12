@@ -2,7 +2,7 @@
 import Image from "next/image";
 export default function PartnersMarquee() {
   const partners = [
-    { name: "KKB la joie du Congo", logo: "/partners/kkb.jpg" },
+    { name: "KKB la joie du Congo", logo: "/partners/kkb-removebg-preview.png" },
     { name: "KJB Services", logo: "/partners/kjb.png" },
     { name: "PontonShop ", logo: "/partners/pontonshop.png" },
     // Ajoute autant que tu veux
