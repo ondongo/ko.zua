@@ -302,7 +302,20 @@ export default function RealEstateDetails({
             {/* Spécifications techniques */}
             <div>
               <div className="mb-10">
-                <div className="flex flex-row justify-between w-[100%]">
+                <div className="flex flex-col gap-6 w-[100%]">
+                  <div className=" w-[100%] flex justify-end">
+                    <div
+                      className={`rounded-full px-3 py-1.5 font-medium w-[150px] max-h-10 flex justify-center items-center ${
+                        realEstate.saleStatus === "RENT"
+                          ? "bg-yellowkouzua-dark text-white"
+                          : "bg-[#111828] text-white"
+                      }`}
+                    >
+                      {realEstate.saleStatus === "RENT"
+                        ? "À louer"
+                        : "À vendre"}
+                    </div>
+                  </div>
                   <div>
                     <h1 className="text-2xl font-bold text-start">
                       {realEstate.name}
@@ -343,15 +356,6 @@ export default function RealEstateDetails({
                         </span>
                       </p>
                     </div>
-                  </div>
-                  <div
-                    className={`rounded-full px-3 py-1.5 font-medium max-h-10 flex justify-center items-center ${
-                      realEstate.saleStatus === "RENT"
-                        ? "bg-yellowkouzua-dark text-white"
-                        : "bg-[#111828] text-white"
-                    }`}
-                  >
-                    {realEstate.saleStatus === "RENT" ? "À louer" : "À vendre"}
                   </div>
                 </div>
 

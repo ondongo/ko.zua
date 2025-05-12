@@ -205,7 +205,7 @@ export default function VehicleDetails({
 
               <div className="relative">
                 <Swiper
-                  //navigation
+                  // Navigation et autres propriétés
                   onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                   onSwiper={(swiperInstance) =>
                     (swiperRef.current = swiperInstance)
@@ -219,6 +219,7 @@ export default function VehicleDetails({
                     vehicle.images.map((imgSrc, index) => (
                       <SwiperSlide key={index}>
                         <div className="relative">
+                          {/* Image */}
                           <Image
                             src={imgSrc ?? ""}
                             alt={`Gallery ${index + 1}`}
@@ -226,6 +227,16 @@ export default function VehicleDetails({
                             height={300}
                             className="rounded-lg"
                           />
+                          {/* Filigrane */}
+                          <div className="absolute top-0 left-0 w-full h-full flex justify-center items-cente">
+                          <Image
+                            src="/partners/kkb-removebg-preview.png"
+                            alt="Filigrane KKB"
+                            width={200}
+                            height={200}
+                            className="object-contain"
+                          />
+                        </div>
                         </div>
                       </SwiperSlide>
                     ))
@@ -238,6 +249,16 @@ export default function VehicleDetails({
                           layout="fill"
                           objectFit="cover"
                         />
+                        {/* Filigrane */}
+                        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
+                          <Image
+                            src="/partners/kkb-removebg-preview.png"
+                            alt="Filigrane KKB"
+                            width={100}
+                            height={100}
+                            className="object-contain "
+                          />
+                        </div>
                       </div>
                     </SwiperSlide>
                   )}
@@ -281,7 +302,18 @@ export default function VehicleDetails({
             {/* Spécifications techniques */}
             <div>
               <div className="mb-4">
-                <div className="flex flex-row justify-between w-[100%]">
+                <div className="flex flex-col w-[100%] gap-6">
+                  <div className=" w-[100%] flex justify-end">
+                    <div
+                      className={`rounded-full px-3 py-1.5 font-medium w-[150px] max-h-10 flex justify-center items-center ${
+                        vehicle.saleStatus === "RENT"
+                          ? "bg-yellowkouzua-dark text-white"
+                          : "bg-[#111828] text-white"
+                      }`}
+                    >
+                      {vehicle.saleStatus === "RENT" ? "À louer" : "À vendre"}
+                    </div>
+                  </div>
                   <div>
                     <h1 className="text-2xl lg:text-2xl  font-bold text-start">
                       {vehicle.name}
@@ -316,15 +348,6 @@ export default function VehicleDetails({
                         </span>
                       </p>
                     </div>
-                  </div>
-                  <div
-                    className={`rounded-full px-3 py-1.5 font-medium max-h-10 flex justify-center items-center ${
-                      vehicle.saleStatus === "RENT"
-                        ? "bg-yellowkouzua-dark text-white"
-                        : "bg-[#111828] text-white"
-                    }`}
-                  >
-                    {vehicle.saleStatus === "RENT" ? "À louer" : "À vendre"}
                   </div>
                 </div>
 

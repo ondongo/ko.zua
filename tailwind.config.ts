@@ -162,13 +162,20 @@ export default {
       },
       animation: {
         "animate-25s": "animate 25s linear infinite",
+        marquee: "marquee 30s linear infinite",
       },
+
       fontFamily: {
         sans: ['"Montserrat"', "sans-serif"], // Remplacez "sans" si vous souhaitez en faire la police par défaut.
         montserrat: ['"Montserrat"', "sans-serif"], // Clé personnalisée pour Montserrat.
         outfit: ["Outfit", "sans-serif"],
       },
-
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+      },
       backgroundImage: {
         "gradient-radial":
           "radial-gradient(var(--tw-gradient-background-stops))",

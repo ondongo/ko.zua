@@ -70,6 +70,7 @@ function Header() {
             <div className="relative w-[110px] h-[80px] overflow-hidden ">
               <Image
                 src="/Kozua v3.png"
+                //src="/kjb.png"
                 alt="logo"
                 layout="fill"
                 objectFit="cover"

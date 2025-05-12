@@ -8,6 +8,7 @@ import Why from "@/components/landing/Why";
 import Image from "next/image";
 import RecentlyAdded from "@/components/landing/RecentlyAdded";
 import ContainerHero from "@/components/landing/hero/ContainerHero";
+import PartnersMarquee from "@/components/landing/PartenersMarquee";
 
 export default function Home() {
       
@@ -15,6 +16,7 @@ export default function Home() {
     <main className="max-w-[1920px] bg-white mx-auto lg:relative overflow-hidden">
       <Header />
       <ContainerHero />
+      <PartnersMarquee />
       <RecentlyAdded />
       <About />
       <Testimonial />
