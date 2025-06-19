@@ -26,6 +26,25 @@ export const quartiersPointeNoire = [
   "Mpaka",
   "Siafoumou",
   "Vonvon",
+  "Warf",
+  "Mpita",
+];
+
+export const quartiersPointeNoireAll = [
+  "Loandjili",
+  "Fond Tié-Tié",
+  "Ngoyo",
+  "Mpaka",
+  "Siafoumou",
+  "Vonvon",
+  "Warf",
+  "Mpita",
+  "La base",
+  "Km4",
+  "Tchimbamba",
+  "Mvou Mvou",
+  "Roy",
+  "Mahouata"
 ];
 
 export const quartiersBrazzaville = [
@@ -35,6 +54,8 @@ export const quartiersBrazzaville = [
   "Talangaï",
   "Ouenze",
   "Kinkala",
+  "Poto-Poto",
+  "Moungali",
 ];
 
 export const featureLabels: Record<string, string> = {

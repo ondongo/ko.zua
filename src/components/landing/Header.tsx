@@ -7,11 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import { BiMenuAltRight, BiX } from "react-icons/bi";
 import { SearchContext } from "../../context/SearchContext";
 import { Popover, Transition } from "@headlessui/react";
-import {
-  FaCar,
-  FaMapMarkerAlt,
-  FaTruck,
-} from "react-icons/fa";
+import { FaCar, FaMapMarkerAlt, FaTruck } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { quartiersBrazzaville, quartiersPointeNoire } from "@/utils/records";
@@ -92,7 +88,9 @@ function Header() {
 
         <nav
           className={`${
-            nav ? "min-h-[70vh] py-8 px-4 xl:py-0 xl:px-0" : "max-h-0 xl:max-h-max"
+            nav
+              ? "min-h-[70vh] py-8 px-4 xl:py-0 xl:px-0"
+              : "max-h-0 xl:max-h-max"
           } flex flex-col w-full bg-white gap-y-6 overflow-hidden font-bold xl:font-medium xl:flex-row
            xl:w-max xl:gap-x-8 xl:h-max xl:bg-transparent xl:pb-0 transition-all duration-150 text-center 
            xl:text-left text-sm xl:text-[15px] normal-case`}
@@ -127,7 +125,7 @@ function Header() {
                 >
                   <Popover.Panel className="absolute z-[999999]  -mt-4 xl:mt-3 left-1/2  w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0 mb-10 xl:mb-0 ">
                     <div className="overflow-hidden  rounded-lg shadow-lg ring-1 ring-black/5 bg-white border  max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
-                      <div className="flex flex-col lg:flex-row p-7 gap-8">
+                      <div className="flex flex-col lg:flex-row px-7 py-6 gap-8">
                         {/* Vente et achat */}
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -227,6 +225,13 @@ function Header() {
                           </div>
                         </div>
                       </div>
+
+
+                      <div className="flex justify-end px-7 py-5">
+                        <a href="/vehicles" className="text-yellowkouzua hover:text-yellowkouzua-dark transition-colors duration-200 cursor-pointer font-bold hover:underline">
+                          Voir plus
+                        </a>
+                      </div>
                     </div>
                   </Popover.Panel>
                 </Transition>
@@ -253,8 +258,8 @@ function Header() {
                   leaveTo="opacity-0 translate-y-1"
                 >
                   <Popover.Panel className="absolute z-[999999]  left-1/2 -mt-4 xl:mt-3  w-screen max-w-xl -translate-x-1/2 transform px-4 sm:px-0 pb-10 xl:pb-0">
-                  <div className="overflow-hidden  rounded-lg shadow-lg ring-1 ring-black/5 bg-white border  max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
-                      <div className="flex flex-col lg:flex-row p-7 gap-8">
+                    <div className="overflow-hidden  rounded-lg shadow-lg ring-1 ring-black/5 bg-white border  max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
+                      <div className="flex flex-col lg:flex-row px-7 py-6 gap-8">
                         {/* Immobilier à Pointe-Noire */}
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold text-gray-900 mb-4">
@@ -296,6 +301,12 @@ function Header() {
                             ))}
                           </div>
                         </div>
+                      </div>
+
+                      <div className="flex justify-end px-7 py-5">
+                        <a href="/estates" className="text-yellowkouzua hover:text-yellowkouzua-dark transition-colors duration-200 cursor-pointer font-bold hover:underline">
+                          Voir plus
+                        </a>
                       </div>
                     </div>
                   </Popover.Panel>
