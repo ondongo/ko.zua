@@ -47,15 +47,7 @@ const ProductCardVehicle: React.FC<ProductCardProps> = ({ datas }) => {
                     className="object-[50%_50%]"
                   />
 
-                  <div className="absolute top-0 left-0 w-full h-full flex justify-center items-cente">
-                    <Image
-                      src="/partners/kkb-removebg-preview.png"
-                      alt="Filigrane KKB"
-                      width={140}
-                      height={140}
-                      className="object-contain"
-                    />
-                  </div>
+               
                 </div>
               </SwiperSlide>
             ))

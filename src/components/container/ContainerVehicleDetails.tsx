@@ -227,16 +227,7 @@ export default function VehicleDetails({
                             height={300}
                             className="rounded-lg"
                           />
-                          {/* Filigrane */}
-                          <div className="absolute top-0 left-0 w-full h-full flex justify-center items-cente">
-                          <Image
-                            src="/partners/kkb-removebg-preview.png"
-                            alt="Filigrane KKB"
-                            width={200}
-                            height={200}
-                            className="object-contain"
-                          />
-                        </div>
+                   
                         </div>
                       </SwiperSlide>
                     ))
@@ -249,16 +240,7 @@ export default function VehicleDetails({
                           layout="fill"
                           objectFit="cover"
                         />
-                        {/* Filigrane */}
-                        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center">
-                          <Image
-                            src="/partners/kkb-removebg-preview.png"
-                            alt="Filigrane KKB"
-                            width={100}
-                            height={100}
-                            className="object-contain "
-                          />
-                        </div>
+                     
                       </div>
                     </SwiperSlide>
                   )}
