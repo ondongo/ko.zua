@@ -226,6 +226,7 @@ export default function VehicleDetails({
                             width={600}
                             height={300}
                             className="rounded-lg"
+                            priority
                           />
                    
                         </div>

@@ -32,6 +32,7 @@ function About() {
               width={580}
               height={500}
               alt=""
+              loading="lazy"
             />
           </motion.div>
 

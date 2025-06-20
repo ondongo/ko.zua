@@ -46,6 +46,7 @@ const ProductCardRealEstate: React.FC<ProductCardProps> = ({ datas }) => {
                     layout="fill"
                     objectFit="cover"
                     className="object-[50%_50%]"
+                    priority
                   />
                 </div>
               </SwiperSlide>
