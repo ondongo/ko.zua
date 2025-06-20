@@ -215,6 +215,9 @@ function ContainerVehicle() {
     }
   }, [searchParams]);
 
+
+
+
   return (
     <>
       <div className="p-2 lg:p-10 mt-2">
@@ -340,6 +343,18 @@ function ContainerVehicle() {
                     <SkeletonProductCard key={index} />
                   ))}
                 </>
+              ) : vehicles.length === 0 ? (
+                <div className="p-2 lg:p-10 mt-2 col-span-full">
+                  <div className="mx-auto w-full  text-center sm:max-w-[472px]">
+                    <h1 className="mb-8 font-bold text-yellowkouzua text-title-sm xl:text-title-md">
+                      Aucun véhicule trouvé
+                    </h1>
+                    
+                    <p className="mt-10 mb-6 text-base text-gray-700 sm:text-lg">
+                      Veuillez ajuster vos critères de recherche pour obtenir plus de résultats.
+                    </p>
+                  </div>
+                </div>
               ) : (
                 <DataIteration datas={vehicles} startLength={0} endLength={6}>
                   {({ datas }: { datas: Vehicle }) => (
@@ -351,7 +366,7 @@ function ContainerVehicle() {
               )}
             </div>
 
-            {!loading && (
+            {!loading && vehicles.length > 0 && (
               <div className="w-full flex justify-center items-center">
                 <Pagination
                   currentPage={currentPage}

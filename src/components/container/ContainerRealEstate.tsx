@@ -132,7 +132,8 @@ function ContainerRealEstate() {
     if (filters.maxPrice)
       newParams.set("maxPrice", filters.maxPrice.toString());
     if (filters.city) newParams.set("city", filters.city);
-    if (filters.neighborhood) newParams.set("neighborhood", filters.neighborhood);
+    if (filters.neighborhood)
+      newParams.set("neighborhood", filters.neighborhood);
     if (filters.saleStatus) newParams.set("saleStatus", filters.saleStatus);
     if (filters.searchQuery) newParams.set("searchQuery", filters.searchQuery);
     if (filters.availability !== null && filters.availability !== undefined) {
@@ -344,6 +345,19 @@ function ContainerRealEstate() {
                     <SkeletonProductCard key={index} />
                   ))}
                 </>
+              ) : realEstate.length === 0 ? (
+                <div className="p-2 lg:p-10 mt-2 col-span-full">
+                  <div className="mx-auto w-full  text-center sm:max-w-[472px]">
+                    <h1 className="mb-8 font-bold text-yellowkouzua text-title-sm xl:text-title-md">
+                      Aucun logement trouvé
+                    </h1>
+
+                    <p className="mt-10 mb-6 text-base text-gray-700 sm:text-lg">
+                      Veuillez ajuster vos critères de recherche pour obtenir
+                      plus de résultats.
+                    </p>
+                  </div>
+                </div>
               ) : (
                 <DataIteration datas={realEstate} startLength={0} endLength={6}>
                   {({ datas }: { datas: RealEstate }) => (
@@ -355,7 +369,7 @@ function ContainerRealEstate() {
               )}
             </div>
 
-            {!loading && (
+            {!loading && realEstate.length > 0 && (
               <div className="w-full flex justify-center items-center">
                 <Pagination
                   currentPage={currentPage}

@@ -189,6 +189,12 @@ function NavBarStatic() {
                           </div>
                         </div>
                       </div>
+
+                      <div className="flex justify-end px-7 py-5">
+                        <a href="/vehicles" className="text-yellowkouzua hover:text-yellowkouzua-dark transition-colors duration-200 cursor-pointer font-bold hover:underline">
+                          Voir plus
+                        </a>
+                      </div>
                     </div>
                   </Popover.Panel>
                 </Transition>
@@ -258,6 +264,12 @@ function NavBarStatic() {
                             ))}
                           </div>
                         </div>
+                      </div>
+
+                                <div className="flex justify-end px-7 py-5">
+                        <a href="/estates" className="text-yellowkouzua hover:text-yellowkouzua-dark transition-colors duration-200 cursor-pointer font-bold hover:underline">
+                          Voir plus
+                        </a>
                       </div>
                     </div>
                   </Popover.Panel>
