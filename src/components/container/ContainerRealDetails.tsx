@@ -246,6 +246,7 @@ export default function RealEstateDetails({
                             width={600}
                             height={300}
                             className="rounded-lg"
+                            priority
                           />
                         </div>
                       </SwiperSlide>
