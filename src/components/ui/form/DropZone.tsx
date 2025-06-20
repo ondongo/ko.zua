@@ -21,8 +21,8 @@ const DropzoneComponent = ({
 }: DropzoneComponentProps) => {
   // Fonction pour gérer les fichiers déposés
   const handleDrop = (acceptedFiles: File[]) => {
-    if (files.length + acceptedFiles.length > 4) {
-      toast.error("Vous ne pouvez télécharger que 4 fichiers maximum.");
+    if (files.length + acceptedFiles.length > 6) {
+      toast.error("Vous ne pouvez télécharger que 6 fichiers maximum.");
       return;
     }
 
@@ -63,7 +63,7 @@ const DropzoneComponent = ({
       "image/webp": [],
       "image/svg+xml": [],
     },
-    maxFiles: 4,
+    maxFiles: 6,
   });
 
 /*   useEffect(() => {

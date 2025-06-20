@@ -259,7 +259,7 @@ function ContainerVehicle() {
               </div>
               <div>
                 <p className="font-400 text-[13px]">
-                  {vehicles.length} &nbsp; results{" "}
+                  {vehicles.length} &nbsp; resultats{" "}
                   <span className="text-qgray"> trouvés</span>
                 </p>
               </div>
