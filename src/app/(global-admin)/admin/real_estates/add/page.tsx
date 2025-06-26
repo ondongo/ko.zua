@@ -14,6 +14,8 @@ import {
   locationOptions,
   quartiersPointeNoire,
   quartiersBrazzaville,
+  quartiersPointeNoireAll,
+  quartiersBrazzavilleAll,
 } from "@/utils/records";
 import Image from "next/image";
 import { immobilierSchema } from "@/schemas";
@@ -301,14 +303,14 @@ export default function AddImmobilier() {
               className="w-full p-2 border rounded"
             >
               {watch("city") === "Pointe-Noire" &&
-                quartiersPointeNoire.map((quartier) => (
+                quartiersPointeNoireAll.map((quartier) => (
                   <option key={quartier} value={quartier}>
                     {quartier}
                   </option>
                 ))}
 
               {watch("city") === "Brazzaville" &&
-                quartiersBrazzaville.map((quartier) => (
+                quartiersBrazzavilleAll.map((quartier) => (
                   <option key={quartier} value={quartier}>
                     {quartier}
                   </option>
