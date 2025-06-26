@@ -28,6 +28,7 @@ export const quartiersPointeNoire = [
   "Vonvon",
   "Warf",
   "Mpita",
+  "Aéoroport",
 ];
 
 export const quartiersPointeNoireAll = [
@@ -44,7 +45,8 @@ export const quartiersPointeNoireAll = [
   "Tchimbamba",
   "Mvou Mvou",
   "Roy",
-  "Mahouata"
+  "Mahouata",
+  "Aéoroport",
 ];
 
 export const quartiersBrazzaville = [
@@ -56,7 +58,27 @@ export const quartiersBrazzaville = [
   "Kinkala",
   "Poto-Poto",
   "Moungali",
+  "Aéoroport",
 ];
+
+export const quartiersBrazzavilleAll = [
+  "Centre-ville",
+  "Plateaux",
+  "Makélékélé",
+  "Talangaï",
+  "Ouenze",
+  "Kinkala",
+  "Poto-Poto",
+  "Moungali",
+  "Aéoroport",
+  "Bacongo",
+  "Mfilou",
+  "Djiri",
+  "Mayanga",
+  "Moungali II",
+  "Moungali III",
+];
+
 
 export const featureLabels: Record<string, string> = {
   airConditioner: "Climatisation",
