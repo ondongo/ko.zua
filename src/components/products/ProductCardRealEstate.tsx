@@ -98,7 +98,7 @@ const ProductCardRealEstate: React.FC<ProductCardProps> = ({ datas }) => {
         <div className="flex justify-between items-start mb-2">
           <div>
             <div className="text-sm text-gray-500">{datas.type}</div>
-            <h3 className="w-full sm:max-w-[250px] text-sm lg:text-md font-semibold uppercase text-gray-800 mt-2 line-clamp-1">
+            <h3 className="hidden md:block w-full sm:max-w-[250px] text-sm lg:text-md font-semibold uppercase text-gray-800 mt-2 line-clamp-1">
               {datas.name}
             </h3>
 
@@ -119,12 +119,15 @@ const ProductCardRealEstate: React.FC<ProductCardProps> = ({ datas }) => {
         </div>
 
         {/* Lieu et spécifications */}
-        <div className=" text-gray-700 font-medium mb-1">
+        <div className="hidden md:block text-gray-700 font-medium my-2">
+          {datas.location.city}
+          {datas.location.neighborhood && ` - ${datas.location.neighborhood}`}
+        </div>
+
+        <div className="block md:hidden text-gray-700 my-2 text-sm">
           {datas.location.city}
         </div>
-        <div className=" text-gray-700 font-medium mb-3">
-          {datas.location.neighborhood}
-        </div>
+      
         <button className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark">
           Voir plus
         </button>

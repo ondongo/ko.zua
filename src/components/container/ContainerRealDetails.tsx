@@ -587,7 +587,7 @@ export default function RealEstateDetails({
               <div
                 key={index}
                 onClick={() => handleDetail(r.id)}
-                className="cursor-pointer min-w-[190px] lg:min-w-[320px] lg:max-w-[320px]  max-h-[490px]  lg:max-h-[600px]  mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 lg:hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
+                className="cursor-pointer min-w-[190px] lg:min-w-[320px] lg:max-w-[320px]  max-h-[490px]  lg:max-h-[630px]  mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 lg:hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
               >
                 {/* Swiper avec images */}
                 <div className="relative">
@@ -678,7 +678,13 @@ export default function RealEstateDetails({
                   </div>
 
                   {/* Lieu et spécifications */}
-                  <div className=" text-gray-700 font-medium mb-3">
+
+                  <div className="hidden md:block text-gray-700 font-medium my-2">
+                    {r.location.city}
+                    {r.location.neighborhood && ` - ${r.location.neighborhood}`}
+                  </div>
+
+                  <div className="block md:hidden text-gray-700 my-2 text-sm">
                     {r.location.city}
                   </div>
 
