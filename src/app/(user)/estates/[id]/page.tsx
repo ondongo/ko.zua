@@ -25,7 +25,7 @@ export default async function EstatePage({ params }: any) {
   return (
     <main className="max-w-[1920px] bg-white mx-auto overflow-hidden">
       <NavBarStatic />
-      <Breadcrumb path={`Immobiliers / ${shortId}`} page="Détails Immobilier" />
+      <Breadcrumb path={`Immobiliers`} page="Détails Immobilier"       id={`${shortId}`} />
       <Suspense fallback={<DetailsSkeleton />}>
         <RealEstateData id={ id} />
       </Suspense>

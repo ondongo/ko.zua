@@ -17,7 +17,7 @@ async function VehicleData({ id }: { id: string }) {
 }
 
 export default async function VehiclePage({ params }: any) {
-  const { id } = await params
+  const { id } = await params;
   if (!id) return notFound();
 
   const shortId = id.slice(0, 8) + "...";
@@ -25,9 +25,13 @@ export default async function VehiclePage({ params }: any) {
   return (
     <main className="max-w-[1920px] bg-white mx-auto overflow-hidden">
       <NavBarStatic />
-      <Breadcrumb path={`Véhicules / ${shortId}`} page="Détails Véhicule" />
+      <Breadcrumb
+        path={`Véhicules`}
+        page="Détails Véhicule"
+        id={`${shortId}`}
+      />
       <Suspense fallback={<DetailsSkeleton />}>
-        <VehicleData id={ id} />
+        <VehicleData id={id} />
       </Suspense>
     </main>
   );

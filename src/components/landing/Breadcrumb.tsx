@@ -1,6 +1,6 @@
 import React from "react";
 
-const Breadcrumb = ({ path, page }: any) => {
+const Breadcrumb = ({ path, page, id }: any) => {
   const breadcrumbPath = path || "Accueil / Véhicules";
   const breadcrumbPage = page || "Accueil";
   return (
@@ -17,7 +17,13 @@ const Breadcrumb = ({ path, page }: any) => {
         <h1 className="text-2xl font-bold text-[#111828]">{breadcrumbPage}</h1>
         <p className="text-sm text-gray-600">
           <a className="text-yellowkouzua-dark underline" href="/">Accueil</a>  &nbsp; / &nbsp; 
-          {breadcrumbPath}
+          <a className="text-yellowkouzua-dark underline" href={`/${path === 'Immobiliers' ? 'estates' : path === 'Véhicules' ? 'vehicles' : path?.toLowerCase()}`}>{breadcrumbPath}</a>
+          {id && (
+            <>
+              &nbsp; / &nbsp; 
+              <span className="text-gray-600">{id}</span>
+            </>
+          )}
         </p>
       </div>
     </section>
