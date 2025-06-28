@@ -27,6 +27,7 @@ import Invoice from "../Invoice";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { createSale } from "@/actions/sales";
 import ReviewsVehicle from "../review/ReviewsVehicle";
+import { Expand, X } from "lucide-react";
 
 export default function VehicleDetails({
   vehicle,
@@ -193,6 +194,8 @@ export default function VehicleDetails({
     router.push(`/vehicles/${id}`);
   }
 
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
       <div className="container mx-auto py-5 lg:py-10 px-2 lg:px-4 mt-12">
@@ -203,60 +206,122 @@ export default function VehicleDetails({
             <div>
               {/* Swiper pour la galerie */}
 
-              <div className="relative">
-                <Swiper
-                  // Navigation et autres propriétés
-                  onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-                  onSwiper={(swiperInstance) =>
-                    (swiperRef.current = swiperInstance)
-                  }
-                  pagination={{ clickable: true }}
-                  modules={[Navigation, Pagination]}
-                  className="rounded-lg"
-                >
-                  {Array.isArray(vehicle.images) &&
-                  vehicle.images.length > 0 ? (
-                    vehicle.images.map((imgSrc, index) => (
-                      <SwiperSlide key={index}>
-                        <div className="relative">
-                          {/* Image */}
+              <>
+                {/* ---------- Gallery ------------------------------------------------ */}
+                <div className="relative h-[22rem] w-full">
+                  {/* Full‑screen trigger */}
+                  <button
+                    type="button"
+                    onClick={() => setIsOpen(true)}
+                    className="absolute top-3 left-3 z-10 flex items-center gap-1 rounded-full bg-white/90 px-3 py-1.5 text-sm font-medium shadow hover:bg-white"
+                  >
+                    <Expand size={16} />
+                  </button>
+
+                  {/* Swiper gallery */}
+                  <Swiper
+                    onSlideChange={(swiper) =>
+                      setActiveIndex(swiper.activeIndex)
+                    }
+                    onSwiper={(swiperInstance) =>
+                      (swiperRef.current = swiperInstance)
+                    }
+                    pagination={{ clickable: true }}
+                    modules={[Navigation, Pagination]}
+                    className="h-full rounded-lg"
+                  >
+                    {Array.isArray(vehicle.images) &&
+                    vehicle.images.length > 0 ? (
+                      vehicle.images.map((imgSrc, index) => (
+                        <SwiperSlide key={index} className="relative h-full">
                           <Image
                             src={imgSrc ?? ""}
                             alt={`Gallery ${index + 1}`}
-                            width={600}
-                            height={300}
-                            className="rounded-lg"
-                            priority
+                            fill
+                            className="object-cover rounded-lg"
+                            priority={index === 0}
                           />
-                   
-                        </div>
-                      </SwiperSlide>
-                    ))
-                  ) : (
-                    <SwiperSlide>
-                      <div className="relative">
+                        </SwiperSlide>
+                      ))
+                    ) : (
+                      <SwiperSlide className="relative h-full">
                         <Image
                           src="/placeholder.jpg"
                           alt="Image par défaut"
-                          layout="fill"
-                          objectFit="cover"
+                          fill
+                          className="object-cover rounded-lg"
                         />
-                     
-                      </div>
-                    </SwiperSlide>
-                  )}
-                </Swiper>
+                      </SwiperSlide>
+                    )}
+                  </Swiper>
 
-                <div
-                  className={`absolute top-3 right-3 z-10  rounded-full px-3 py-1.5 font-medium max-h-10 flex justify-center items-center ${
-                    vehicle.availability
-                      ? "bg-green-50 text-green-600"
-                      : "bg-red-50 text-red-600"
-                  }`}
-                >
-                  {vehicle.availability ? "Disponible" : "Indisponible"}
+                  {/* Availability badge */}
+                  <div
+                    className={`absolute top-3 right-3 z-10 rounded-full px-3 py-1.5 font-medium max-h-10 flex justify-center items-center ${
+                      vehicle.availability
+                        ? "bg-green-50 text-green-600"
+                        : "bg-red-50 text-red-600"
+                    }`}
+                  >
+                    {vehicle.availability ? "Disponible" : "Indisponible"}
+                  </div>
                 </div>
-              </div>
+
+                {/* ---------- Full‑screen modal ------------------------------------- */}
+                {isOpen && (
+                  <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 overflow-hidden">
+                    {/* Close btn */}
+                    <button
+                      type="button"
+                      onClick={() => setIsOpen(false)}
+                      className="absolute top-4 right-4 text-white"
+                    >
+                      <X size={28} />
+                    </button>
+
+                    {/* Fullscreen Swiper */}
+                    <Swiper
+                      initialSlide={activeIndex}
+                      pagination={{ clickable: true }}
+                      modules={[Pagination]}
+                      className="h-[90vh] w-full max-w-6xl"
+                    >
+                      {Array.isArray(vehicle.images) &&
+                      vehicle.images.length > 0 ? (
+                        vehicle.images.map((imgSrc, index) => (
+                          <SwiperSlide
+                            key={index}
+                            className="flex items-center justify-center h-full"
+                          >
+                            {/* Wrapper to maintain aspect‑ratio‑driven sizing */}
+                            <div className="relative h-full max-h-full w-auto max-w-full">
+                              <Image
+                                src={imgSrc ?? ""}
+                                alt={`Fullscreen ${index + 1}`}
+                                fill
+                                sizes="(max-width: 1280px) 90vw, 1280px"
+                                className="object-contain"
+                                priority={index === activeIndex}
+                              />
+                            </div>
+                          </SwiperSlide>
+                        ))
+                      ) : (
+                        <SwiperSlide className="flex items-center justify-center h-full">
+                          <div className="relative h-full max-h-full w-auto max-w-full">
+                            <Image
+                              src="/placeholder.jpg"
+                              alt="Image par défaut"
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        </SwiperSlide>
+                      )}
+                    </Swiper>
+                  </div>
+                )}
+              </>
               <div className="flex gap-2 mt-4 ">
                 {vehicle.images.map((img: any, index: any) => (
                   <div
