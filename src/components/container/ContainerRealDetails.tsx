@@ -295,7 +295,7 @@ export default function RealEstateDetails({
                     <button
                       type="button"
                       onClick={() => setIsOpen(false)}
-                      className="absolute top-4 right-4 text-white"
+                      className="absolute top-4 right-4 text-white  z-[999]"
                     >
                       <X size={28} />
                     </button>
