@@ -570,7 +570,9 @@ export default function RealEstateDetails({
 
         <div>
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-3xl font-semibold">Autres immobiliers</h2>
+            <h2 className="text-xl lg:text-2xl font-semibold">
+              Autres immobiliers
+            </h2>
             <button
               onClick={() => router.push("/estates")}
               className="text-yellowkouzua font-semibold hover:underline"
@@ -580,11 +582,12 @@ export default function RealEstateDetails({
           </div>
 
           {/* Other Cars  */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex gap-4 lg:gap-6 overflow-x-auto pb-4">
             {similarRealEstates.map((r, index) => (
               <div
                 key={index}
-                className="max-w-[385px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden max-h-[600px] transition-transform duration-300 hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
+                onClick={() => handleDetail(r.id)}
+                className="cursor-pointer min-w-[190px] lg:min-w-[320px] lg:max-w-[320px]  max-h-[490px]  lg:max-h-[600px]  mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 lg:hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
               >
                 {/* Swiper avec images */}
                 <div className="relative">
@@ -595,7 +598,7 @@ export default function RealEstateDetails({
                     {Array.isArray(r.images) && r.images.length > 0 ? (
                       r.images.map((imgSrc, index) => (
                         <SwiperSlide key={index}>
-                          <div className="w-full h-[230px] relative">
+                          <div className="w-full h-[165px] lg:h-[230px] relative">
                             <Image
                               src={
                                 imgSrc.startsWith("http")
@@ -611,7 +614,7 @@ export default function RealEstateDetails({
                       ))
                     ) : (
                       <SwiperSlide>
-                        <div className="w-full h-[230px] relative">
+                        <div className="w-full h-[165px] lg:h-[230px] relative">
                           <Image
                             src="/placeholder.jpg"
                             alt="Image par défaut"
@@ -625,7 +628,7 @@ export default function RealEstateDetails({
 
                   {/* Disponibilité en haut à droite */}
                   <div
-                    className={`absolute top-3 right-3 z-10 rounded-full px-3 py-1.5 font-medium ${
+                    className={`absolute top-3 right-3 z-10 rounded-full text-sm lg:text-[15px] px-2 lg:px-3 py-1.5 font-medium ${
                       r.availability
                         ? "bg-green-50 text-green-600"
                         : "bg-red-50 text-red-600"
@@ -635,14 +638,14 @@ export default function RealEstateDetails({
                   </div>
                 </div>
 
-                <div className="p-5">
+                <div className="p-2 lg:p-5 my-2">
                   <div className="flex gap-x-1  justify-end">
                     {/*   {[...Array(5)].map((_, i) => (
                     <FaStar key={i} />
                   ))} */}
 
                     <div
-                      className={`rounded-full px-3 py-1.5 font-medium max-h-10 flex justify-center items-center ${
+                      className={`rounded-full px-3 py-1.5 text-sm lg:text-[15px] font-medium max-h-10 flex justify-center items-center  ${
                         r.saleStatus === "RENT"
                           ? "bg-yellowkouzua-dark text-white"
                           : "bg-[#111828] text-white"
@@ -655,8 +658,10 @@ export default function RealEstateDetails({
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       <div className="text-sm text-gray-500">{r.type}</div>
-
-                      <h3 className="text-accent text-lg font-bold uppercase mt-2">
+                      <h3 className="w-full sm:max-w-[250px] text-sm lg:text-md font-semibold uppercase text-gray-800 mt-2 line-clamp-1">
+                        {r.name}
+                      </h3>
+                      <h3 className="text-accent text-sm lg:text-lg font-bold uppercase mt-2">
                         {r.price.toLocaleString()} FCFA{" "}
                         {r.saleStatus === "RENT"
                           ? [
@@ -676,13 +681,10 @@ export default function RealEstateDetails({
                   <div className=" text-gray-700 font-medium mb-3">
                     {r.location.city}
                   </div>
-                  <div className=" text-gray-700 font-medium mb-3">
-                    {r.location.neighborhood}
-                  </div>
 
                   <button
-                    className="btn btn-lg w-full py-3 rounded-lg bg-yellowkouzua"
-                    onClick={() => handleDetail(r.id)}
+                    className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
+                    onClick={() => handleDetail(r.id)} // Assure-toi que handleDetail prend l'ID ou autre paramètre pour rediriger vers la page de détails
                   >
                     Voir plus
                   </button>
