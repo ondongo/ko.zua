@@ -142,7 +142,9 @@ const ProductCardVehicle: React.FC<ProductCardProps> = ({ datas }) => {
                 />
               </div>
 
-              <div className="text-xs text-gray-600 uppercase">{item.text}</div>
+              <div className="text-xs text-gray-600 uppercase">
+                {item.text === "Automatique" ? "Auto" : item.text}
+              </div>
             </div>
           ))}
         </div>
