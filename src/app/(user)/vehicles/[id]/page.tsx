@@ -9,6 +9,7 @@ import VehicleDetails from "@/components/container/ContainerVehicleDetails";
 import { getVehicleById, getSimilarVehicles } from "@/actions/vehicles";
 import { notFound } from "next/navigation";
 
+
 // -------------
 // Cached fetcher – one DB call per request
 // -------------
