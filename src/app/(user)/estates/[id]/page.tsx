@@ -14,8 +14,6 @@ import { notFound } from "next/navigation";
 // -------------
 const fetchRealEstate = cache(async (id: string) => getRealEstateById(id));
 
-type PageProps = { params: { id: string } };
-
 // --------------------------
 // SEO dynamique — solution officielle « await params » (Next 15)
 // --------------------------
@@ -71,7 +69,11 @@ export async function generateMetadata({
 // --------------------------
 // Page — même pattern « await params »
 // --------------------------
-export default async function EstatePage({ params }: PageProps) {
+export default async function EstatePage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = await params;
 
   const realEstate = await fetchRealEstate(id);
