@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
-import DemographicCard from "@/components/admin/metrics/DemographicCard";
+
 import MonthlySalesChart from "@/components/admin/metrics/MonthlySalesChart";
 import MonthlyTarget from "@/components/admin/metrics/MonthlyTarget";
 import { SimpleMetrics } from "@/components/admin/metrics/SimpleMetrics";
