@@ -19,14 +19,19 @@ type PageProps = { params: { id: string } };
 // --------------------------
 // SEO dynamique — solution officielle « await params » (Next 15)
 // --------------------------
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
   const { id } = await params;
 
   const realEstate = await fetchRealEstate(id);
   if (!realEstate) {
     return {
       title: "Immobilier introuvable",
-      description: "L'annonce que vous recherchez n'existe pas ou a été supprimée.",
+      description:
+        "L'annonce que vous recherchez n'existe pas ou a été supprimée.",
     };
   }
 
@@ -39,7 +44,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ? `${realEstate.description.slice(0, 147)}...`
       : realEstate.description ?? "Découvrez cette offre immobilière.";
 
-  const ogImage = realEstate.images ?? realEstate.images?.[0] ?? "/images/ko-zua-cover.png";
+  const ogImage =
+    realEstate.images ?? realEstate.images?.[0] ?? "/images/ko-zua-cover.png";
 
   return {
     metadataBase: new URL(baseUrl),
@@ -71,7 +77,10 @@ export default async function EstatePage({ params }: PageProps) {
   const realEstate = await fetchRealEstate(id);
   if (!realEstate) return notFound();
 
-  const similarRealEstates = await getSimilarRealEstate(realEstate.category, id);
+  const similarRealEstates = await getSimilarRealEstate(
+    realEstate.category,
+    id
+  );
   const shortId = `${id.slice(0, 8)}...`;
 
   return (

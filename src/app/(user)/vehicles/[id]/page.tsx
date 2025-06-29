@@ -18,9 +18,11 @@ const fetchVehicle = cache(async (id: string) => getVehicleById(id));
 // --------------------------
 // Dynamic SEO metadata
 // --------------------------
-export async function generateMetadata(
-  { params }: { params: Promise<{ id: string }> },
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string }
+}) : Promise<Metadata> {
   const { id } = await params;
 
   const vehicle = await fetchVehicle(id);
