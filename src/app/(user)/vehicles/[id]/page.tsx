@@ -9,28 +9,31 @@ import VehicleDetails from "@/components/container/ContainerVehicleDetails";
 import { getVehicleById, getSimilarVehicles } from "@/actions/vehicles";
 import { notFound } from "next/navigation";
 
-
 // -------------
 // Cached fetcher – one DB call per request
 // -------------
 const fetchVehicle = cache(async (id: string) => getVehicleById(id));
 
 // --------------------------
-// Dynamic SEO metadata
+// Types utilitaires
 // --------------------------
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string }
-}) : Promise<Metadata> {
-  const { id } = await params;
+type Params = Promise<{ id: string }>;
+
+// --------------------------
+// Metadata dynamique
+// --------------------------
+export async function generateMetadata(props: {
+  params: Params;
+}): Promise<Metadata> {
+  const { id } = await props.params;
 
   const vehicle = await fetchVehicle(id);
 
   if (!vehicle) {
     return {
       title: "Véhicule introuvable",
-      description: "Le véhicule que vous recherchez n'existe pas ou a été supprimé.",
+      description:
+        "Le véhicule que vous recherchez n'existe pas ou a été supprimé.",
     };
   }
 
@@ -43,7 +46,8 @@ export async function generateMetadata({
       ? `${vehicle.description.slice(0, 147)}...`
       : vehicle.description ?? "Découvrez ce véhicule disponible.";
 
-  const ogImage = vehicle.images ?? vehicle.images?.[0] ?? "/images/ko-zua-cover.png";
+  const ogImage =
+    vehicle.images ?? vehicle.images?.[0] ?? "/images/ko-zua-cover.png";
 
   return {
     metadataBase: new URL(baseUrl),
@@ -68,12 +72,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function VehiclePage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id } = await params;
+export default async function VehiclePage(props: { params: Params }) {
+  const { id } = await props.params;
   const vehicle = await fetchVehicle(id);
 
   if (!vehicle) return notFound();
@@ -87,10 +87,7 @@ export default async function VehiclePage({
       <Breadcrumb path="Véhicules" page="Détails Véhicule" id={shortId} />
 
       <Suspense fallback={<DetailsSkeleton />}>
-        <VehicleDetails
-          vehicle={vehicle}
-          similarVehicles={similarVehicles}
-        />
+        <VehicleDetails vehicle={vehicle} similarVehicles={similarVehicles} />
       </Suspense>
     </main>
   );
