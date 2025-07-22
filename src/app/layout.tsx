@@ -4,22 +4,36 @@ import { SessionProvider } from "next-auth/react";
 import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
+import Script from "next/script";
 export const metadata :Metadata = {
   title: "Ko.Zua - Location de véhicules et biens immobiliers en Afrique",
   description:
     "Ko.Zua vous permet de louer des voitures et d'acheter des biens immobiliers en toute sécurité. Trouvez le véhicule ou le logement idéal avec des partenaires de confiance.",
-  keywords: [
-    "location de voiture",
-    "achat immobilier",
-    "Ko.Zua",
-    "biens immobiliers",
-    "transports en Afrique",
-    "logement en Afrique",
-    "mobilité",
-    "voitures à louer",
-    "achat maison",
-  ],
+    keywords: [
+      "location de voiture",
+      "achat immobilier",
+      "Ko.Zua",
+      "biens immobiliers",
+      "transports en Afrique",
+      "logement en Afrique",
+      "mobilité",
+      "voitures à louer",
+      "achat maison",
+      "réservation de véhicule",
+      "visite virtuelle 360",
+      "paiement mobile money",
+      "réservation éclair",
+      "location maison Afrique",
+      "achat voiture Congo",
+      "plateforme de location",
+      "immobilier au Congo",
+      "location utilitaire",
+      "achat appartement Brazzaville",
+      "location courte durée",
+      "voiture sans acompte",
+      "location sécurisée",
+      "réservation rapide logement"
+    ],
   openGraph: {
     title: "Ko.Zua - Location de véhicules et biens immobiliers en Afrique",
     description:
@@ -64,6 +78,16 @@ export default function RootLayout({
           theme="light"
           transition={Zoom}
            className="custom-toast"
+        />
+          <Script
+          src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"
+          strategy="afterInteractive"
+          defer
+        />
+        <Script
+          src="https://files.bpcontent.cloud/2025/07/22/06/20250722061503-W4OIX3K8.js"
+          strategy="afterInteractive"
+          defer
         />
       </body>
     </html>
