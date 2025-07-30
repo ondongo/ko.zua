@@ -31,6 +31,15 @@ function ContainerRealEstate() {
   const [sortOption, setSortOption] = useState<string>("default");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+
+  // Gérer le changement de page
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Mettre à jour l'URL avec la nouvelle page
+    const url = new URL(window.location.href);
+    url.searchParams.set('page', page.toString());
+    window.history.pushState({}, '', url.toString());
+  };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
@@ -91,6 +100,15 @@ function ContainerRealEstate() {
       searchQuery: params.get("searchQuery") || "",
     };
 
+    // Mettre à jour la page courante depuis l'URL
+    const pageParam = params.get("page");
+    if (pageParam) {
+      const page = parseInt(pageParam);
+      if (page > 0) {
+        setCurrentPage(page);
+      }
+    }
+
     // Ajoutez minPrice et maxPrice uniquement si les paramètres sont présents dans l'URL
     const minPrice = params.get("minPrice");
     const maxPrice = params.get("maxPrice");
@@ -139,6 +157,9 @@ function ContainerRealEstate() {
     if (filters.availability !== null && filters.availability !== undefined) {
       newParams.set("availability", filters.availability.toString());
     }
+
+    // Réinitialiser la page à 1 quand on applique des filtres
+    newParams.set("page", "1");
 
     // Comparaison avec les paramètres actuels pour éviter la redondance
     const currentParams = new URLSearchParams(window.location.search);
@@ -201,6 +222,18 @@ function ContainerRealEstate() {
       setLoading(false);
     }
   };
+
+  // Initialiser la page courante depuis l'URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = urlParams.get('page');
+    if (pageParam) {
+      const page = parseInt(pageParam);
+      if (page > 0) {
+        setCurrentPage(page);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     fetchRealEstates();
@@ -369,12 +402,12 @@ function ContainerRealEstate() {
               )}
             </div>
 
-            {!loading && realEstate.length > 0 && (
+            {!loading && realEstate.length > 0 && totalPages > 1 && (
               <div className="w-full flex justify-center items-center">
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
-                  onPageChange={setCurrentPage}
+                  onPageChange={handlePageChange}
                 />
               </div>
             )}

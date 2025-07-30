@@ -9,6 +9,11 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
+  // Ne pas afficher la pagination s'il n'y a qu'une seule page ou moins
+  if (totalPages <= 1) {
+    return null;
+  }
+
   const pagesAroundCurrent = Array.from(
     { length: Math.min(3, totalPages) },
     (_, i) => i + Math.max(currentPage - 1, 1)
@@ -29,7 +34,6 @@ const Pagination: React.FC<PaginationProps> = ({
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded ${
               currentPage === page
                 ? "bg-yellowkouzua text-white"
