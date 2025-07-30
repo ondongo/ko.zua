@@ -19,7 +19,7 @@ function BackToTopBtn() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  });
+  }, []); // Ajout du tableau de dépendances vide
   return (
     <Link
       to="home"

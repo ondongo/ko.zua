@@ -41,7 +41,7 @@ function Header() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  });
+  }, [setSearchActive]); // Ajout du tableau de dépendances avec setSearchActive
 
   const redirectToCategoryVehicle = (category: string) => {
     router.push(`/vehicles?category=${category}`);
