@@ -11,17 +11,30 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
   priceRange,
   priceRangeHandler,
 }) => {
-  const [values, setValues] = React.useState([priceRange.min, priceRange.max]);
   const min = 5000;
   const max = 500000;
+  
+  // S'assurer que les valeurs sont dans les limites acceptables
+  const validMin = Math.max(min, Math.min(max, priceRange.min || min));
+  const validMax = Math.max(min, Math.min(max, priceRange.max || max));
+  
+  const [values, setValues] = React.useState([validMin, validMax]);
 
   React.useEffect(() => {
-    setValues([priceRange.min, priceRange.max]);
-  }, [priceRange]);
+    // Mettre à jour les valeurs quand priceRange change
+    const newMin = Math.max(min, Math.min(max, priceRange.min || min));
+    const newMax = Math.max(min, Math.min(max, priceRange.max || max));
+    setValues([newMin, newMax]);
+  }, [priceRange, min, max]);
 
   const handleChange = (newValues: number[]) => {
-    setValues(newValues);
-    priceRangeHandler({ min: newValues[0], max: newValues[1] });
+    // S'assurer que les nouvelles valeurs sont valides
+    const validValues = [
+      Math.max(min, Math.min(max, newValues[0])),
+      Math.max(min, Math.min(max, newValues[1]))
+    ];
+    setValues(validValues);
+    priceRangeHandler({ min: validValues[0], max: validValues[1] });
   };
 
   const [isLoading, setIsLoading] = useState(false);
@@ -87,8 +100,8 @@ const RangeSlider: React.FC<RangeSliderProps> = ({
       </div>
 
       <div className="flex justify-between w-full max-w-md">
-        <span className="text-sm text-gray-500">{values[0]} fcfa</span>
-        <span className="text-sm text-gray-500">{values[1]} fcfa</span>
+        <span className="text-sm text-gray-500">{values[0].toLocaleString()} fcfa</span>
+        <span className="text-sm text-gray-500">{values[1].toLocaleString()} fcfa</span>
       </div>
     </div>
   );

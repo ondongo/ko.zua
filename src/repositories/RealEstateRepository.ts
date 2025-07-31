@@ -33,103 +33,73 @@ export class RealEstateRepository
     const page = pagination.page ?? 1;
     const pageSize = pagination.pageSize ?? 12;
 
+    console.log("Repository - Filtres reçus:", filters);
+    console.log("Repository - minPrice:", filters.minPrice, "maxPrice:", filters.maxPrice);
+
+    const whereClause = {
+      ...(filters.availability !== undefined && {
+        availability: filters.availability,
+      }),
+
+      ...(filters.minPrice !== undefined && {
+        price: { gte: filters.minPrice },
+      }),
+      ...(filters.maxPrice !== undefined && {
+        price: { lte: filters.maxPrice },
+      }),
+      ...(filters.city &&
+        filters.neighborhood && {
+          AND: [
+            {
+              location: {
+                path: ["city"],
+                equals: filters.city,
+              },
+            },
+            {
+              location: {
+                path: ["neighborhood"],
+                equals: filters.neighborhood,
+              },
+            },
+          ],
+        }),
+
+      ...(filters.category && { category: filters.category }),
+      ...(filters.searchQuery && {
+        OR: [
+          {
+            name: {
+              contains: filters.searchQuery,
+              mode: "insensitive",
+            } as Prisma.StringFilter,
+          },
+          {
+            description: {
+              contains: filters.searchQuery,
+              mode: "insensitive",
+            } as Prisma.StringFilter,
+          },
+        ],
+      }),
+      ...(filters.saleStatus && { saleStatus: filters.saleStatus }),
+    };
+
+    console.log("Repository - Clause WHERE construite:", JSON.stringify(whereClause, null, 2));
+
     const [immobiliers, totalItems] = await prisma.$transaction([
       prisma.immobilier.findMany({
-        where: {
-          ...(filters.availability !== undefined && {
-            availability: filters.availability,
-          }),
-
-          ...(filters.minPrice !== undefined && {
-            price: { gte: filters.minPrice },
-          }),
-          ...(filters.maxPrice !== undefined && {
-            price: { lte: filters.maxPrice },
-          }),
-          ...(filters.city &&
-            filters.neighborhood && {
-              AND: [
-                {
-                  location: {
-                    path: ["city"],
-                    equals: filters.city,
-                  },
-                },
-                {
-                  location: {
-                    path: ["neighborhood"],
-                    equals: filters.neighborhood,
-                  },
-                },
-              ],
-            }),
-
-          ...(filters.category && { category: filters.category }),
-          ...(filters.searchQuery && {
-            OR: [
-              {
-                name: {
-                  contains: filters.searchQuery,
-                  mode: "insensitive",
-                } as Prisma.StringFilter,
-              },
-              {
-                description: {
-                  contains: filters.searchQuery,
-                  mode: "insensitive",
-                } as Prisma.StringFilter,
-              },
-            ],
-          }),
-          ...(filters.saleStatus && { saleStatus: filters.saleStatus }),
-        },
+        where: whereClause,
         skip: (page - 1) * pageSize,
         take: pageSize,
       }),
       prisma.immobilier.count({
-        where: {
-          ...(filters.availability !== undefined && {
-            availability: filters.availability,
-          }),
-
-          ...(filters.minPrice !== undefined && {
-            price: { gte: filters.minPrice },
-          }),
-          ...(filters.maxPrice !== undefined && {
-            price: { lte: filters.maxPrice },
-          }),
-          ...(filters.city && {
-            location: {
-              equals: { city: filters.city },
-            },
-          }),
-
-          ...(filters.neighborhood && {
-            location: {
-              equals: { neighborhood: filters.neighborhood },
-            },
-          }),
-          ...(filters.category && { category: filters.category }),
-          ...(filters.searchQuery && {
-            OR: [
-              {
-                name: {
-                  contains: filters.searchQuery,
-                  mode: "insensitive",
-                } as Prisma.StringFilter,
-              },
-              {
-                description: {
-                  contains: filters.searchQuery,
-                  mode: "insensitive",
-                } as Prisma.StringFilter,
-              },
-            ],
-          }),
-          ...(filters.saleStatus && { saleStatus: filters.saleStatus }),
-        },
+        where: whereClause,
       }),
     ]);
+
+    console.log("Repository - Résultats trouvés:", immobiliers.length);
+    console.log("Repository - Prix des résultats:", immobiliers.map(item => ({ id: item.id, name: item.name, price: item.price })));
 
     const totalPages = Math.ceil(totalItems / pageSize);
 

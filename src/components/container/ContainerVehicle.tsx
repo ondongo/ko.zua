@@ -112,10 +112,10 @@ function ContainerVehicle() {
     const minPrice = params.get("minPrice");
     const maxPrice = params.get("maxPrice");
 
-    if (minPrice) {
+    if (minPrice !== null && minPrice !== "") {
       filters.minPrice = Number(minPrice);
     }
-    if (maxPrice) {
+    if (maxPrice !== null && maxPrice !== "") {
       filters.maxPrice = Number(maxPrice);
     }
 
@@ -125,8 +125,8 @@ function ContainerVehicle() {
 
     // Si aucun filtre valide n'est présent (pas de minPrice/maxPrice, de catégorie, etc.), ne retournez pas de filtre
     if (
-      !filters.minPrice &&
-      !filters.maxPrice &&
+      filters.minPrice === undefined &&
+      filters.maxPrice === undefined &&
       !filters.brand &&
       !filters.location &&
       !filters.category &&
@@ -145,9 +145,9 @@ function ContainerVehicle() {
     const newParams = new URLSearchParams();
 
     if (filters.category) newParams.set("category", filters.category);
-    if (filters.minPrice)
+    if (filters.minPrice !== undefined && filters.minPrice !== null)
       newParams.set("minPrice", filters.minPrice.toString());
-    if (filters.maxPrice)
+    if (filters.maxPrice !== undefined && filters.maxPrice !== null)
       newParams.set("maxPrice", filters.maxPrice.toString());
     if (filters.location) newParams.set("location", filters.location);
     if (filters.saleStatus) newParams.set("saleStatus", filters.saleStatus);
@@ -226,6 +226,27 @@ function ContainerVehicle() {
       if (page > 0) {
         setCurrentPage(page);
       }
+    }
+  }, []);
+
+  // Initialiser les filtres depuis l'URL au chargement de la page
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const minPrice = urlParams.get("minPrice");
+    const maxPrice = urlParams.get("maxPrice");
+    
+    // Initialiser priceRange depuis l'URL
+    if (minPrice && maxPrice) {
+      setPriceRange({
+        min: Number(minPrice),
+        max: Number(maxPrice)
+      });
+    }
+    
+    // Initialiser les filtres depuis l'URL
+    const urlFilters = getFiltersFromURL();
+    if (Object.keys(urlFilters).length > 0) {
+      setFilters(urlFilters);
     }
   }, []);
 

@@ -113,21 +113,27 @@ function ContainerRealEstate() {
     const minPrice = params.get("minPrice");
     const maxPrice = params.get("maxPrice");
 
-    if (minPrice) {
+    console.log("Paramètres de prix depuis l'URL:", { minPrice, maxPrice });
+
+    if (minPrice !== null && minPrice !== "") {
       filters.minPrice = Number(minPrice);
+      console.log("minPrice ajouté aux filtres:", filters.minPrice);
     }
-    if (maxPrice) {
+    if (maxPrice !== null && maxPrice !== "") {
       filters.maxPrice = Number(maxPrice);
+      console.log("maxPrice ajouté aux filtres:", filters.maxPrice);
     }
 
     if (availability !== null) {
       filters.availability = availability;
     }
 
+    console.log("Filtres finaux:", filters);
+
     // Si aucun filtre valide n'est présent (pas de minPrice/maxPrice, de catégorie, etc.), ne retournez pas de filtre
     if (
-      !filters.minPrice &&
-      !filters.maxPrice &&
+      filters.minPrice === undefined &&
+      filters.maxPrice === undefined &&
       !filters.brand &&
       !filters.city &&
       !filters.neighborhood &&
@@ -135,6 +141,7 @@ function ContainerRealEstate() {
       !filters.saleStatus &&
       availability === null
     ) {
+      console.log("Aucun filtre valide trouvé, retour d'un objet vide");
       return {};
     }
 
@@ -145,9 +152,9 @@ function ContainerRealEstate() {
     const newParams = new URLSearchParams();
 
     if (filters.category) newParams.set("category", filters.category);
-    if (filters.minPrice)
+    if (filters.minPrice !== undefined && filters.minPrice !== null)
       newParams.set("minPrice", filters.minPrice.toString());
-    if (filters.maxPrice)
+    if (filters.maxPrice !== undefined && filters.maxPrice !== null)
       newParams.set("maxPrice", filters.maxPrice.toString());
     if (filters.city) newParams.set("city", filters.city);
     if (filters.neighborhood)
@@ -201,18 +208,25 @@ function ContainerRealEstate() {
     setLoading(true);
     try {
       const filters = getFiltersFromURL();
+      
+      // Log pour déboguer les filtres
+      console.log("Filtres récupérés depuis l'URL:", filters);
+      console.log("URL actuelle:", window.location.href);
 
       let result: any;
 
       if (Object.keys(filters).length === 0) {
+        console.log("Aucun filtre, récupération de tous les biens immobiliers");
         result = await getAllRealEstates(currentPage, 12);
       } else {
+        console.log("Application des filtres:", filters);
         result = await getFilteredRealEstates(filters, {
           page: currentPage,
           pageSize: 12,
         });
       }
 
+      console.log("Résultats reçus:", result.immobiliers.map(item => ({ id: item.id, name: item.name, price: item.price })));
       setRealEstate(result.immobiliers);
       setTotalPages(result.totalPages);
     } catch (error) {
@@ -232,6 +246,27 @@ function ContainerRealEstate() {
       if (page > 0) {
         setCurrentPage(page);
       }
+    }
+  }, []);
+
+  // Initialiser les filtres depuis l'URL au chargement de la page
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const minPrice = urlParams.get("minPrice");
+    const maxPrice = urlParams.get("maxPrice");
+    
+    // Initialiser priceRange depuis l'URL
+    if (minPrice && maxPrice) {
+      setPriceRange({
+        min: Number(minPrice),
+        max: Number(maxPrice)
+      });
+    }
+    
+    // Initialiser les filtres depuis l'URL
+    const urlFilters = getFiltersFromURL();
+    if (Object.keys(urlFilters).length > 0) {
+      setFilters(urlFilters);
     }
   }, []);
 
