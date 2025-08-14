@@ -226,7 +226,7 @@ function ContainerRealEstate() {
         });
       }
 
-      console.log("Résultats reçus:", result.immobiliers.map(item => ({ id: item.id, name: item.name, price: item.price })));
+      console.log("Résultats reçus:", result.immobiliers.map((item: any) => ({ id: item.id, name: item.name, price: item.price })));
       setRealEstate(result.immobiliers);
       console.log("result.immobiliers>>>>>>>", result.immobiliers);
       setTotalPages(result.totalPages);
@@ -410,7 +410,7 @@ function ContainerRealEstate() {
             <div className="grid xl:grid-cols-3 grid-cols-2  xl:gap-[30px] gap-2 mb-[40px]">
               {loading ? (
                 <>
-                  {[...Array(3)].map((_, index) => (
+                  {[...Array(12)].map((_, index) => (
                     <SkeletonProductCard key={index} />
                   ))}
                 </>
