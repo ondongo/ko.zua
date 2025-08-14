@@ -208,6 +208,8 @@ function ContainerVehicle() {
       }
 
       setVehicles(result.vehicles);
+      console.log("result.totalPages", result.totalPages);
+      console.log("result.vehicles>>>>>>>", result.vehicles);
       setTotalPages(result.totalPages);
     } catch (error) {
       console.error("Erreur lors de la récupération des véhicules :", error);
@@ -258,9 +260,9 @@ function ContainerVehicle() {
     // Vérification si les paramètres ont changé avant d'exécuter la fonction de récupération des données
     const currentSearchParams = new URLSearchParams(window.location.search);
 
-    console.log("currentSearchParams:", currentSearchParams);
+   /*  console.log("currentSearchParams:", currentSearchParams);
     console.log(">>>>>>>>>>>>>>>", Number(currentSearchParams.get("page")));
-    console.log(">>>>>>>>CurrentPage", currentPage);
+    console.log(">>>>>>>>CurrentPage", currentPage); */
 
     if (
       currentSearchParams.toString() !== prevSearchParamsRef.current.toString()
@@ -411,7 +413,7 @@ function ContainerVehicle() {
                   </div>
                 </div>
               ) : (
-                <DataIteration datas={vehicles} startLength={0} endLength={6}>
+                <DataIteration datas={vehicles} startLength={0} endLength={12}>
                   {({ datas }: { datas: Vehicle }) => (
                     <div data-aos="fade-up" key={datas.id} className="mb-8">
                       <ProductCardVehicle datas={datas} />

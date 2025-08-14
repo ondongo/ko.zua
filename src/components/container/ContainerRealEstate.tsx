@@ -228,6 +228,7 @@ function ContainerRealEstate() {
 
       console.log("Résultats reçus:", result.immobiliers.map(item => ({ id: item.id, name: item.name, price: item.price })));
       setRealEstate(result.immobiliers);
+      console.log("result.immobiliers>>>>>>>", result.immobiliers);
       setTotalPages(result.totalPages);
     } catch (error) {
       console.error("Erreur lors de la récupération des Immo :", error);
@@ -427,7 +428,7 @@ function ContainerRealEstate() {
                   </div>
                 </div>
               ) : (
-                <DataIteration datas={realEstate} startLength={0} endLength={6}>
+                <DataIteration datas={realEstate} startLength={0} endLength={12}>
                   {({ datas }: { datas: RealEstate }) => (
                     <div data-aos="fade-up" key={datas.id} className="mb-8">
                       <ProductCardRealEstate datas={datas} />
