@@ -19,11 +19,11 @@ function About() {
     <section className="flex justify-start" id="about" ref={ref}>
       <div className="container mx-auto">
         <div className="flex flex-col xl:flex-row xl:justify-between">
-          <motion.div
-            variants={fadeIn("up", 0.2)}
+          <div
+         /*    variants={fadeIn("up", 0.2)}
             initial="hidden"
             whileInView={"show"}
-            viewport={{ once: false, amount: 0.6 }}
+            viewport={{ once: false, amount: 0.6 }} */
             className="flex-1 mb-8 xl:mb-0"
           >
             <Image
@@ -34,7 +34,7 @@ function About() {
               alt=""
               loading="lazy"
             />
-          </motion.div>
+          </div>
 
           <div className="flex-1 flex items-center xl:justify-between">
             <div className="xl:max-w-[580px] text-center lg:text-start">
