@@ -330,7 +330,7 @@ function ContainerRealEstate() {
               <div>
                 <p className="font-400 text-[13px]">
                   {realEstate.length}
-                  &nbsp; resultats <span className="text-qgray"> trouvés</span>
+                  &nbsp; résultats <span className="text-qgray"> trouvés sur cette page</span>
                 </p>
               </div>
 

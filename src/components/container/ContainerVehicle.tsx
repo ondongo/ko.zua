@@ -316,8 +316,8 @@ function ContainerVehicle() {
               </div>
               <div>
                 <p className="font-400 text-[13px]">
-                  {vehicles.length} &nbsp; resultats{" "}
-                  <span className="text-qgray"> trouvés</span>
+                  {vehicles.length} &nbsp; résultats{" "}
+                  <span className="text-qgray"> trouvés sur cette page</span>
                 </p>
               </div>
 
