@@ -161,20 +161,25 @@ export default {
           "0 35px 35px rgba(0, 0, 0, 0.25), 0 45px 65px rgba(0, 0, 0, 0.15)",
       },
       animation: {
-        "animate-25s": "animate 25s linear infinite",
-        marquee: "marquee 30s linear infinite",
-      },
-
-      fontFamily: {
-        sans: ['"Montserrat"', "sans-serif"], // Remplacez "sans" si vous souhaitez en faire la police par défaut.
-        montserrat: ['"Montserrat"', "sans-serif"], // Clé personnalisée pour Montserrat.
-        outfit: ["Outfit", "sans-serif"],
+        "animate-25s": "marquee 20s linear infinite",
+        marquee: "marquee 20s linear infinite",
+        "marqueeGrid": "marqueeGrid 20s linear infinite",
+        "reverse": "marquee 20s linear infinite reverse",
       },
       keyframes: {
-        marquee: {
+        marqueeGrid: {
           "0%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-20%)" },
+        },
+      },
+      fontFamily: {
+        sans: ['"Montserrat"', "sans-serif"], 
+        montserrat: ['"Montserrat"', "sans-serif"], 
+        outfit: ["Outfit", "sans-serif"],
       },
       backgroundImage: {
         "gradient-radial":

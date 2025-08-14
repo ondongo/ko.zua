@@ -9,6 +9,7 @@ import Image from "next/image";
 import RecentlyAdded from "@/components/landing/RecentlyAdded";
 import ContainerHero from "@/components/landing/hero/ContainerHero";
 import PartnersMarquee from "@/components/landing/PartenersMarquee";
+import MarqueeProduct from "@/components/landing/MarqueeProduct";
 
 export default function Home() {
       
@@ -17,7 +18,7 @@ export default function Home() {
       <Header />
       <ContainerHero />
       <PartnersMarquee />
-      <RecentlyAdded />
+      <MarqueeProduct />
       <About />
       <Testimonial />
       {/* <Cta /> */}

@@ -182,7 +182,7 @@ export class VehicleRepository
   async getLatestVehicles(): Promise<Vehicle[]> {
     return await prisma.vehicle.findMany({
       orderBy: { createdAt: "desc" },
-      take: 3,
+      take: 10,
     });
   }
   

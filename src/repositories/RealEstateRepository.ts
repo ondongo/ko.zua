@@ -121,7 +121,7 @@ export class RealEstateRepository
   async getLatestImmobilier(): Promise<Immobilier[]> {
     return await prisma.immobilier.findMany({
       orderBy: { createdAt: "desc" },
-      take: 3,
+      take: 10,
     });
   }
 

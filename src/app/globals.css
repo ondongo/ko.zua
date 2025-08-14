@@ -7,7 +7,6 @@
 }
 
 .custom-toast .Toastify__toast {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px; /* Ajustez la taille selon votre besoin */
-  }
-  
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px; /* Ajustez la taille selon votre besoin */
+}
