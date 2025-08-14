@@ -328,8 +328,8 @@ export default function MarqueeProduct() {
 
       <div className="overflow-hidden">
         <div className="mx-auto  lg:mt-16">
-          <h2 className="text-xl lg:text-2xl font-bold text-gray-800 my-6 ml-24">
-            Voitures et Logements récemment ajoutées
+          <h2 className="text-xl lg:text-2xl font-bold text-gray-800 my-8 ml-6 lg:ml-24">
+            Voitures et Logements récents
           </h2>
         </div>
         <div className="space-y-10 py-10">
