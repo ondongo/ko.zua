@@ -9,11 +9,19 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { AnimatePresence, motion } from "framer-motion";
 import { DateRange } from "react-date-range";
-import "react-date-range/dist/styles.css"; 
+import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { FaCalendarAlt, FaCheckCircle, FaStar, FaWhatsapp, FaFacebook, FaInstagram, FaRegCopy } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaStar,
+  FaWhatsapp,
+  FaFacebook,
+  FaInstagram,
+  FaRegCopy,
+} from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { getPlaceholder } from "@/utils/records";
 import { RealEstate } from "@/types/real_estate";
@@ -31,7 +39,11 @@ import { Expand, X } from "lucide-react";
 import { useReservationState } from "@/hooks/useReservationState";
 import { useDateState } from "@/hooks/useDateState";
 import { useGalleryState } from "@/hooks/useGalleryState";
-import { DateRangeType, InvoiceData, ReservationData } from "@/types/interfaces";
+import {
+  DateRangeType,
+  InvoiceData,
+  ReservationData,
+} from "@/types/interfaces";
 
 // Fonctions utilitaires
 const getCaracteristiques = (realEstate: RealEstate): string[] => {
@@ -133,7 +145,10 @@ const ShareButtons = ({ realEstate }: { realEstate: RealEstate }) => {
         title="Partager sur WhatsApp"
       >
         <FaWhatsapp className="text-green-600" size={18} />
-        <span className="hidden md:inline text-xs text-green-700" title="Partager cette propriété sur WhatsApp">
+        <span
+          className="hidden md:inline text-xs text-green-700"
+          title="Partager cette propriété sur WhatsApp"
+        >
           WhatsApp
         </span>
       </a>
@@ -147,7 +162,10 @@ const ShareButtons = ({ realEstate }: { realEstate: RealEstate }) => {
         title="Partager sur Facebook"
       >
         <FaFacebook className="text-blue-600" size={18} />
-        <span className="hidden md:inline text-xs text-blue-700" title="Partager cette propriété sur Facebook">
+        <span
+          className="hidden md:inline text-xs text-blue-700"
+          title="Partager cette propriété sur Facebook"
+        >
           Facebook
         </span>
       </a>
@@ -159,7 +177,10 @@ const ShareButtons = ({ realEstate }: { realEstate: RealEstate }) => {
         title="Partager sur Instagram"
       >
         <FaInstagram className="text-pink-600" size={18} />
-        <span className="hidden md:inline text-xs text-pink-700" title="Partager cette propriété sur Instagram">
+        <span
+          className="hidden md:inline text-xs text-pink-700"
+          title="Partager cette propriété sur Instagram"
+        >
           Instagram
         </span>
       </a>
@@ -169,7 +190,10 @@ const ShareButtons = ({ realEstate }: { realEstate: RealEstate }) => {
         title="Copier le lien de la propriété"
       >
         <FaRegCopy className="text-gray-600" size={18} />
-        <span className="hidden md:inline text-xs text-gray-700" title="Copier le lien de la propriété">
+        <span
+          className="hidden md:inline text-xs text-gray-700"
+          title="Copier le lien de la propriété"
+        >
           Copier le lien
         </span>
       </button>
@@ -272,7 +296,6 @@ const PropertyInfo = ({ realEstate }: { realEstate: RealEstate }) => (
     </p>
   </div>
 );
-
 
 const ReservationButtons = ({
   saleStatus,
@@ -729,6 +752,25 @@ export default function RealEstateDetails({
   realEstate: RealEstate;
   similarRealEstates: RealEstate[];
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: realEstate?.name,
+    description: realEstate?.description,
+    image:
+      Array.isArray(realEstate?.images) && realEstate.images.length > 0
+        ? realEstate.images
+        : undefined,
+    category: realEstate?.category ?? "Real Estate",
+    offers: realEstate?.price
+      ? {
+          "@type": "Offer",
+          price: realEstate.price,
+          availability: "https://schema.org/InStock",
+        }
+      : undefined,
+  };
+
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<
     "description" | "reviews" | "location"
@@ -1074,6 +1116,10 @@ export default function RealEstateDetails({
         loadingReservation={loadingReservation}
         handleReservation={handleReservation}
         invoiceData={invoiceData}
+      />
+       <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
     </>
   );

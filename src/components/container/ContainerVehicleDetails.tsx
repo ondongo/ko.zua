@@ -13,7 +13,15 @@ import "react-date-range/dist/styles.css"; // Styles de base
 import "react-date-range/dist/theme/default.css"; // Thème par défaut
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { FaCalendarAlt, FaCheckCircle, FaStar, FaWhatsapp, FaFacebook, FaInstagram, FaRegCopy } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaStar,
+  FaWhatsapp,
+  FaFacebook,
+  FaInstagram,
+  FaRegCopy,
+} from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Vehicle } from "@/types/vehicle";
 import { featureLabels, getPlaceholder } from "@/utils/records";
@@ -59,7 +67,10 @@ const ShareButtons = ({ vehicle }: { vehicle: Vehicle }) => {
         title="Partager sur WhatsApp"
       >
         <FaWhatsapp className="text-green-600" size={18} />
-        <span className="hidden md:inline text-xs text-green-700" title="Partager ce véhicule sur WhatsApp">
+        <span
+          className="hidden md:inline text-xs text-green-700"
+          title="Partager ce véhicule sur WhatsApp"
+        >
           WhatsApp
         </span>
       </a>
@@ -73,7 +84,10 @@ const ShareButtons = ({ vehicle }: { vehicle: Vehicle }) => {
         title="Partager sur Facebook"
       >
         <FaFacebook className="text-blue-600" size={18} />
-        <span className="hidden md:inline text-xs text-blue-700" title="Partager ce véhicule sur Facebook">
+        <span
+          className="hidden md:inline text-xs text-blue-700"
+          title="Partager ce véhicule sur Facebook"
+        >
           Facebook
         </span>
       </a>
@@ -85,7 +99,10 @@ const ShareButtons = ({ vehicle }: { vehicle: Vehicle }) => {
         title="Partager sur Instagram"
       >
         <FaInstagram className="text-pink-600" size={18} />
-        <span className="hidden md:inline text-xs text-pink-700" title="Partager ce véhicule sur Instagram">
+        <span
+          className="hidden md:inline text-xs text-pink-700"
+          title="Partager ce véhicule sur Instagram"
+        >
           Instagram
         </span>
       </a>
@@ -95,7 +112,10 @@ const ShareButtons = ({ vehicle }: { vehicle: Vehicle }) => {
         title="Copier le lien du véhicule"
       >
         <FaRegCopy className="text-gray-600" size={18} />
-        <span className="hidden md:inline text-xs text-gray-700" title="Copier le lien du véhicule">
+        <span
+          className="hidden md:inline text-xs text-gray-700"
+          title="Copier le lien du véhicule"
+        >
           Copier le lien
         </span>
       </button>
@@ -110,6 +130,23 @@ export default function VehicleDetails({
   vehicle: Vehicle;
   similarVehicles: Vehicle[];
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: vehicle?.name,
+    description: vehicle?.description,
+    image: Array.isArray(vehicle?.images) ? vehicle.images : undefined,
+    brand: vehicle?.brand,
+    model: vehicle?.model,
+    offers: vehicle?.price
+      ? {
+          "@type": "Offer",
+          price: vehicle.price,
+          availability: "https://schema.org/InStock",
+        }
+      : undefined,
+  };
+
   /* States */
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
@@ -745,7 +782,6 @@ export default function VehicleDetails({
                     {car.location.city}
                   </div>
 
-                 
                   <button
                     className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-2.5 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
                     onClick={() => handleDetail(car.id)}
@@ -946,6 +982,11 @@ export default function VehicleDetails({
           </AnimatePresence>
         </Modal>
       )}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
     </>
   );
 }
