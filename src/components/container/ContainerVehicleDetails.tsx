@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
+import { Pagination, Navigation, Keyboard } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -341,9 +341,10 @@ export default function VehicleDetails({
                     {Array.isArray(vehicle.images) &&
                     vehicle.images.length > 0 ? (
                       vehicle.images.map((imgSrc, index) => (
-                        <SwiperSlide key={index} className="relative h-full">
+                        <SwiperSlide key={index} className="relative h-full cursor-pointer" onClick={() => setIsOpen(true)}>
                           <Image
                             src={imgSrc ?? ""}
+                            
                             alt={`Gallery ${index + 1}`}
                             fill
                             className="object-cover rounded-lg"
@@ -391,7 +392,8 @@ export default function VehicleDetails({
                     <Swiper
                       initialSlide={activeIndex}
                       pagination={{ clickable: true }}
-                      modules={[Pagination]}
+                      keyboard={{ enabled: true }} 
+                      modules={[Pagination, Keyboard]}
                       className="h-[90vh] w-full max-w-6xl"
                     >
                       {Array.isArray(vehicle.images) &&

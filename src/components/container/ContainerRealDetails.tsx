@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
+import { Pagination, Navigation, Keyboard } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -950,7 +950,7 @@ export default function RealEstateDetails({
                   {Array.isArray(realEstate.images) &&
                   realEstate.images.length > 0 ? (
                     realEstate.images.map((imgSrc, index) => (
-                      <SwiperSlide key={index} className="relative h-full">
+                      <SwiperSlide key={index} className="relative h-full cursor-pointer" onClick={() => setIsOpen(true)}>
                         <Image
                           src={imgSrc ?? ""}
                           alt={`Gallery ${index + 1}`}
@@ -995,9 +995,11 @@ export default function RealEstateDetails({
                   </button>
 
                   <Swiper
-                    initialSlide={activeIndex}
-                    pagination={{ clickable: true }}
-                    modules={[Pagination]}
+                   initialSlide={activeIndex}
+                   pagination={{ clickable: true }}
+                   keyboard={{ enabled: true }} 
+                   modules={[Pagination, Keyboard]}
+                
                     className="h-[90vh] w-full max-w-6xl"
                   >
                     {Array.isArray(realEstate.images) &&
