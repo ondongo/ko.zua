@@ -12,6 +12,30 @@ import { useInView } from "@/hooks/useInView";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 
+// Skeleton pour les cards estates/vehicles (mêmes dimensions que les cards)
+const SkeletonCardSmall = () => (
+  <div className="min-w-[140px] lg:min-w-[220px] max-w-[140px] lg:max-w-[220px] max-h-[340px] lg:max-h-[380px] w-full h-full mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden border-2 border-[#FAFAFA] animate-pulse flex flex-col">
+    {/* Image Placeholder */}
+    <div className="w-full h-[90px] lg:h-[120px] bg-gray-300"></div>
+    <div className="flex-1 p-2 lg:p-3 my-1 flex flex-col">
+      {/* Badge Placeholder */}
+      <div className="flex gap-x-1 justify-end mb-2">
+        <div className="rounded-full px-2 py-1 w-14 h-5 bg-gray-200"></div>
+      </div>
+      {/* Type Placeholder */}
+      <div className="w-1/2 h-3 bg-gray-200 rounded mb-2"></div>
+      {/* Price Placeholder */}
+      <div className="w-2/3 h-4 bg-gray-200 rounded mb-2"></div>
+      {/* Location Placeholder */}
+      <div className="w-1/2 h-3 bg-gray-200 rounded mb-2"></div>
+      {/* Neighborhood Placeholder */}
+      <div className="w-1/3 h-3 bg-gray-200 rounded mb-2"></div>
+      {/* Button Placeholder */}
+      <div className="hidden md:block btn w-full py-1 text-xs md:text-sm lg:py-2 rounded-md md:rounded-lg bg-gray-200"></div>
+    </div>
+  </div>
+);
+
 // Card pour les biens immobiliers
 const CardEstate = ({
   estate,
@@ -305,6 +329,12 @@ const MarqueeRow = ({
     />
   ));
 
+  // Skeletons à afficher pendant le chargement
+  const skeletonCount = 15;
+  const skeletons = Array.from({ length: skeletonCount }).map((_, i) => (
+    <SkeletonCardSmall key={i} />
+  ));
+
   // On fait défiler les deux types de cartes de droite à gauche (direction left)
   return (
     <div className="overflow-hidden w-full relative">
@@ -313,7 +343,13 @@ const MarqueeRow = ({
           direction === "right" ? "animate-reverse" : ""
         }`}
       >
-        {fileName === "estates" ? cardsEstates : cardsVehicles}
+        {fileName === "estates"
+          ? loadingEstates
+            ? skeletons
+            : cardsEstates
+          : loadingCars
+          ? skeletons
+          : cardsVehicles}
       </div>
     </div>
   );
