@@ -23,7 +23,7 @@ type Params = Promise<{ id: string }>
 // --------------------------
 // Metadata dynamique
 // --------------------------
-export async function generateMetadata(
+/* export async function generateMetadata(
   props: { params: Params }
 ): Promise<Metadata> {
   const { id } = await props.params
@@ -68,7 +68,7 @@ export async function generateMetadata(
       images: [ogImage],
     },
   }
-}
+} */
 
 // --------------------------
 // Page — même pattern « await params »
