@@ -103,71 +103,79 @@ const createReservationData = (
 });
 
 // Composant de partage
+
 const ShareButtons = ({ realEstate }: { realEstate: RealEstate }) => {
-  // On suppose que la page est accessible côté client
-  const [copied, setCopied] = useState(false);
+  // Générer l'URL de la page courante
   const url =
     typeof window !== "undefined"
       ? window.location.href
       : `https://kouzua.com/estates/${realEstate.id}`;
   const title = encodeURIComponent(
-    `Découvrez ce bien immobilier sur Kouzua : ${realEstate.name}`
+    `Découvrez cette propriété sur Kouzua : ${realEstate.name}`
   );
 
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (e) {
-      setCopied(false);
+  // Fonctions de partage
+  const handleCopy = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(url);
+      toast.success("Lien copié !");
     }
   };
 
   return (
-    <div className="flex gap-3 mt-2 mb-6">
+    <div className="flex items-center gap-3 mb-6">
+      <span className="text-gray-500 text-sm">Partager :</span>
       <a
-        href={`https://wa.me/?text=${title}%0A${encodeURIComponent(url)}`}
+        href={`https://wa.me/?text=${title}%20${encodeURIComponent(url)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-1 px-3 py-2 rounded-full bg-green-100 hover:bg-green-200 text-green-700 text-sm font-medium transition"
+        className="flex items-center gap-1 rounded-full bg-green-100 hover:bg-green-200 p-2 group"
         title="Partager sur WhatsApp"
       >
-        <FaWhatsapp className="text-lg" />
-        WhatsApp
+        <FaWhatsapp className="text-green-600" size={18} />
+        <span className="hidden md:inline text-xs text-green-700" title="Partager cette propriété sur WhatsApp">
+          WhatsApp
+        </span>
       </a>
       <a
-        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`}
+        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          url
+        )}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-1 px-3 py-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-700 text-sm font-medium transition"
+        className="flex items-center gap-1 rounded-full bg-blue-100 hover:bg-blue-200 p-2 group"
         title="Partager sur Facebook"
       >
-        <FaFacebook className="text-lg" />
-        Facebook
+        <FaFacebook className="text-blue-600" size={18} />
+        <span className="hidden md:inline text-xs text-blue-700" title="Partager cette propriété sur Facebook">
+          Facebook
+        </span>
       </a>
       <a
         href={`https://www.instagram.com/?url=${encodeURIComponent(url)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-1 px-3 py-2 rounded-full bg-pink-100 hover:bg-pink-200 text-pink-700 text-sm font-medium transition"
+        className="flex items-center gap-1 rounded-full bg-pink-100 hover:bg-pink-200 p-2 group"
         title="Partager sur Instagram"
       >
-        <FaInstagram className="text-lg" />
-        Instagram
+        <FaInstagram className="text-pink-600" size={18} />
+        <span className="hidden md:inline text-xs text-pink-700" title="Partager cette propriété sur Instagram">
+          Instagram
+        </span>
       </a>
       <button
         onClick={handleCopy}
-        className="flex items-center gap-1 px-3 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition"
-        title="Copier le lien"
+        className="flex items-center gap-1 rounded-full bg-gray-100 hover:bg-gray-200 p-2 group"
+        title="Copier le lien de la propriété"
       >
-        <FaRegCopy className="text-lg" />
-        {copied ? "Copié !" : "Copier"}
+        <FaRegCopy className="text-gray-600" size={18} />
+        <span className="hidden md:inline text-xs text-gray-700" title="Copier le lien de la propriété">
+          Copier le lien
+        </span>
       </button>
     </div>
   );
 };
-
 // Components
 const GalleryThumbnails = ({
   images,
@@ -181,27 +189,33 @@ const GalleryThumbnails = ({
   swiperRef: React.RefObject<any>;
 }) => (
   <div className="flex gap-2 mt-4">
-    {images.map((img: string, index: number) => (
-      <div
-        key={index}
-        onClick={() => {
-          setActiveIndex(index);
-          swiperRef.current?.slideTo(index);
-        }}
-        className={`relative flex justify-center items-center h-[80px] w-[100px] rounded-lg cursor-pointer overflow-hidden ${
-          activeIndex === index
-            ? "border-2 border-yellowkouzua"
-            : "border border-[#FAFAFA]"
-        }`}
-      >
-        <Image
-          src={img}
-          alt={`Gallery thumbnail ${index + 1}`}
-          fill
-          style={{ objectFit: "cover" }}
-        />
+    {Array.isArray(images) && images.length > 0 ? (
+      images.map((img: string, index: number) => (
+        <div
+          key={index}
+          onClick={() => {
+            setActiveIndex(index);
+            swiperRef.current?.slideTo(index);
+          }}
+          className={`relative flex justify-center items-center h-[80px] w-[100px] rounded-lg cursor-pointer overflow-hidden ${
+            activeIndex === index
+              ? "border-2 border-yellowkouzua"
+              : "border border-[#FAFAFA]"
+          }`}
+        >
+          <Image
+            src={img}
+            alt={`Gallery thumbnail ${index + 1}`}
+            fill
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+      ))
+    ) : (
+      <div className="text-gray-500 text-center py-4">
+        Aucune image disponible
       </div>
-    ))}
+    )}
   </div>
 );
 
@@ -307,17 +321,23 @@ const Characteristics = ({
 }) => (
   <div className="mt-6 mb-10">
     <h2 className="text-2xl font-semibold mb-4">Caractéristiques</h2>
-    <div className="grid grid-cols-2 gap-4">
-      {caracteristiques.map((caracteristique, index) => (
-        <div
-          key={index}
-          className="flex items-center space-x-2 text-yellowkouzua"
-        >
-          <FaCheckCircle />
-          <span className="text-gray-700">{caracteristique}</span>
-        </div>
-      ))}
-    </div>
+    {caracteristiques.length > 0 ? (
+      <div className="grid grid-cols-2 gap-4">
+        {caracteristiques.map((caracteristique, index) => (
+          <div
+            key={index}
+            className="flex items-center space-x-2 text-yellowkouzua"
+          >
+            <FaCheckCircle />
+            <span className="text-gray-700">{caracteristique}</span>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p className="text-gray-500 text-center py-4">
+        Aucune caractéristique disponible pour cette propriété.
+      </p>
+    )}
   </div>
 );
 
@@ -389,8 +409,8 @@ const SimilarProperties = ({
                             : "/images/about/car01.png"
                         }
                         alt={`Image ${imgIndex}`}
-                        layout="fill"
-                        objectFit="cover"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                   </SwiperSlide>
@@ -401,8 +421,8 @@ const SimilarProperties = ({
                     <Image
                       src="/placeholder.jpg"
                       alt="Image par défaut"
-                      layout="fill"
-                      objectFit="cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 </SwiperSlide>
@@ -740,11 +760,6 @@ export default function RealEstateDetails({
 
   // Utility functions
   const caracteristiques = getCaracteristiques(realEstate);
-
-  // If no characteristics are available, don't render anything
-  if (caracteristiques.length === 0) {
-    return null;
-  }
 
   // Event handlers
   const openModal = (type: "sale" | "simple" | "eclair") => {

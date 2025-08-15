@@ -13,7 +13,7 @@ import "react-date-range/dist/styles.css"; // Styles de base
 import "react-date-range/dist/theme/default.css"; // Thème par défaut
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { FaCalendarAlt, FaCheckCircle, FaStar } from "react-icons/fa";
+import { FaCalendarAlt, FaCheckCircle, FaStar, FaWhatsapp, FaFacebook, FaInstagram, FaRegCopy } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Vehicle } from "@/types/vehicle";
 import { featureLabels, getPlaceholder } from "@/utils/records";
@@ -28,6 +28,80 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import { createSale } from "@/actions/sales";
 import ReviewsVehicle from "../review/ReviewsVehicle";
 import { Expand, X } from "lucide-react";
+
+// Boutons de partage (similaire à ContainerRealDetails)
+const ShareButtons = ({ vehicle }: { vehicle: Vehicle }) => {
+  // Générer l'URL de la page courante
+  const url =
+    typeof window !== "undefined"
+      ? window.location.href
+      : `https://kouzua.com/vehicles/${vehicle.id}`;
+  const title = encodeURIComponent(
+    `Découvrez ce véhicule sur Kouzua : ${vehicle.name}`
+  );
+
+  // Fonctions de partage
+  const handleCopy = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(url);
+      toast.success("Lien copié !");
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-3 mb-6">
+      <span className="text-gray-500 text-sm">Partager :</span>
+      <a
+        href={`https://wa.me/?text=${title}%20${encodeURIComponent(url)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1 rounded-full bg-green-100 hover:bg-green-200 p-2 group"
+        title="Partager sur WhatsApp"
+      >
+        <FaWhatsapp className="text-green-600" size={18} />
+        <span className="hidden md:inline text-xs text-green-700" title="Partager ce véhicule sur WhatsApp">
+          WhatsApp
+        </span>
+      </a>
+      <a
+        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          url
+        )}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1 rounded-full bg-blue-100 hover:bg-blue-200 p-2 group"
+        title="Partager sur Facebook"
+      >
+        <FaFacebook className="text-blue-600" size={18} />
+        <span className="hidden md:inline text-xs text-blue-700" title="Partager ce véhicule sur Facebook">
+          Facebook
+        </span>
+      </a>
+      <a
+        href={`https://www.instagram.com/?url=${encodeURIComponent(url)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1 rounded-full bg-pink-100 hover:bg-pink-200 p-2 group"
+        title="Partager sur Instagram"
+      >
+        <FaInstagram className="text-pink-600" size={18} />
+        <span className="hidden md:inline text-xs text-pink-700" title="Partager ce véhicule sur Instagram">
+          Instagram
+        </span>
+      </a>
+      <button
+        onClick={handleCopy}
+        className="flex items-center gap-1 rounded-full bg-gray-100 hover:bg-gray-200 p-2 group"
+        title="Copier le lien du véhicule"
+      >
+        <FaRegCopy className="text-gray-600" size={18} />
+        <span className="hidden md:inline text-xs text-gray-700" title="Copier le lien du véhicule">
+          Copier le lien
+        </span>
+      </button>
+    </div>
+  );
+};
 
 export default function VehicleDetails({
   vehicle,
@@ -404,6 +478,9 @@ export default function VehicleDetails({
                   {vehicle.saleStatus === "RENT" ? "/ Jour" : ""}
                 </p>
               </div>
+
+              {/* Boutons de partage */}
+              <ShareButtons vehicle={vehicle} />
 
               {vehicle.saleStatus === "RENT" ? (
                 <motion.div className="flex flex-col xl:flex-row gap-x-3 justify-center xl:justify-start  mb-10">
