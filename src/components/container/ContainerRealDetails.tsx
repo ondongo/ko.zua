@@ -301,12 +301,12 @@ const SimilarProperties = ({
       </button>
     </div>
 
-    <div className="flex gap-4 lg:gap-6 overflow-x-auto pb-4">
+    <div className="flex flex-row gap-4 overflow-x-scroll h-auto pb-4">
       {similarRealEstates.map((r, index) => (
         <div
           key={index}
           onClick={() => handleDetail(r.id)}
-          className="cursor-pointer min-w-[190px] lg:min-w-[320px] lg:max-w-[320px] max-h-[490px] lg:max-h-[630px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 lg:hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
+          className="cursor-pointer min-w-[170px] max-w-[220px] lg:min-w-[220px] lg:max-w-[260px] max-h-[420px] lg:max-h-[500px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
         >
           <div className="relative">
             <Swiper
@@ -314,16 +314,16 @@ const SimilarProperties = ({
               pagination={{ clickable: true }}
             >
               {Array.isArray(r.images) && r.images.length > 0 ? (
-                r.images.map((imgSrc, index) => (
-                  <SwiperSlide key={index}>
-                    <div className="w-full h-[165px] lg:h-[230px] relative">
+                r.images.map((imgSrc, imgIndex) => (
+                  <SwiperSlide key={imgIndex}>
+                    <div className="w-full h-[120px] lg:h-[160px] relative">
                       <Image
                         src={
                           imgSrc.startsWith("http")
                             ? imgSrc
                             : "/images/about/car01.png"
                         }
-                        alt={`Image ${index}`}
+                        alt={`Image ${imgIndex}`}
                         layout="fill"
                         objectFit="cover"
                       />
@@ -332,7 +332,7 @@ const SimilarProperties = ({
                 ))
               ) : (
                 <SwiperSlide>
-                  <div className="w-full h-[165px] lg:h-[230px] relative">
+                  <div className="w-full h-[120px] lg:h-[160px] relative">
                     <Image
                       src="/placeholder.jpg"
                       alt="Image par défaut"
@@ -345,7 +345,7 @@ const SimilarProperties = ({
             </Swiper>
 
             <div
-              className={`absolute top-3 right-3 z-10 rounded-full text-sm lg:text-[15px] px-2 lg:px-3 py-1.5 font-medium ${
+              className={`absolute top-2 right-2 z-10 rounded-full text-xs lg:text-sm px-2 py-1 font-medium ${
                 r.availability
                   ? "bg-green-50 text-green-600"
                   : "bg-red-50 text-red-600"
@@ -355,10 +355,10 @@ const SimilarProperties = ({
             </div>
           </div>
 
-          <div className="p-2 lg:p-5 my-2">
+          <div className="p-2 lg:p-4 my-1">
             <div className="flex gap-x-1 justify-end">
               <div
-                className={`rounded-full px-3 py-1.5 text-sm lg:text-[15px] font-medium max-h-10 flex justify-center items-center ${
+                className={`rounded-full px-2 py-1 text-xs lg:text-sm font-medium max-h-8 flex justify-center items-center  ${
                   r.saleStatus === "RENT"
                     ? "bg-yellowkouzua-dark text-white"
                     : "bg-[#111828] text-white"
@@ -367,13 +367,13 @@ const SimilarProperties = ({
                 {r.saleStatus === "RENT" ? "À louer" : "À vendre"}
               </div>
             </div>
-            <div className="flex justify-between items-start mb-2">
+            <div className="flex justify-between items-start mb-1">
               <div>
-                <div className="text-sm text-gray-500">{r.type}</div>
-                <h3 className="w-full sm:max-w-[250px] text-sm lg:text-md font-semibold uppercase text-gray-800 mt-2 line-clamp-1">
+                <div className="text-xs text-gray-500">{r.type}</div>
+                <h3 className="w-full sm:max-w-[150px] text-xs lg:text-sm font-semibold uppercase text-gray-800 mt-1 line-clamp-1">
                   {r.name}
                 </h3>
-                <h3 className="text-accent text-sm lg:text-lg font-bold uppercase mt-2">
+                <h3 className="text-accent text-xs lg:text-sm font-bold uppercase mt-1">
                   {r.price.toLocaleString()} FCFA{" "}
                   {r.saleStatus === "RENT"
                     ? [
@@ -389,17 +389,13 @@ const SimilarProperties = ({
               </div>
             </div>
 
-            <div className="hidden md:block text-gray-700 font-medium my-2">
+            <div className="text-gray-700 font-medium mb-2 text-xs">
               {r.location.city}
               {r.location.neighborhood && ` - ${r.location.neighborhood}`}
             </div>
 
-            <div className="block md:hidden text-gray-700 my-2 text-sm">
-              {r.location.city}
-            </div>
-
             <button
-              className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
+              className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-2.5 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
               onClick={() => handleDetail(r.id)}
             >
               Voir plus

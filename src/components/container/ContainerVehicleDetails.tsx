@@ -577,11 +577,12 @@ export default function VehicleDetails({
           )}
 
           {/* Other Cars  */}
-          <div className="cursor-pointer min-w-[190px] lg:max-w-[320px]  max-h-[490px]  lg:max-h-[600px]  mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 lg:hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]">
+          <div className="flex flex-row gap-4 overflow-x-scroll h-auto">
             {similarVehicles.map((car, index) => (
               <div
+                key={index}
                 onClick={() => handleDetail(car.id)}
-                className="cursor-pointer min-w-[190px] lg:max-w-[320px]  max-h-[490px]  lg:max-h-[600px]  mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300 lg:hover:scale-[1.02] hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
+                className="cursor-pointer min-w-[170px] max-w-[220px] lg:min-w-[220px] lg:max-w-[260px] max-h-[420px] lg:max-h-[500px] mx-auto sm:mx-0 bg-white shadow-sm rounded-lg overflow-hidden transition-transform duration-300  hover:border-3 hover:border-[#EBBB2D] border-2 border-[#FAFAFA]"
               >
                 {/* Swiper avec images */}
                 <div className="relative">
@@ -592,7 +593,7 @@ export default function VehicleDetails({
                     {Array.isArray(car.images) && car.images.length > 0 ? (
                       car.images.map((imgSrc, imgIndex) => (
                         <SwiperSlide key={imgIndex}>
-                          <div className="w-full h-[165px] lg:h-[230px] relative">
+                          <div className="w-full h-[120px] lg:h-[160px] relative">
                             <Image
                               src={
                                 imgSrc.startsWith("http")
@@ -609,7 +610,7 @@ export default function VehicleDetails({
                       ))
                     ) : (
                       <SwiperSlide>
-                        <div className="w-full h-[165px] lg:h-[230px] relative">
+                        <div className="w-full h-[120px] lg:h-[160px] relative">
                           <Image
                             src="/placeholder.jpg"
                             alt="Image par défaut"
@@ -624,7 +625,7 @@ export default function VehicleDetails({
 
                   {/* Disponibilité en haut à droite */}
                   <div
-                    className={`absolute top-3 right-3 z-10 rounded-full text-sm lg:text-[15px] px-2 lg:px-3 py-1.5 font-medium ${
+                    className={`absolute top-2 right-2 z-10 rounded-full text-xs lg:text-sm px-2 py-1 font-medium ${
                       car.availability
                         ? "bg-green-50 text-green-600"
                         : "bg-red-50 text-red-600"
@@ -634,10 +635,10 @@ export default function VehicleDetails({
                   </div>
                 </div>
 
-                <div className="p-2 lg:p-5 my-2">
+                <div className="p-2 lg:p-4 my-1">
                   <div className="flex gap-x-1 justify-end">
                     <div
-                      className={`rounded-full px-3 py-1.5 text-sm lg:text-[15px] font-medium max-h-10 flex justify-center items-center  ${
+                      className={`rounded-full px-2 py-1 text-xs lg:text-sm font-medium max-h-8 flex justify-center items-center  ${
                         car.saleStatus === "RENT"
                           ? "bg-yellowkouzua-dark text-white"
                           : "bg-[#111828] text-white"
@@ -646,16 +647,16 @@ export default function VehicleDetails({
                       {car.saleStatus === "RENT" ? "À louer" : "À vendre"}
                     </div>
                   </div>
-                  <div className="flex justify-between items-start mb-2">
+                  <div className="flex justify-between items-start mb-1">
                     <div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-xs text-gray-500">
                         {car.category}
                       </div>
-                      <h3 className="w-full sm:max-w-[250px] text-sm lg:text-md font-semibold uppercase text-gray-800 mt-2 line-clamp-1">
+                      <h3 className="w-full sm:max-w-[150px] text-xs lg:text-sm font-semibold uppercase text-gray-800 mt-1 line-clamp-1">
                         {car.name} ({car.year})
                       </h3>
 
-                      <h3 className="text-accent text-sm lg:text-lg font-bold uppercase mt-2">
+                      <h3 className="text-accent text-xs lg:text-sm font-bold uppercase mt-1">
                         {car.price.toLocaleString()} FCFA{" "}
                         {car.saleStatus === "RENT" ? "/ jour" : ""}
                       </h3>
@@ -663,47 +664,14 @@ export default function VehicleDetails({
                   </div>
 
                   {/* Lieu et spécifications */}
-                  <div className="text-gray-700 font-medium mb-3">
+                  <div className="text-gray-700 font-medium mb-2 text-xs">
                     {car.location.city}
                   </div>
 
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4 mb-4 text-center">
-                    {[
-                      { text: `${car.fuel}`, icon: "/icons/carSlider/gas.svg" },
-                      {
-                        text: `${car.gearBox}`,
-                        icon: "/icons/carSlider/gearshift.svg",
-                      },
-                      {
-                        text: `${car.doors} Places`,
-                        icon: "/icons/carSlider/seat.svg",
-                      },
-                      {
-                        text: `${car.distance}`,
-                        icon: "/icons/carSlider/wheel.svg",
-                      },
-                    ].map((item, index) => (
-                      <div key={index} className="flex flex-col items-center">
-                        <div className="bg-primary w-8 h-8 lg:w-12 lg:h-12 rounded-full flex justify-center items-center mb-2 shadow-md">
-                          <Image
-                            src={item.icon}
-                            alt={item.text}
-                            width={20}
-                            height={20}
-                            className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8"
-                          />
-                        </div>
-
-                        <div className="text-xs text-gray-600 uppercase">
-                          {item.text}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
+                 
                   <button
-                    className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
-                    onClick={() => handleDetail(car.id)} // Assure-toi que handleDetail prend l'ID ou autre paramètre pour rediriger vers la page de détails
+                    className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-2.5 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark"
+                    onClick={() => handleDetail(car.id)}
                   >
                     Voir plus
                   </button>
