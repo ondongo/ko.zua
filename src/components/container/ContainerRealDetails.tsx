@@ -118,12 +118,9 @@ const createReservationData = (
 
 const ShareButtons = ({ realEstate }: { realEstate: RealEstate }) => {
   // Générer l'URL de la page courante
-  const url =
-    typeof window !== "undefined"
-      ? window.location.href
-      : `https://kouzua.com/estates/${realEstate.id}`;
+  const url =`https://kozua.fr/estates/${realEstate.id}`;
   const title = encodeURIComponent(
-    `Découvrez cette propriété sur Kouzua : ${realEstate.name}`
+    `Découvrez cette propriété sur Kozua : ${realEstate.name}`
   );
 
   // Fonctions de partage

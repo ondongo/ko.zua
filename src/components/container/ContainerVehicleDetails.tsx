@@ -40,12 +40,9 @@ import { Expand, X } from "lucide-react";
 // Boutons de partage (similaire à ContainerRealDetails)
 const ShareButtons = ({ vehicle }: { vehicle: Vehicle }) => {
   // Générer l'URL de la page courante
-  const url =
-    typeof window !== "undefined"
-      ? window.location.href
-      : `https://kouzua.com/vehicles/${vehicle.id}`;
+  const url = `https://kozua.fr/vehicles/${vehicle.id}`;
   const title = encodeURIComponent(
-    `Découvrez ce véhicule sur Kouzua : ${vehicle.name}`
+    `Découvrez ce véhicule sur Kozua : ${vehicle.name}`
   );
 
   // Fonctions de partage
