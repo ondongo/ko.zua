@@ -71,7 +71,6 @@ export async function generateMetadata(props: {
       : "/images/ko-zua-cover.png";
 
   return {
-    metadataBase: new URL(baseUrl),
     title,
     description,
     alternates: { canonical: url },

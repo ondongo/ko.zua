@@ -67,7 +67,6 @@ export async function generateMetadata(
   const ogImage = realEstate.images?.[0] ?? "/images/ko-zua-cover.png";
 
   return {
-    metadataBase: new URL(baseUrl),
     title,
     description,
     alternates: { canonical: url },

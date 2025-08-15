@@ -33,7 +33,7 @@ export const metadata :Metadata = {
     title: "Ko.Zua - Location de véhicules et biens immobiliers en Afrique",
     description:
       "Ko.Zua facilite l'accès aux véhicules et logements en Afrique. Louez une voiture ou trouvez un logement en toute simplicité et sécurité.",
-    url: "https://ko-zua.vercel.app",
+    url: "https://www.kozua.fr",
     type: "website",
     images: [
       {
