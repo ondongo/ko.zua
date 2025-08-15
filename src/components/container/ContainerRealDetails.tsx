@@ -13,7 +13,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { FaCalendarAlt, FaCheckCircle, FaStar } from "react-icons/fa";
+import { FaCalendarAlt, FaCheckCircle, FaStar, FaWhatsapp, FaFacebook, FaInstagram, FaRegCopy } from "react-icons/fa";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { getPlaceholder } from "@/utils/records";
 import { RealEstate } from "@/types/real_estate";
@@ -33,8 +33,7 @@ import { useDateState } from "@/hooks/useDateState";
 import { useGalleryState } from "@/hooks/useGalleryState";
 import { DateRangeType, InvoiceData, ReservationData } from "@/types/interfaces";
 
-
-// Utility functions
+// Fonctions utilitaires
 const getCaracteristiques = (realEstate: RealEstate): string[] => {
   const { category, bedrooms, bathrooms, furnished, rooms, parcelSize } =
     realEstate;
@@ -102,6 +101,72 @@ const createReservationData = (
   endDate: reservationType === "sale" ? null : date[0].endDate,
   createdAt: new Date(),
 });
+
+// Composant de partage
+const ShareButtons = ({ realEstate }: { realEstate: RealEstate }) => {
+  // On suppose que la page est accessible côté client
+  const [copied, setCopied] = useState(false);
+  const url =
+    typeof window !== "undefined"
+      ? window.location.href
+      : `https://kouzua.com/estates/${realEstate.id}`;
+  const title = encodeURIComponent(
+    `Découvrez ce bien immobilier sur Kouzua : ${realEstate.name}`
+  );
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      setCopied(false);
+    }
+  };
+
+  return (
+    <div className="flex gap-3 mt-2 mb-6">
+      <a
+        href={`https://wa.me/?text=${title}%0A${encodeURIComponent(url)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1 px-3 py-2 rounded-full bg-green-100 hover:bg-green-200 text-green-700 text-sm font-medium transition"
+        title="Partager sur WhatsApp"
+      >
+        <FaWhatsapp className="text-lg" />
+        WhatsApp
+      </a>
+      <a
+        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1 px-3 py-2 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-700 text-sm font-medium transition"
+        title="Partager sur Facebook"
+      >
+        <FaFacebook className="text-lg" />
+        Facebook
+      </a>
+      <a
+        href={`https://www.instagram.com/?url=${encodeURIComponent(url)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-1 px-3 py-2 rounded-full bg-pink-100 hover:bg-pink-200 text-pink-700 text-sm font-medium transition"
+        title="Partager sur Instagram"
+      >
+        <FaInstagram className="text-lg" />
+        Instagram
+      </a>
+      <button
+        onClick={handleCopy}
+        className="flex items-center gap-1 px-3 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition"
+        title="Copier le lien"
+      >
+        <FaRegCopy className="text-lg" />
+        {copied ? "Copié !" : "Copier"}
+      </button>
+    </div>
+  );
+};
 
 // Components
 const GalleryThumbnails = ({
@@ -927,7 +992,10 @@ export default function RealEstateDetails({
             {/* Property details */}
             <div>
               <PropertyInfo realEstate={realEstate} />
-             
+
+              {/* Boutons de partage */}
+              <ShareButtons realEstate={realEstate} />
+
               <ReservationButtons
                 saleStatus={realEstate.saleStatus}
                 openModal={openModal}
