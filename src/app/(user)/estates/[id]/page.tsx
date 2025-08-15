@@ -14,40 +14,41 @@ import { notFound } from "next/navigation";
 // -------------
 const fetchRealEstate = cache(async (id: string) => getRealEstateById(id));
 
-
 // --------------------------
 // Types utilitaires
 // --------------------------
 type Params = Promise<{ id: string }>
 
 // --------------------------
-// Metadata dynamique
+// Metadata dynamique optimisée (pas de double requête)
 // --------------------------
-/* export async function generateMetadata(
+export async function generateMetadata(
   props: { params: Params }
 ): Promise<Metadata> {
-  const { id } = await props.params
+  // On récupère l'id
+  const { id } = await props.params;
 
-  const realEstate = await fetchRealEstate(id)
+  // On utilise la même fonction mémoïsée que la page
+  const realEstate = await fetchRealEstate(id);
+
   if (!realEstate) {
     return {
       title: "Immobilier introuvable",
       description:
         "L'annonce que vous recherchez n'existe pas ou a été supprimée.",
-    }
+    };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://kozua.fr"
-  const url = `${baseUrl}/estates/${id}`
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://kozua.fr";
+  const url = `${baseUrl}/estates/${id}`;
 
-  const title = realEstate.name ?? "Détails Immobilier"
+  const title = realEstate.name ?? "Détails Immobilier";
   const description =
     realEstate.description && realEstate.description.length > 150
       ? `${realEstate.description.slice(0, 147)}…`
-      : realEstate.description ?? "Découvrez cette offre immobilière."
+      : realEstate.description ?? "Découvrez cette offre immobilière.";
 
-  const ogImage =
-    realEstate.images?.[0] ?? "/images/ko-zua-cover.png"
+  const ogImage = realEstate.images?.[0] ?? "/images/ko-zua-cover.png";
 
   return {
     metadataBase: new URL(baseUrl),
@@ -67,8 +68,8 @@ type Params = Promise<{ id: string }>
       description,
       images: [ogImage],
     },
-  }
-} */
+  };
+}
 
 // --------------------------
 // Page — même pattern « await params »
@@ -76,16 +77,17 @@ type Params = Promise<{ id: string }>
 export default async function EstatePage(
   props: { params: Params }
 ) {
-  const { id } = await props.params
+  const { id } = await props.params;
 
-  const realEstate = await fetchRealEstate(id)
-  if (!realEstate) return notFound()
+  // On utilise la même fonction mémoïsée que pour les metadatas
+  const realEstate = await fetchRealEstate(id);
+  if (!realEstate) return notFound();
 
   const similarRealEstates = await getSimilarRealEstate(
     realEstate.category,
     id
-  )
-  const shortId = `${id.slice(0, 8)}…`
+  );
+  const shortId = `${id.slice(0, 8)}…`;
 
   return (
     <main className="max-w-[1920px] bg-white mx-auto overflow-hidden">
@@ -99,5 +101,5 @@ export default async function EstatePage(
         />
       </Suspense>
     </main>
-  )
+  );
 }
