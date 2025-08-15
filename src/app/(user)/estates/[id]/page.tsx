@@ -1,5 +1,8 @@
-import { Suspense, cache } from "react";
+// app/estates/[id]/page.tsx (ou équivalent)
+
+import { Suspense } from "react";
 import { Metadata } from "next";
+import { unstable_cache } from "next/cache";
 
 import Breadcrumb from "@/components/landing/Breadcrumb";
 import NavBarStatic from "@/components/landing/NavBarStatic";
@@ -9,27 +12,40 @@ import RealEstateDetails from "@/components/container/ContainerRealDetails";
 import { getRealEstateById, getSimilarRealEstate } from "@/actions/realEstates";
 import { notFound } from "next/navigation";
 
-// -------------
-// Mémoïsation interne : 1 accès BD / requête HTTP
-// -------------
-const fetchRealEstate = cache(async (id: string) => getRealEstateById(id));
+// (Optionnel) ISR global pour la route si utile
+// export const revalidate = 60;
 
 // --------------------------
 // Types utilitaires
 // --------------------------
-type Params = Promise<{ id: string }>
+type Params = Promise<{ id: string }>;
 
 // --------------------------
-// Metadata dynamique optimisée (pas de double requête)
+// Helpers cachés (clé inclut l'id pour ne pas partager entre annonces)
+// --------------------------
+const fetchRealEstateCached = (id: string) =>
+  unstable_cache(
+    async () => getRealEstateById(id),
+    ["realEstateById", id],
+    { revalidate: 60 } // ajuste selon ton besoin
+  )();
+
+const fetchSimilarRealEstatesCached = (category: string, id: string) =>
+  unstable_cache(
+    async () => getSimilarRealEstate(category, id),
+    ["similarRealEstates", category, id],
+    { revalidate: 60 }
+  )();
+
+// --------------------------
+// Metadata dynamique optimisée (1 seul accès réel grâce au cache)
 // --------------------------
 export async function generateMetadata(
   props: { params: Params }
 ): Promise<Metadata> {
-  // On récupère l'id
   const { id } = await props.params;
 
-  // On utilise la même fonction mémoïsée que la page
-  const realEstate = await fetchRealEstate(id);
+  const realEstate = await fetchRealEstateCached(id);
 
   if (!realEstate) {
     return {
@@ -79,14 +95,16 @@ export default async function EstatePage(
 ) {
   const { id } = await props.params;
 
-  // On utilise la même fonction mémoïsée que pour les metadatas
-  const realEstate = await fetchRealEstate(id);
+  // Même source de vérité que pour les metadatas (cache persistant)
+  const realEstate = await fetchRealEstateCached(id);
   if (!realEstate) return notFound();
 
-  const similarRealEstates = await getSimilarRealEstate(
+  // On ne peut récupérer les similaires qu'après avoir la catégorie
+  const similarRealEstates = await fetchSimilarRealEstatesCached(
     realEstate.category,
     id
   );
+
   const shortId = `${id.slice(0, 8)}…`;
 
   return (
