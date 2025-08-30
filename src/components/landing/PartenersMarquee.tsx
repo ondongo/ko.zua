@@ -1,8 +1,12 @@
 // components/PartnersMarquee.tsx
 import Image from "next/image";
+import { ImageWithPlaceholder } from "../ui/ImageWithPlaceholder";
 export default function PartnersMarquee() {
   const partners = [
-    { name: "KKB la joie du Congo", logo: "/partners/kkb-removebg-preview.png" },
+    {
+      name: "KKB la joie du Congo",
+      logo: "/partners/kkb-removebg-preview.png",
+    },
     { name: "KJB Services", logo: "/partners/kjb.png" },
     { name: "PontonShop ", logo: "/partners/pontonshop.png" },
     // Ajoute autant que tu veux
@@ -23,12 +27,7 @@ export default function PartnersMarquee() {
                 key={idx}
                 className="relative w-[140px] h-[50px] lg:w-[220px] lg:h-[80px] overflow-hidden flex items-center justify-center"
               >
-                <Image
-                  src={partner.logo}
-                  alt={partner.name}
-                  layout="fill"
-                  objectFit="cover"
-                />
+                <ImageWithPlaceholder src={partner.logo} alt={partner.name} />
               </div>
             ))}
           </div>

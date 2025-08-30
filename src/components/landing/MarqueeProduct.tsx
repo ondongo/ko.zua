@@ -11,6 +11,7 @@ import { Vehicle } from "@/types/vehicle";
 import { useInView } from "@/hooks/useInView";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
+import { ImageWithPlaceholder } from "../ui/ImageWithPlaceholder";
 
 // Skeleton pour les cards estates/vehicles (mêmes dimensions que les cards)
 const SkeletonCardSmall = () => (
@@ -64,15 +65,9 @@ const CardEstate = ({
             estate.images.map((imgSrc, index) => (
               <SwiperSlide key={index}>
                 <div className="w-full h-[90px] lg:h-[120px] relative">
-                  <Image
-                    src={
-                      imgSrc.startsWith("http")
-                        ? imgSrc
-                        : "/images/about/car01.png"
-                    }
+                  <ImageWithPlaceholder
+                    src={imgSrc.startsWith("http") ? imgSrc : "/loader.webp"}
                     alt={`Image ${index}`}
-                    layout="fill"
-                    objectFit="cover"
                     className="object-[50%_50%]"
                   />
                 </div>
@@ -81,11 +76,9 @@ const CardEstate = ({
           ) : (
             <SwiperSlide>
               <div className="w-full h-[90px] lg:h-[120px] relative">
-                <Image
+                <ImageWithPlaceholder
                   src="/placeholder.jpg"
                   alt="Image par défaut"
-                  layout="fill"
-                  objectFit="cover"
                   className="object-[50%_50%]"
                 />
               </div>
@@ -178,17 +171,10 @@ const CardVehicle = ({
             car.images.map((imgSrc, index) => (
               <SwiperSlide key={index}>
                 <div className="w-full h-[90px] lg:h-[120px] relative">
-                  <Image
-                    src={
-                      imgSrc.startsWith("http")
-                        ? imgSrc
-                        : "/images/about/car01.png"
-                    }
+                  <ImageWithPlaceholder
+                    src={imgSrc.startsWith("http") ? imgSrc : "/loader.webp"}
                     alt={`Image ${index}`}
-                    layout="fill"
-                    objectFit="cover"
                     className="object-[50%_50%]"
-                    priority
                   />
                 </div>
               </SwiperSlide>
@@ -196,11 +182,9 @@ const CardVehicle = ({
           ) : (
             <SwiperSlide>
               <div className="w-full h-[90px] lg:h-[120px] relative">
-                <Image
+                <ImageWithPlaceholder
                   src="/placeholder.jpg"
                   alt="Image par défaut"
-                  layout="fill"
-                  objectFit="cover"
                   className="object-[50%_50%]"
                 />
               </div>
