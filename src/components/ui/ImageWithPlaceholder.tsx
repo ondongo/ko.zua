@@ -7,6 +7,7 @@ type ImgProps = {
   src: string;
   alt: string;
   className?: string;
+  className2?:string;
   // image placeholder dans /public (ex: icône montagne/soleil)
   placeholderSrc?: string;
 };
@@ -15,6 +16,7 @@ export function ImageWithPlaceholder({
   src,
   alt,
   className,
+  className2,
   placeholderSrc = "/loader.webp",
 }: ImgProps) {
   const [loaded, setLoaded] = useState<boolean>(false);
@@ -26,7 +28,7 @@ export function ImageWithPlaceholder({
         <img
           src={placeholderSrc}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`absolute inset-0 h-full w-full object-cover${className2 ?? ""}`}
           aria-hidden
         />
       )}
