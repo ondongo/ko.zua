@@ -20,6 +20,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum LeadType {
+  RENT_VEHICLE
+  SELL_VEHICLE
+  RENT_ESTATE
+  SELL_ESTATE
+}
+
+enum LeadStatus {
+  NEW
+  QUALIFIED
+  CONTACTED
+  REJECTED
+}
+
+enum LeadActorType {
+  INDIVIDUAL
+  COMPANY
+}
+
+model PartnerLead {
+  id        String        @id @default(uuid())
+  phone     String
+  whatsapp  String
+  email     String?
+  actorType LeadActorType @default(INDIVIDUAL)
+  leadType  LeadType
+  status    LeadStatus    @default(NEW)
+  note      String?
+  isSuper   Boolean       @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  vehicles Vehicle[]
+  estates  Immobilier[]
+}
+
 model Vehicle {
   id              String         @id @default(uuid())
   name            String
@@ -51,41 +88,51 @@ model Vehicle {
   saleStatus      SaleStatus     @default(RENT)
   specialOffers   SpecialOffer[] // Offres spéciales liées
   views           Int            @default(0) // Nombre de vues
+
+  // 🔹 AJOUTS 
+  ownerType     LeadActorType? @default(COMPANY)
+  isSuper       Boolean?       @default(false)
+  partnerLeadId String?
+  partnerLead   PartnerLead?  @relation(fields: [partnerLeadId], references: [id])
 }
 
 model Immobilier {
-  id              String         @id @default(uuid())
-  name            String         // Nom ou titre du bien (ex: "Villa moderne à Dakar")
-  description     String?        // Description facultative du bien
-  category        String         // Ex: "Maison", "Terrain", "Appartement"
-  type            String         // Type plus précis, ex: "Studio", "Terrain résidentiel", etc.
-  price           Float          // Prix total du bien
-  discountedPrice Float?         // Prix remisé s’il y a une promotion
-  availability    Boolean        @default(true) // Est-ce disponible actuellement ?
-  
-  images          Json           // Liste d’URL ou objets image (photos du bien)
-  location        Json           // Structure avec ville, quartier, coordonnées...
-  
-  bedrooms        Int?           // Nombre de chambres (facultatif pour un terrain)
-  bathrooms       Int?           // Nombre de salles de bain (facultatif)
-  furnished       Boolean?       // Le bien est-il meublé ? (facultatif)
-  rooms           Int?           // Total des pièces (chambres + salon + cuisine...)
-  parcelSize      Float?         // Superficie de la parcelle en m², utile surtout pour les terrains
+  id              String  @id @default(uuid())
+  name            String // Nom ou titre du bien (ex: "Villa moderne à Dakar")
+  description     String? // Description facultative du bien
+  category        String // Ex: "Maison", "Terrain", "Appartement"
+  type            String // Type plus précis, ex: "Studio", "Terrain résidentiel", etc.
+  price           Float // Prix total du bien
+  discountedPrice Float? // Prix remisé s’il y a une promotion
+  availability    Boolean @default(true) // Est-ce disponible actuellement ?
 
-  starCount       Int?            @default(0)     // Note moyenne donnée par les utilisateurs
-  views           Int?            @default(0)     // Nombre de vues de l’annonce
-  
-  createdAt       DateTime       @default(now()) // Date de création
-  updatedAt       DateTime       @updatedAt      // Date de dernière modification
-  
-  saleStatus      SaleStatus     @default(RENT)  // À louer ou à vendre
-  
-  reservations    Reservation[]  // Réservations faites
-  ratings         Rating[]       // Notes/commentaires des utilisateurs
-  sales           Vente[]        // Historique des ventes
-  specialOffers   SpecialOffer[] // Promotions ou remises temporaires
+  images   Json // Liste d’URL ou objets image (photos du bien)
+  location Json // Structure avec ville, quartier, coordonnées...
+
+  bedrooms   Int? // Nombre de chambres (facultatif pour un terrain)
+  bathrooms  Int? // Nombre de salles de bain (facultatif)
+  furnished  Boolean? // Le bien est-il meublé ? (facultatif)
+  rooms      Int? // Total des pièces (chambres + salon + cuisine...)
+  parcelSize Float? // Superficie de la parcelle en m², utile surtout pour les terrains
+
+  starCount Int? @default(0) // Note moyenne donnée par les utilisateurs
+  views     Int? @default(0) // Nombre de vues de l’annonce
+
+  createdAt DateTime @default(now()) // Date de création
+  updatedAt DateTime @updatedAt // Date de dernière modification
+
+  saleStatus SaleStatus @default(RENT) // À louer ou à vendre
+
+  reservations  Reservation[] // Réservations faites
+  ratings       Rating[] // Notes/commentaires des utilisateurs
+  sales         Vente[] // Historique des ventes
+  specialOffers SpecialOffer[] // Promotions ou remises temporaires
+  // 🔹 AJOUTS 
+  ownerType     LeadActorType?  @default(COMPANY)
+  isSuper       Boolean?        @default(false)
+  partnerLeadId String?
+  partnerLead   PartnerLead?   @relation(fields: [partnerLeadId], references: [id])
 }
-
 
 model Reservation {
   id            String            @id @default(uuid())
@@ -139,6 +186,7 @@ model ReservationStats {
   day        Int
   totalCount Int // Nombre total de réservations pour ce jour
   createdAt  DateTime @default(now())
+
   @@unique([year, month, day]) // Assurer qu'il y a une entrée unique par jour
 }
 
@@ -150,6 +198,7 @@ model VenteStats {
   totalSales   Int // Nombre total de ventes pour ce jour
   totalRevenue Float // Chiffre d'affaire total pour ce jour
   createdAt    DateTime @default(now())
+
   @@unique([year, month, day]) // Assurer qu'il y a une entrée unique par jour
 }
 

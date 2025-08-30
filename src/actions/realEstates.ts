@@ -45,7 +45,7 @@ export async function toggleAvailability(
 }
 
 export async function createOrUpdateRealEstate(
-  realEstateData: Immobilier
+  realEstateData: any
 ): Promise<void> {
   await RealEstateController.createOrUpdateRealEstate(realEstateData);
 }

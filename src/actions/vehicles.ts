@@ -52,7 +52,7 @@ export async function toggleAvailability(
 export async function deleteVehicle(vehicleId: string): Promise<void> {
   await VehicleController.deleteVehicle(vehicleId);
 }
-export async function createVehicle(vehicleData: PrismaVehicle): Promise<void> {
+export async function createVehicle(vehicleData: any): Promise<void> {
   await VehicleController.createVehicle(vehicleData);
 }
 

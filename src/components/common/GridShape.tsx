@@ -1,25 +1,37 @@
 import Image from "next/image";
 import React from "react";
 
-export default function GridShape() {
+type Props = {
+  className?: string; // permet d'ajouter des classes si besoin
+};
+
+export default function GridShape({ className = "" }: Props) {
   return (
-    <>
-      <div className="absolute right-0 top-0 -z-1 w-full max-w-[250px] xl:max-w-[450px]">
+    <div
+      className={`pointer-events-none absolute inset-0 z-0 ${className}`}
+      aria-hidden="true"
+    >
+      {/* shape en haut à droite */}
+      <div className="absolute right-0 top-0 w-full max-w-[250px] xl:max-w-[450px]">
         <Image
+          src="/images/shape/grid-01.svg"
+          alt=""
           width={540}
           height={254}
-          src="/images/shape/grid-01.svg"
-          alt="grid"
+          priority={false}
         />
       </div>
-      <div className="absolute bottom-0 left-0 -z-1 w-full max-w-[250px] rotate-180 xl:max-w-[450px]">
+
+      {/* shape en bas à gauche (miroir) */}
+      <div className="absolute left-0 bottom-0 w-full max-w-[250px] xl:max-w-[450px] rotate-180">
         <Image
+          src="/images/shape/grid-01.svg"
+          alt=""
           width={540}
           height={254}
-          src="/images/shape/grid-01.svg"
-          alt="grid"
+          priority={false}
         />
       </div>
-    </>
+    </div>
   );
 }

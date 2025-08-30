@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "Immobilier" ALTER COLUMN "isSuper" DROP NOT NULL,
+ALTER COLUMN "ownerType" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Vehicle" ALTER COLUMN "isSuper" DROP NOT NULL,
+ALTER COLUMN "ownerType" DROP NOT NULL;

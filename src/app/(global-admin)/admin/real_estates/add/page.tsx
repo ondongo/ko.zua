@@ -146,6 +146,7 @@ export default function AddImmobilier() {
         // Dates
         createdAt: new Date(),
         updatedAt: new Date(),
+        
       };
       await createOrUpdateRealEstate(formattedData);
       setModalType("success");
