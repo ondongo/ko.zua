@@ -586,7 +586,7 @@ const ReservationModal = ({
                   <h4 className="text-sm font-semibold text-warning-500">
                     Une fois la réservation éclair prise, nous vous contacterons
                     immédiatement. Vous devrez ensuite payer 50% du prix pour
-                    obtenir le véhicule.
+                    obtenir le logement.
                   </h4>
                 </div>
               </div>

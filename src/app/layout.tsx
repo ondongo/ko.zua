@@ -81,6 +81,12 @@ export default function RootLayout({
         />
 
         <Analytics />
+
+        <Script
+          id="cookieyes"
+          type="text/javascript"
+          src="https://cdn-cookieyes.com/client_data/82e22ee47e26c562c52bdae0/script.js"
+        />
         <Script
           src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"
           strategy="afterInteractive"
