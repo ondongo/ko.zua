@@ -82,7 +82,28 @@ export default function RootLayout({
 
         <Analytics />
 
-        
+        <Script id="axeptio-config" strategy="beforeInteractive">
+          {`
+    window.axeptioSettings = {
+      clientId: "68307104da135f22c9435963",
+      cookiesVersion: "github/ondongo/kozua-fr-CA-QC",
+      googleConsentMode: {
+        default: {
+          analytics_storage: "denied",
+          ad_storage: "denied", 
+          wait_for_update: 500
+        }
+      }
+    };
+  `}
+        </Script>
+
+        <Script
+          id="axeptio-sdk"
+          src="https://static.axept.io/sdk.js"
+          strategy="beforeInteractive"
+          async
+        />
         <Script
           src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"
           strategy="afterInteractive"
