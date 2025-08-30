@@ -82,26 +82,17 @@ export default function RootLayout({
 
         <Analytics />
 
+        
         <Script
-          id="cookieyes"
-          src="https://cdn-cookieyes.com/client_data/82e22ee47e26c562c52bdae0/script.js"
-          strategy="beforeInteractive" // 👈 important pour bloquer GA/Botpress, etc.
-        />
-
-        {/* Ces 2 scripts seront chargés par CookieYes quand la catégorie sera acceptée */}
-        <script
-          type="text/plain"
-          data-cookieyes="functional"
           src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"
+          strategy="afterInteractive"
           defer
-        ></script>
-
-        <script
-          type="text/plain"
-          data-cookieyes="functional"
+        />
+        <Script
           src="https://files.bpcontent.cloud/2025/07/22/06/20250722061503-W4OIX3K8.js"
+          strategy="afterInteractive"
           defer
-        ></script>
+        />
       </body>
     </html>
   );
