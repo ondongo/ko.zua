@@ -206,6 +206,7 @@ export default function VehicleDetails({
       return false;
     }
   };
+
   const handleReservation = async () => {
     setLoadingReservation(true);
     if (!vehicle.availability) {
@@ -284,6 +285,15 @@ export default function VehicleDetails({
       createdAt: new Date(),
     };
 
+    const smsMessage =
+      reservationType === "sale"
+        ? `Nouvelle VENTE: ${name} (${phone}) a acheté ${vehicle.name} pour ${vehicle.price}€.`
+        : `Nouvelle RÉSERVATION: ${name} (${phone}) a réservé ${
+            vehicle.name
+          } du ${date[0].startDate.toLocaleDateString()} au ${date[0].endDate.toLocaleDateString()} pour ${
+            vehicle.price
+          }€.`;
+
     await fetch("/api/sendMail", {
       method: "POST",
       headers: {
@@ -291,6 +301,34 @@ export default function VehicleDetails({
       },
       body: JSON.stringify(reservationData),
     });
+
+    if (reservationType === "eclair" || reservationType === "sale") {
+      const smsMessage =
+        reservationType === "sale"
+          ? `Nouvelle VENTE: ${name} (${phone}) a acheté ${vehicle.name} pour ${vehicle.price}€.`
+          : `Nouvelle RÉSERVATION ÉCLAIR: ${name} (${phone}) a réservé ${
+              vehicle.name
+            } du ${date[0].startDate.toLocaleDateString()} au ${date[0].endDate.toLocaleDateString()} pour ${
+              vehicle.price
+            }€.`;
+
+      const smsRes = await fetch("/api/sendSms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: smsMessage }),
+      });
+
+      const smsJson = await smsRes.json().catch(() => ({}));
+      console.log("SMS response", {
+        ok: smsRes.ok,
+        status: smsRes.status,
+        smsJson,
+      });
+
+      if (!smsRes.ok) {
+        console.warn("SMS failed", { status: smsRes.status, smsJson });
+      }
+    }
 
     setSuccess(true);
     setLoadingReservation(false);
@@ -341,10 +379,13 @@ export default function VehicleDetails({
                     {Array.isArray(vehicle.images) &&
                     vehicle.images.length > 0 ? (
                       vehicle.images.map((imgSrc, index) => (
-                        <SwiperSlide key={index} className="relative h-full cursor-pointer" onClick={() => setIsOpen(true)}>
+                        <SwiperSlide
+                          key={index}
+                          className="relative h-full cursor-pointer"
+                          onClick={() => setIsOpen(true)}
+                        >
                           <Image
                             src={imgSrc ?? ""}
-                            
                             alt={`Gallery ${index + 1}`}
                             fill
                             className="object-cover rounded-lg"
@@ -392,7 +433,7 @@ export default function VehicleDetails({
                     <Swiper
                       initialSlide={activeIndex}
                       pagination={{ clickable: true }}
-                      keyboard={{ enabled: true }} 
+                      keyboard={{ enabled: true }}
                       modules={[Pagination, Keyboard]}
                       className="h-[90vh] w-full max-w-6xl"
                     >

@@ -9,6 +9,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Pagination, Navigation } from "swiper/modules";
 import { RealEstate } from "@/types/real_estate";
+import { imageLoader } from "@/utils/functions";
+import { ImageWithPlaceholder } from "../ui/ImageWithPlaceholder";
 
 interface ProductCardProps {
   datas: RealEstate;
@@ -36,17 +38,10 @@ const ProductCardRealEstate: React.FC<ProductCardProps> = ({ datas }) => {
             datas.images.map((imgSrc, index) => (
               <SwiperSlide key={index}>
                 <div className="w-full h-[165px] lg:h-[230px] relative">
-                  <Image
-                    src={
-                      imgSrc.startsWith("http")
-                        ? imgSrc
-                        : "/images/about/car01.png"
-                    }
+                  <ImageWithPlaceholder
+                    src={imgSrc.startsWith("http") ? imgSrc : "/loader.webp"}
                     alt={`Image ${index}`}
-                    layout="fill"
-                    objectFit="cover"
                     className="object-[50%_50%]"
-                    priority
                   />
                 </div>
               </SwiperSlide>
@@ -54,11 +49,9 @@ const ProductCardRealEstate: React.FC<ProductCardProps> = ({ datas }) => {
           ) : (
             <SwiperSlide>
               <div className="w-full h-[165px] lg:h-[230px] relative">
-                <Image
+                <ImageWithPlaceholder
                   src="/placeholder.jpg"
                   alt="Image par défaut"
-                  layout="fill"
-                  objectFit="cover"
                   className="object-[50%_50%]"
                 />
               </div>
@@ -127,7 +120,7 @@ const ProductCardRealEstate: React.FC<ProductCardProps> = ({ datas }) => {
         <div className="block md:hidden text-gray-700 my-2 text-sm">
           {datas.location.city}
         </div>
-      
+
         <button className="hidden md:block btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark">
           Voir plus
         </button>

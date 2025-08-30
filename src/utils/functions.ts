@@ -27,3 +27,7 @@ export const deleteImageFromFirebase = async (imageUrl: string) => {
     console.error(`❌ Erreur lors de la suppression de l'image :`, error);
   }
 };
+
+export const imageLoader = ({ src, width, quality }: any) => {
+  return `/loader.webp?w=${width}&q=${quality || 75}`;
+};

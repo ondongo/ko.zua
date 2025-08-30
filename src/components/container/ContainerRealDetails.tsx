@@ -908,6 +908,27 @@ export default function RealEstateDetails({
         body: JSON.stringify(reservationData),
       });
 
+      if (reservationType === "eclair" || reservationType === "sale") {
+        const smsMessage =
+          reservationType === "sale"
+            ? `Nouvelle VENTE: ${name} (${phone}) a acheté ${realEstate.name} pour ${realEstate.price}€.`
+            : `Nouvelle RÉSERVATION ÉCLAIR: ${name} (${phone}) a réservé ${realEstate.name} du ${date[0].startDate.toLocaleDateString()} au ${date[0].endDate.toLocaleDateString()} pour ${realEstate.price}€.`;
+  
+        const smsRes = await fetch("/api/sendSms", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: smsMessage }),
+        });
+  
+        const smsJson = await smsRes.json().catch(() => ({}));
+        console.log("SMS response", { ok: smsRes.ok, status: smsRes.status, smsJson });
+  
+        if (!smsRes.ok) {
+          console.warn("SMS failed", { status: smsRes.status, smsJson });
+        }
+      }
+  
+
       setSuccess(true);
       setInvoiceData(invoice);
     } catch (error) {
