@@ -1,13 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "react-toastify"; // tu l’as déjà dans ton RootLayout
 
 export default function PartnerPage() {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-
+  const router = useRouter();
   const mapLeadType = (v?: string) => {
     switch (v) {
       case "rent-vehicle":
@@ -51,11 +51,12 @@ export default function PartnerPage() {
 
       toast?.success?.("Votre demande a été envoyée");
       setMsg("Votre demande a été envoyée");
-
-      formRef.current?.reset();
+      router.push("/success-partner");
+      //e.currentTarget.reset();
     } catch (err: any) {
       toast?.error?.(err.message || "Échec de l’envoi");
       setMsg(err.message || "Échec de l’envoi");
+      router.push("/error-partner");
     } finally {
       setLoading(false);
     }
@@ -80,11 +81,7 @@ export default function PartnerPage() {
         </div>
       )}
 
-      <form
-        ref={formRef}
-        onSubmit={onSubmit}
-        className="space-y-3 md:space-y-5"
-      >
+      <form onSubmit={onSubmit} className="space-y-3 md:space-y-5">
         {/* Nom complet */}
         <div>
           <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
