@@ -2,8 +2,55 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-toastify"; // tu l’as déjà dans ton RootLayout
+import { toast } from "react-toastify"; 
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Devenir partenaire – Ko.Zua",
+  description:
+  "Confiez-nous votre véhicule ou logement, nous gérons photos, mise en ligne et réservations. Vous encaissez vos revenus, Kozua ne prend qu’une commission.",
+  keywords: [
+    "devenir partenaire",
+    "partenaire Kozua",
+    "mettre en location",
+    "vendre un véhicule",
+    "vendre un bien immobilier",
+    "location voiture",
+    "location immobilière",
+    "Afrique",
+  ],
+  metadataBase: new URL("https://www.kozua.fr"),
+  alternates: {
+    canonical: "/become-a-partner",
+  },
+  openGraph: {
+    title: "Devenir partenaire – Kozua",
+    description:
+      "Confiez-nous votre véhicule ou logement, nous gérons photos, mise en ligne et réservations. Vous encaissez vos revenus, Kozua ne prend qu’une commission.",
+    url: "https://www.kozua.fr/become-a-partner",
+    siteName: "Kozua",
+    type: "website",
+    locale: "fr_FR",
+    images: [
+      {
+        url: "/become.png", 
+        width: 1200,
+        height: 630,
+        alt: "Ko.Zua — Devenir partenaire",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Devenir partenaire – Ko.Zua",
+    description:
+      "Confiez-nous votre véhicule ou logement, nous gérons photos, mise en ligne et réservations. Vous encaissez vos revenus, Kozua ne prend qu’une commission.",
+    images: ["/become.png"],
+    creator: "@kozua",
+  },
+
+  themeColor: "#0F172A",
+};
 export default function PartnerPage() {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
