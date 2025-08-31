@@ -37,12 +37,13 @@ function NavBarStatic() {
       <div className="xl:container mx-auto flex flex-col xl:flex-row xl:items-center xl:justify-between">
         <div className="flex justify-between items-center px-4">
           <a href="/" className="cursor-pointer">
-            <div className=" relative  w-[110px] h-[80px] overflow-hidden mt-1">
+          <div className="relative w-[60px] h-[80px] overflow-hidden">
               <Image
-                src="/Kozua v3.png"
+                src="/KozuaLocation.webp"
+                //src="/kjb.png"
                 alt="logo"
                 layout="fill"
-                objectFit="cover"
+                objectFit="contain"
               />
             </div>
           </a>
