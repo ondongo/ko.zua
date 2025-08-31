@@ -278,12 +278,12 @@ function NavBarStatic() {
             )}
           </Popover>
 
-          <a href="/#about" className="cursor-pointer">
-            A propos
-          </a>
-          <Link href="https://api.whatsapp.com/send/?phone=242056977474&text&type=phone_number&app_absent=0">
-            Contact
-          </Link>
+          <Link href="/become-a-partner">
+        Devenir partenaire
+      </Link>
+      <Link href="https://api.whatsapp.com/send/?phone=242056977474&text&type=phone_number&app_absent=0">
+        Contact
+      </Link>
 
           <SearchMobile />
         </nav>
