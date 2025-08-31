@@ -63,7 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning>
         <SessionProvider>{children}</SessionProvider>
         <ToastContainer
           position="bottom-center"

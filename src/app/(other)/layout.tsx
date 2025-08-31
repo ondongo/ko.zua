@@ -56,7 +56,7 @@ export default function PartnerLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative bg-white ">
+    <div className="relative bg-white " >
       {/* Mobile: aside AVANT le form ; Desktop: 2 colonnes intactes */}
       <div className="relative flex flex-col lg:flex-row w-full min-h-dvh justify-center">
         {/* ASIDE — mobile FIRST (order-1), desktop RIGHT (order-2) */}
@@ -79,13 +79,13 @@ export default function PartnerLayout({
                   aria-label="Retour à l’accueil"
                 >
                   <div className="relative w-[70px] h-[50px] lg:w-[80px] lg:h-[90px] overflow-hidden">
-                    <Image
-                      src="/KozuaLocation.webp"
-                      //src="/kjb.png"
-                      alt="logo"
-                      layout="fill"
-                      objectFit="contain"
-                    />
+                  <Image
+  src="/KozuaLocation.webp"
+  alt="logo"
+  fill
+  className="object-contain"
+/>
+
                   </div>
                 </Link>
 

@@ -1,10 +1,12 @@
-import React from 'react'
-import { Partner } from './_components/Partner'
+import dynamic from "next/dynamic";
+import React from "react";
 
-function page() {
-  return (
-    <Partner />
-  )
+const PartnerNoSSR = dynamic(() => import("./_components/Partner").then(mod => mod.Partner), {
+  ssr: false,
+});
+
+function Page() {
+  return <PartnerNoSSR />;
 }
 
-export default page
+export default Page;

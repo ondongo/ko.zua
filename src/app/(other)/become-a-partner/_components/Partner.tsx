@@ -203,7 +203,7 @@ export function Partner() {
           disabled={loading}
           className="btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark px-4 text-white"
         >
-          {loading ? <div className="spinner"></div> : "Envoyer ma demande"}
+          {loading ? <span className="spinner"></span> : "Envoyer ma demande"}
         </button>
       </form>
     </section>
