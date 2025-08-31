@@ -82,7 +82,7 @@ export default function RootLayout({
 
         <Analytics />
 
-       {/*  <Script id="axeptio-config" strategy="beforeInteractive">
+        <Script id="axeptio-config" strategy="beforeInteractive">
           {`
     window.axeptioSettings = {
       clientId: "68307104da135f22c9435963",
@@ -113,7 +113,7 @@ export default function RootLayout({
           src="https://files.bpcontent.cloud/2025/07/22/06/20250722061503-W4OIX3K8.js"
           strategy="afterInteractive"
           defer
-        /> */}
+        />
       </body>
     </html>
   );
