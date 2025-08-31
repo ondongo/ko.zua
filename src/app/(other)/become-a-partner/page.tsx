@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-toastify"; // tu l’as déjà dans ton RootLayout
 
 export default function PartnerPage() {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const mapLeadType = (v?: string) => {
     switch (v) {
@@ -50,7 +51,8 @@ export default function PartnerPage() {
 
       toast?.success?.("Votre demande a été envoyée");
       setMsg("Votre demande a été envoyée");
-      e.currentTarget.reset();
+
+      formRef.current?.reset();
     } catch (err: any) {
       toast?.error?.(err.message || "Échec de l’envoi");
       setMsg(err.message || "Échec de l’envoi");
@@ -78,7 +80,11 @@ export default function PartnerPage() {
         </div>
       )}
 
-      <form onSubmit={onSubmit} className="space-y-3 md:space-y-5">
+      <form
+        ref={formRef}
+        onSubmit={onSubmit}
+        className="space-y-3 md:space-y-5"
+      >
         {/* Nom complet */}
         <div>
           <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1">
@@ -198,10 +204,7 @@ export default function PartnerPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-lg bg-yellowkouzua text-white font-medium py-2 md:py-2.5
-                     hover:bg-yellow-600 active:bg-yellow-600
-                     focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-offset-2
-                     transition-colors text-sm md:text-base disabled:opacity-50"
+          className="btn w-full py-2 text-sm md:text-base lg:py-3 rounded-md md:rounded-lg bg-yellowkouzua hover:bg-yellowkouzua-dark px-4 text-white"
         >
           {loading ? <div className="spinner"></div> : "Envoyer ma demande"}
         </button>
