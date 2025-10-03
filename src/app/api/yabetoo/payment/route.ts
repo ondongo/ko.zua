@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     const depositAmount = (parseFloat(total) * 0.5).toFixed(2); // 50% du montant
 
     const items = lineItems.map((item: any) => ({
-      productId: "prod_Uj14EuwVb9qsqpoSxKbjxeZyIlRl11G6jc2Z",
+      productId: "my_product_id",
       quantity: item.quantity,
       price: item.unitPrice,
       productName: item.name,
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       cancelUrl,
       currency: "XFA",
       total: depositAmount,
-      accountId: "acct_eEvf4vC0ZLR8qoQQoSeLYx2iIjaLCZbz9SP7",
+      accountId: "my_account_id",
     };
 
     console.log("Envoi des données à Yabetoo Pay :", JSON.stringify(body, null, 2));
