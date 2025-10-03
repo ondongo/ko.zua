@@ -49,7 +49,7 @@ export async function POST(req: Request) {
 
     const leadType = body.leadType.toUpperCase() as LeadType;
 
-    // ✅ 1. Création en DB
+    // 1. Création en DB
     const newLead = {
       id: uuid(),
       phone,
@@ -127,7 +127,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      { message: "Lead créé et email envoyé ✅" },
+      { message: "Lead créé et email envoyé" },
       { status: 201 }
     );
   } catch (err: any) {
