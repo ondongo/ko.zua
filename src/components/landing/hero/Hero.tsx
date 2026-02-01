@@ -34,7 +34,7 @@ function Hero() {
               viewport={{ once: false, amount: 0.6 }}
               className="text-xl md:text-3xl lg:text-3xl xl:text-[44px] text-primary lg:leading-[50px] xl:leading-[62px] font-extrabold my-4"
             >
-              Trouvez , Réservez ou Achetez !
+              Kolime , Réservez ou Achetez !
               <span className="text-yellowkouzua ">
                 {" "}
                 Ko.Zua s'occupe du reste
