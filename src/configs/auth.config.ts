@@ -28,14 +28,12 @@ export default {
           "prince.ondongo@ism.edu.sn",
           "bartimee.kolime@gmail.com"
         ];
-        if (adminEmails.includes(user.email)) {
-          (token as Token).role = "admin";
-        }
+        if (user.email && adminEmails.includes(user.email)) {
           (token as Token).role = "admin";
         } else {
           (token as Token).role = "user";
         }
-      } 
+      }
       return token;
     },
     async session({ session, token }) {
