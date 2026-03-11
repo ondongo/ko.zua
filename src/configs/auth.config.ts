@@ -23,9 +23,14 @@ export default {
     async jwt({ token, user }) {
       if (user) {
         console.log("XXXXXX", user);
-        if (user.email === "nathankolime2@gmail.com") {
+        const adminEmails = [
+          "nathankolime2@gmail.com",
+          "prince.ondongo@ism.edu.sn",
+          "bartimee.kolime@gmail.com"
+        ];
+        if (adminEmails.includes(user.email)) {
           (token as Token).role = "admin";
-        } else if (user.email === "prince.ondongo@ism.edu.sn") {
+        }
           (token as Token).role = "admin";
         } else {
           (token as Token).role = "user";
