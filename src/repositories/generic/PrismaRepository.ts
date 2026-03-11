@@ -11,7 +11,11 @@ export class GenericRepository<T> implements IRepository<T> {
     const skip = (page - 1) * pageSize;
 
     const [data, totalItems] = await prisma.$transaction([
-      this.model.findMany({ skip, take: pageSize }),
+      this.model.findMany({
+        skip,
+        take: pageSize,
+        orderBy: { createdAt: "desc" as const },
+      }),
       this.model.count(),
     ]);
 
