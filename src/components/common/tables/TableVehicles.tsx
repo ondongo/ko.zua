@@ -1,6 +1,5 @@
 import React from "react";
 
-import Image from "next/image";
 import {
   Table,
   TableBody,
@@ -9,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Badge from "@/components/ui/badge/Badge";
+import { TableImageSkeleton } from "@/components/skeletons/TableImageSkeleton";
 import { Vehicle } from "@/types/vehicle";
 
 export default function TableVehicles({
@@ -83,22 +83,20 @@ export default function TableVehicles({
                 <TableRow key={v.id}>
                   <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm ">
                     <div className="flex -space-x-2">
-                      {Array.isArray(v.images) &&
-                        v.images.length > 0 &&
+                      {Array.isArray(v.images) && v.images.length > 0 ? (
                         v.images.map((srcImage, index) => (
-                          <div
+                          <TableImageSkeleton
                             key={index}
-                            className="w-14 h-14 overflow-hidden border-2 border-white rounded-full"
-                          >
-                            <Image
-                              width={30}
-                              height={30}
-                              src={srcImage || "/placeholder.jpg"}
-                              alt={`Photo principale ${index + 1}`}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                        ))}
+                            src={srcImage}
+                            alt={`Photo principale ${index + 1}`}
+                          />
+                        ))
+                      ) : (
+                        <TableImageSkeleton
+                          src=""
+                          alt="Aucune image"
+                        />
+                      )}
                     </div>
                   </TableCell>
                   <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm ">
