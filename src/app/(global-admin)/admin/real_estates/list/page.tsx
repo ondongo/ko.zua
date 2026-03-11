@@ -7,6 +7,7 @@ import {
 } from "@/actions/realEstates";
 import ComponentCard from "@/components/common/ComponentCard";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
+import DashboardListSkeleton from "@/components/skeletons/DashboardListSkeleton";
 import Pagination from "@/components/common/tables/Pagination";
 import TableRealEstates from "@/components/common/tables/TableRealEstates";
 import { RealEstate } from "@/types/real_estate";
@@ -18,14 +19,17 @@ import { toast } from "react-toastify";
 
 export default function RealEstatesList() {
   const [currentPage, setCurrentPage] = useState(1);
-
   const [realEstates, setRealEstates] = useState<RealEstate[]>([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+
   const fetchRealEstates = async () => {
+    setLoading(true);
     const result = await getAllRealEstates(currentPage, 4);
     setRealEstates(result.immobiliers);
     setTotalPages(result.totalPages);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -66,6 +70,10 @@ export default function RealEstatesList() {
   const handleEditLink = (vehicleId: string) => {
     router.push(`/admin/real_estates/edit/${vehicleId}`);
   };
+
+  if (loading) {
+    return <DashboardListSkeleton rows={4} columns={7} />;
+  }
 
   return (
     <div>

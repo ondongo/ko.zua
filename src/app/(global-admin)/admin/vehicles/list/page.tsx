@@ -7,7 +7,7 @@ import {
 } from "@/actions/vehicles";
 import ComponentCard from "@/components/common/ComponentCard";
 import PageBreadcrumb from "@/components/common/PageBreadCrumb";
-
+import DashboardListSkeleton from "@/components/skeletons/DashboardListSkeleton";
 import Pagination from "@/components/common/tables/Pagination";
 import TableVehicles from "@/components/common/tables/TableVehicles";
 import { Vehicle } from "@/types/vehicle";
@@ -21,12 +21,15 @@ export default function VehiclesList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [totalPages, setTotalPages] = useState(0);
-  const router =  useRouter();
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const fetchVehicles = async () => {
+    setLoading(true);
     const result = await getAllVehicles(currentPage, 4);
     setVehicles(result.vehicles);
     setTotalPages(result.totalPages);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -63,9 +66,11 @@ export default function VehiclesList() {
 
   const handleEditLink = (vehicleId: string) => {
     router.push(`/admin/vehicles/edit/${vehicleId}`);
+  };
 
+  if (loading) {
+    return <DashboardListSkeleton rows={4} columns={7} />;
   }
-
 
   return (
     <div>
